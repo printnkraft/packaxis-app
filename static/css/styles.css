@@ -1073,6 +1073,10 @@ body {
         display: none;
     }
     
+    .cta-button {
+        display: none;
+    }
+    
     .hamburger {
         display: flex;
     }
