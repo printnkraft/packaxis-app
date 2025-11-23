@@ -72,7 +72,7 @@ body {
 }
 
 .logo {
-    height: 50px;
+    height: 40px;
     width: auto;
     transition: var(--transition);
 }
@@ -277,10 +277,10 @@ body {
 }
 
 .btn {
-    padding: 0.875rem 2.25rem;
+    padding: 0.625rem 1.75rem;
     border-radius: 50px;
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 0.9rem;
     cursor: pointer;
     transition: var(--transition);
     border: none;
