@@ -1,0 +1,217 @@
+/* Premium Admin Panel Styling */
+
+/* Gradient navbar */
+.main-header.navbar {
+    background: linear-gradient(135deg, #2D7A4E 0%, #1a5d38 100%) !important;
+    box-shadow: 0 2px 10px rgba(45, 122, 78, 0.3) !important;
+}
+
+/* Sidebar gradient accent */
+.main-sidebar {
+    background: linear-gradient(180deg, #1a1d20 0%, #0f1214 100%) !important;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Active menu item gradient */
+.nav-sidebar .nav-link.active {
+    background: linear-gradient(135deg, #2D7A4E 0%, #1a5d38 100%) !important;
+    color: white !important;
+    box-shadow: 0 2px 8px rgba(45, 122, 78, 0.4) !important;
+}
+
+/* Hover effect on menu items */
+.nav-sidebar .nav-link:hover {
+    background: linear-gradient(135deg, rgba(45, 122, 78, 0.2) 0%, rgba(26, 93, 56, 0.2) 100%) !important;
+}
+
+/* Brand link styling - black background like footer */
+.brand-link {
+    background: #1a1d20 !important;
+    padding: 1rem 1.5rem !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* Logo styling - display as is in footer */
+.brand-image {
+    /* max-height: 50px !important; */
+    /* width: auto !important; */
+    filter: brightness(0) invert(1) !important;
+    margin-right: 0.75rem !important;
+}
+
+/* Show brand text inline with logo */
+.brand-text {
+    display: inline-block !important;
+    color: white !important;
+    font-weight: 600 !important;
+    font-size: 1.1rem !important;
+}
+
+/* Show sidebar menu text inline with icons */
+.sidebar .nav-link {
+    display: flex !important;
+    align-items: center !important;
+}
+
+.sidebar .nav-link p {
+    display: inline-block !important;
+    margin: 0 0 0 0.5rem !important;
+}
+
+.sidebar .nav-link i {
+    flex-shrink: 0 !important;
+}
+
+.sidebar .user-panel .info {
+    display: block !important;
+}
+
+/* Primary buttons gradient */
+.btn-primary {
+    background: linear-gradient(135deg, #2D7A4E 0%, #1a5d38 100%) !important;
+    border: none !important;
+    box-shadow: 0 2px 8px rgba(45, 122, 78, 0.3) !important;
+    transition: all 0.3s ease !important;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(45, 122, 78, 0.5) !important;
+}
+
+/* Success buttons gradient */
+.btn-success {
+    background: linear-gradient(135deg, #27ae60 0%, #229954 100%) !important;
+    border: none !important;
+    box-shadow: 0 2px 8px rgba(39, 174, 96, 0.3) !important;
+}
+
+.btn-success:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(39, 174, 96, 0.5) !important;
+}
+
+/* Card headers gradient */
+.card-header {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+    border-bottom: 2px solid #2D7A4E !important;
+    font-weight: 600 !important;
+}
+
+/* Info boxes gradient */
+.info-box {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08) !important;
+    transition: all 0.3s ease !important;
+}
+
+.info-box:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* Info box icons gradient */
+.info-box-icon {
+    background: linear-gradient(135deg, #2D7A4E 0%, #1a5d38 100%) !important;
+}
+
+/* Login page gradient */
+.login-page {
+    background: linear-gradient(135deg, #2D7A4E 0%, #1a5d38 100%) !important;
+}
+
+.login-box {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3) !important;
+    border-radius: 15px !important;
+    overflow: hidden !important;
+}
+
+.login-card-body {
+    background: white !important;
+    padding: 2rem !important;
+}
+
+/* Login logo styling */
+.login-logo {
+    background: white !important;
+    padding: 2rem !important;
+    border-radius: 15px 15px 0 0 !important;
+}
+
+.login-logo img {
+    max-width: 200px !important;
+    height: auto !important;
+}
+
+/* Pagination gradient */
+.pagination .page-item.active .page-link {
+    background: linear-gradient(135deg, #2D7A4E 0%, #1a5d38 100%) !important;
+    border-color: #2D7A4E !important;
+    box-shadow: 0 2px 8px rgba(45, 122, 78, 0.3) !important;
+}
+
+/* Table row hover effect */
+.table-hover tbody tr:hover {
+    background: linear-gradient(90deg, rgba(45, 122, 78, 0.05) 0%, rgba(45, 122, 78, 0.02) 100%) !important;
+}
+
+/* Dashboard small boxes gradient */
+.small-box {
+    background: linear-gradient(135deg, #2D7A4E 0%, #1a5d38 100%) !important;
+    box-shadow: 0 4px 15px rgba(45, 122, 78, 0.3) !important;
+    transition: all 0.3s ease !important;
+}
+
+.small-box:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 8px 25px rgba(45, 122, 78, 0.4) !important;
+}
+
+/* Status badges enhancement */
+.badge-success {
+    background: linear-gradient(135deg, #28a745 0%, #20893a 100%) !important;
+}
+
+.badge-warning {
+    background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%) !important;
+}
+
+.badge-danger {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%) !important;
+}
+
+/* Content header gradient underline */
+.content-header {
+    border-bottom: 3px solid transparent !important;
+    border-image: linear-gradient(90deg, #2D7A4E 0%, #1a5d38 100%) !important;
+    border-image-slice: 1 !important;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #2D7A4E 0%, #1a5d38 100%);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #1a5d38 0%, #2D7A4E 100%);
+}
+
+/* Form control focus gradient border */
+.form-control:focus {
+    border-color: #2D7A4E !important;
+    box-shadow: 0 0 0 0.2rem rgba(45, 122, 78, 0.25) !important;
+}
+
+/* Select2 dropdown styling */
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background: linear-gradient(135deg, #2D7A4E 0%, #1a5d38 100%) !important;
+}
