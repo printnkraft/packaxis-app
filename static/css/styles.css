@@ -643,11 +643,13 @@ body {
     box-shadow: 0 12px 32px rgba(57, 183, 93, 0.6);
 }
 
-.feature-icon svg {
+.feature-icon svg,
+.feature-icon i {
     width: 28px;
     height: 28px;
     color: white;
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    font-size: 28px;
 }
 
 .feature-card h3 {
