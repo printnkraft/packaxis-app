@@ -313,5 +313,5 @@ else:
     EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
     EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
 
-DEFAULT_FROM_EMAIL = 'noreply@packaxis.ca'
-QUOTE_EMAIL = 'packaxiscanada@gmail.com'  # Email where quote requests and contact forms will be sent
+DEFAULT_FROM_EMAIL = 'hello@packaxis.ca'
+QUOTE_EMAIL = 'hello@packaxis.ca'  # Email where quote requests and contact forms will be sent
