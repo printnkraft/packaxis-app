@@ -60,6 +60,14 @@ def index(request):
 def privacy_policy(request):
     return render(request, 'core/privacy-policy.html')
 
+def products_page(request):
+    """Display all products on a dedicated page"""
+    products = Product.objects.filter(is_active=True)
+    context = {
+        'products': products,
+    }
+    return render(request, 'core/products.html', context)
+
 def terms_of_service(request):
     return render(request, 'core/terms-of-service.html')
 

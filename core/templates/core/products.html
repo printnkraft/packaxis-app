@@ -1,0 +1,102 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Our Products - Premium Paper Bags | PackAxis Canada{% endblock %}
+
+{% block content %}
+    <!-- Products Hero -->
+    <section class="products-hero">
+        <div class="container">
+            <div class="section-header" style="padding-top: 120px; padding-bottom: 60px;">
+                <span class="section-tag">Our Products</span>
+                <h1 class="section-title">Premium Paper Bag Collection</h1>
+                <p class="section-description">Discover sustainable paper bag options crafted from eco-friendly materials. Perfect for retail, gifting, and everyday use.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Grid Section -->
+    <section id="products" class="products" style="padding-top: 0;">
+        <div class="container">
+            <div class="products-slider-wrapper">
+                <button class="slider-btn prev-btn" aria-label="Previous">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <div class="products-slider">
+                {% for product in products %}
+                <div class="product-slide" onclick="window.location.href='{% url 'core:product_detail' product.slug %}'" style="cursor: pointer;">
+                    {% if product.order == 1 %}
+                    <div class="product-badge">Bestseller</div>
+                    {% endif %}
+                    <div class="product-image">
+                        <img src="{{ product.image.url }}" alt="{{ product.title }}" loading="lazy">
+                    </div>
+                    <div class="product-content">
+                        <h3>{{ product.title }}</h3>
+                        <p>{{ product.description|truncatewords:10 }}</p>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="product-slide">
+                    <div class="product-content">
+                        <p>No products available at the moment.</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <button class="slider-btn next-btn" aria-label="Next">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Section -->
+    <section class="about" style="background: var(--light-bg);">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <span class="section-tag">Why Choose PackAxis</span>
+                    <h2 class="section-title">Quality & Sustainability Combined</h2>
+                    <p>Our paper bags are crafted with precision and care, using eco-friendly materials that don't compromise on quality. Each product is designed to meet the highest standards of durability and style.</p>
+                    <div class="about-features">
+                        <div class="about-feature">
+                            <div class="check-icon">✓</div>
+                            <span>100% Eco-Friendly Materials</span>
+                        </div>
+                        <div class="about-feature">
+                            <div class="check-icon">✓</div>
+                            <span>Custom Branding Options</span>
+                        </div>
+                        <div class="about-feature">
+                            <div class="check-icon">✓</div>
+                            <span>Bulk Order Discounts</span>
+                        </div>
+                        <div class="about-feature">
+                            <div class="check-icon">✓</div>
+                            <span>Fast Delivery Across Canada</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <img src="{% static 'images/assests/products/shopping-paper-bags.jpg' %}" alt="Quality Paper Bags" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Order?</h2>
+                <p>Get a custom quote for your paper bag needs. Our team is ready to help you find the perfect solution.</p>
+                <a href="{% url 'core:quote_request' %}" class="btn btn-primary">Get a Quote</a>
+            </div>
+        </div>
+    </section>
+{% endblock %}
