@@ -91,12 +91,16 @@
 
     <!-- CTA Section -->
     <section class="cta-section">
-        <div class="container">
-            <div class="cta-content">
-                <h2>Ready to Order?</h2>
-                <p>Get a custom quote for your paper bag needs. Our team is ready to help you find the perfect solution.</p>
-                <a href="{% url 'core:quote_request' %}" class="btn btn-primary">Get a Quote</a>
-            </div>
+        <div class="cta-content">
+            <h2>Ready to Order?</h2>
+            <p>Get competitive pricing on bulk orders. Contact our team today for a custom quote tailored to your business needs.</p>
+            <a href="{% url 'core:quote_request' %}" class="btn-cta">
+                Get Your Custom Quote
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </a>
         </div>
     </section>
 {% endblock %}
