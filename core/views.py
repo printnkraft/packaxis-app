@@ -68,6 +68,10 @@ def products_page(request):
     }
     return render(request, 'core/products.html', context)
 
+def pricing_brochure(request):
+    """Display pricing brochure for square bottom paper bags"""
+    return render(request, 'core/pricing-brochure.html')
+
 def terms_of_service(request):
     return render(request, 'core/terms-of-service.html')
 

@@ -1,0 +1,438 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Square Bottom Paper Bags - Pricing Brochure | PackAxis Canada{% endblock %}
+
+{% block extra_css %}
+<style>
+    .brochure-page {
+        background: white;
+        min-height: 100vh;
+        padding: 8rem 0 4rem;
+    }
+
+    .brochure-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .brochure-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .brochure-header h1 {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: var(--text-dark);
+        margin-bottom: 1rem;
+    }
+
+    .brochure-header .subtitle {
+        font-size: 1.25rem;
+        color: var(--text-light);
+        font-weight: 500;
+    }
+
+    .pricing-info {
+        background: linear-gradient(135deg, var(--primary-color) 0%, #1a5d38 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 15px;
+        text-align: center;
+        margin-bottom: 3rem;
+        box-shadow: 0 4px 20px rgba(45, 122, 78, 0.2);
+    }
+
+    .pricing-info h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .pricing-info p {
+        font-size: 1.1rem;
+        opacity: 0.95;
+    }
+
+    .table-container {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        margin-bottom: 3rem;
+    }
+
+    .table-header {
+        background: #f8f9fa;
+        padding: 1.5rem 2rem;
+        border-bottom: 2px solid #e5e7eb;
+    }
+
+    .table-header h3 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin: 0;
+    }
+
+    .responsive-table {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    thead {
+        background: var(--primary-color);
+        color: white;
+    }
+
+    th {
+        padding: 1rem;
+        text-align: left;
+        font-weight: 600;
+        font-size: 0.95rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+    }
+
+    tbody tr {
+        border-bottom: 1px solid #e5e7eb;
+        transition: background 0.2s ease;
+    }
+
+    tbody tr:hover {
+        background: #f8f9fa;
+    }
+
+    tbody tr:last-child {
+        border-bottom: none;
+    }
+
+    td {
+        padding: 1rem;
+        color: var(--text-dark);
+        font-size: 0.95rem;
+    }
+
+    td:first-child {
+        font-weight: 600;
+        color: var(--primary-color);
+    }
+
+    .printing-section {
+        background: #f8f9fa;
+        padding: 2.5rem;
+        border-radius: 15px;
+        margin-bottom: 3rem;
+    }
+
+    .printing-section h3 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
+    .printing-options {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .printing-option {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+    }
+
+    .printing-option:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .printing-option .icon {
+        font-size: 2rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .printing-option h4 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin: 0;
+    }
+
+    .ideal-for {
+        text-align: center;
+        font-size: 1.05rem;
+        color: var(--text-light);
+        line-height: 1.8;
+    }
+
+    .cta-section-brochure {
+        background: linear-gradient(135deg, var(--primary-color) 0%, #1a5d38 100%);
+        padding: 3rem;
+        border-radius: 15px;
+        text-align: center;
+        color: white;
+    }
+
+    .cta-section-brochure h3 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .cta-section-brochure p {
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+        opacity: 0.95;
+    }
+
+    .cta-section-brochure .btn-white {
+        background: white;
+        color: var(--primary-color);
+        padding: 1rem 2.5rem;
+        border-radius: 50px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .cta-section-brochure .btn-white:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    @media print {
+        .navbar, .footer, .cta-section-brochure {
+            display: none;
+        }
+        
+        .brochure-page {
+            padding: 1rem 0;
+        }
+    }
+
+    @media (max-width: 968px) {
+        .printing-options {
+            grid-template-columns: 1fr;
+        }
+
+        .responsive-table {
+            overflow-x: scroll;
+        }
+
+        table {
+            min-width: 800px;
+        }
+
+        th, td {
+            padding: 0.75rem 0.5rem;
+            font-size: 0.85rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="brochure-page">
+    <div class="brochure-container">
+        <!-- Header -->
+        <div class="brochure-header">
+            <h1>Square Bottom Paper Bags</h1>
+            <p class="subtitle">Size Chart & Pieces per KG</p>
+        </div>
+
+        <!-- Pricing Info -->
+        <div class="pricing-info">
+            <h2>All Bags: $8 per Bundle</h2>
+            <p>Consistent pricing across all sizes for easy ordering</p>
+        </div>
+
+        <!-- Size Chart Table -->
+        <div class="table-container">
+            <div class="table-header">
+                <h3>Size Chart & Quantity Guide</h3>
+            </div>
+            <div class="responsive-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Price</th>
+                            <th>Size (W × G × H)</th>
+                            <th>100 GSM</th>
+                            <th>90 GSM</th>
+                            <th>80 GSM</th>
+                            <th>60 GSM</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>5 No.</td>
+                            <td>$8</td>
+                            <td>5.5 × 3.5 × 10</td>
+                            <td>70 pcs</td>
+                            <td>80 pcs</td>
+                            <td>90 pcs</td>
+                            <td>112 pcs</td>
+                        </tr>
+                        <tr>
+                            <td>6 Cut.</td>
+                            <td>$8</td>
+                            <td>6 × 4 × 9</td>
+                            <td>62 pcs</td>
+                            <td>69 pcs</td>
+                            <td>78 pcs</td>
+                            <td>100 pcs</td>
+                        </tr>
+                        <tr>
+                            <td>6 No.</td>
+                            <td>$8</td>
+                            <td>6 × 4 × 11</td>
+                            <td>50 pcs</td>
+                            <td>57 pcs</td>
+                            <td>66 pcs</td>
+                            <td>88 pcs</td>
+                        </tr>
+                        <tr>
+                            <td>7 No.</td>
+                            <td>$8</td>
+                            <td>6.5 × 5 × 9</td>
+                            <td>48 pcs</td>
+                            <td>56 pcs</td>
+                            <td>65 pcs</td>
+                            <td>87 pcs</td>
+                        </tr>
+                        <tr>
+                            <td>8 No.</td>
+                            <td>$8</td>
+                            <td>6.5 × 5 × 11</td>
+                            <td>41 pcs</td>
+                            <td>49 pcs</td>
+                            <td>57 pcs</td>
+                            <td>79 pcs</td>
+                        </tr>
+                        <tr>
+                            <td>9 No.</td>
+                            <td>$8</td>
+                            <td>7.5 × 5 × 9</td>
+                            <td>43 pcs</td>
+                            <td>51 pcs</td>
+                            <td>60 pcs</td>
+                            <td>82 pcs</td>
+                        </tr>
+                        <tr>
+                            <td>10 No.</td>
+                            <td>$8</td>
+                            <td>7.5 × 5 × 12</td>
+                            <td>35 pcs</td>
+                            <td>43 pcs</td>
+                            <td>48 pcs</td>
+                            <td>70 pcs</td>
+                        </tr>
+                        <tr>
+                            <td>12 No.</td>
+                            <td>$8</td>
+                            <td>7.5 × 5 × 14</td>
+                            <td>32 pcs</td>
+                            <td>39 pcs</td>
+                            <td>43 pcs</td>
+                            <td>65 pcs</td>
+                        </tr>
+                        <tr>
+                            <td>14 No.</td>
+                            <td>$8</td>
+                            <td>8.5 × 5 × 13</td>
+                            <td>30 pcs</td>
+                            <td>38 pcs</td>
+                            <td>41 pcs</td>
+                            <td>62 pcs</td>
+                        </tr>
+                        <tr>
+                            <td>15 No.</td>
+                            <td>$8</td>
+                            <td>8.5 × 5 × 9</td>
+                            <td>39 pcs</td>
+                            <td>46 pcs</td>
+                            <td>53 pcs</td>
+                            <td>74 pcs</td>
+                        </tr>
+                        <tr>
+                            <td>16 Cut.</td>
+                            <td>$8</td>
+                            <td>10 × 5 × 11</td>
+                            <td>28 pcs</td>
+                            <td>35 pcs</td>
+                            <td>44 pcs</td>
+                            <td>64 pcs</td>
+                        </tr>
+                        <tr>
+                            <td>16 No.</td>
+                            <td>$8</td>
+                            <td>10 × 5 × 14</td>
+                            <td>26 pcs</td>
+                            <td>33 pcs</td>
+                            <td>35 pcs</td>
+                            <td>55 pcs</td>
+                        </tr>
+                        <tr>
+                            <td>18 No.</td>
+                            <td>$8</td>
+                            <td>12 × 5 × 16</td>
+                            <td>22 pcs</td>
+                            <td>25 pcs</td>
+                            <td>28 pcs</td>
+                            <td>48 pcs</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Printing Options -->
+        <div class="printing-section">
+            <h3>Printing Options</h3>
+            <div class="printing-options">
+                <div class="printing-option">
+                    <div class="icon">🎨</div>
+                    <h4>Single-Color Printing</h4>
+                </div>
+                <div class="printing-option">
+                    <div class="icon">🖌️</div>
+                    <h4>Two-Color Printing</h4>
+                </div>
+                <div class="printing-option">
+                    <div class="icon">🌈</div>
+                    <h4>Full Multi-Color Printing</h4>
+                </div>
+            </div>
+            <p class="ideal-for">
+                <strong>Ideal for:</strong> Retail stores, restaurants, boutiques, grocery, and takeaway businesses.
+            </p>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="cta-section-brochure">
+            <h3>Ready to Order?</h3>
+            <p>Contact us today for bulk orders and custom printing options</p>
+            <a href="{% url 'core:quote_request' %}" class="btn-white">Get Your Custom Quote</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
