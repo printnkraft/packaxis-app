@@ -43,7 +43,7 @@ def index(request):
         except Exception as e:
             messages.error(
                 request,
-                'Oops! Something went wrong. Please try again or contact us directly at contact@packaxis.ca'
+                'Oops! Something went wrong. Please try again or contact us directly at hello@packaxis.ca'
             )
         
         from django.http import HttpResponseRedirect
