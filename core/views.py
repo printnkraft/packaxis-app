@@ -3,6 +3,9 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
 from .models import MenuItem, Product, Service, Quote
+import logging
+
+logger = logging.getLogger(__name__)
 
 def index(request):
     if request.method == 'POST':
@@ -15,32 +18,41 @@ def index(request):
         
         # Send email notification
         try:
-            email_subject = f'New Contact Form Submission from {name}'
-            email_body = f"""
-            New contact form submission:
-            
-            Name: {name}
-            Email: {email}
-            Phone: {phone}
-            Company: {company}
-            
-            Message:
-            {message_text}
-            """
-            
-            send_mail(
-                email_subject,
-                email_body,
-                settings.DEFAULT_FROM_EMAIL,
-                [settings.QUOTE_EMAIL],
-                fail_silently=False,
-            )
-            
-            messages.success(
-                request, 
-                'Thank you for reaching out! We\'ve received your message and will get back to you within 24 hours.'
-            )
+            # Check if email is configured
+            if not settings.EMAIL_HOST_USER or not settings.EMAIL_HOST_PASSWORD:
+                logger.warning('Email credentials not configured')
+                messages.warning(
+                    request,
+                    'Your message has been received but email notifications are not configured. We will respond as soon as possible.'
+                )
+            else:
+                email_subject = f'New Contact Form Submission from {name}'
+                email_body = f"""
+                New contact form submission:
+                
+                Name: {name}
+                Email: {email}
+                Phone: {phone}
+                Company: {company}
+                
+                Message:
+                {message_text}
+                """
+                
+                send_mail(
+                    email_subject,
+                    email_body,
+                    settings.DEFAULT_FROM_EMAIL,
+                    [settings.QUOTE_EMAIL],
+                    fail_silently=False,
+                )
+                
+                messages.success(
+                    request, 
+                    'Thank you for reaching out! We\'ve received your message and will get back to you within 24 hours.'
+                )
         except Exception as e:
+            logger.error(f'Email send failed: {str(e)}')
             messages.error(
                 request,
                 'Oops! Something went wrong. Please try again or contact us directly at hello@packaxis.ca'
