@@ -1,7 +1,9 @@
 {% extends "core/base.html" %}
 {% load static %}
 
-{% block title %}Square Bottom Paper Bags - Pricing Brochure | PackAxis Canada{% endblock %}
+{% block title %}Square Bottom Paper Bags Pricing - $8 per Bundle | PackAxis Canada{% endblock %}
+
+{% block description %}Square bottom paper bags pricing guide - $8 per bundle across all sizes. 100-60 GSM kraft paper bags for retail, restaurants & boutiques. Bulk discounts available for 5000+ pieces. Custom printing options in Canada.{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -324,27 +326,29 @@
 {% endblock %}
 
 {% block content %}
-<div class="brochure-page">
+<div class="brochure-page" itemscope itemtype="https://schema.org/Product">
     <div class="brochure-container">
         <!-- Header -->
         <div class="brochure-header">
-            <h1>Square Bottom Paper Bags</h1>
-            <p class="subtitle">Size Chart & Pieces per KG</p>
+            <h1 itemprop="name">Square Bottom Paper Bags - Wholesale Pricing Canada</h1>
+            <p class="subtitle" itemprop="description">Complete Size Chart & Quantity Guide - Multiple GSM Options Available</p>
         </div>
 
         <!-- Pricing Info -->
-        <div class="pricing-info">
-            <h2>All Bags: $8 per Bundle</h2>
-            <p>Consistent pricing across all sizes for easy ordering</p>
+        <div class="pricing-info" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+            <h2>Competitive Pricing: <span itemprop="price">$8</span> <span itemprop="priceCurrency" content="CAD">CAD</span> per Bundle</h2>
+            <p>Consistent wholesale pricing across all sizes for easy bulk ordering</p>
+            <meta itemprop="availability" content="https://schema.org/InStock">
+            <meta itemprop="seller" content="PackAxis Canada">
         </div>
 
         <!-- Size Chart Table -->
         <div class="table-container">
             <div class="table-header">
-                <h3>Size Chart & Quantity Guide</h3>
+                <h2>Paper Bag Size Chart & Quantity Guide by GSM Weight</h2>
             </div>
             <div class="responsive-table">
-                <table>
+                <table summary="Square bottom paper bags pricing with sizes and quantities per bundle for different GSM weights">
                     <thead>
                         <tr>
                             <th>Code</th>
@@ -481,50 +485,53 @@
 
         <!-- Bulk Order Notice -->
         <div class="bulk-order-notice">
-            <h4>🎉 Bulk Order Special Pricing</h4>
-            <p>Contact us for exclusive pricing on orders over 5,000 pieces</p>
+            <h3>🎉 Wholesale Bulk Order Discounts Available</h3>
+            <p>Contact us for exclusive wholesale pricing on orders over 5,000 pieces - Perfect for distributors and large businesses</p>
         </div>
 
         <!-- Printing Options -->
         <div class="printing-section">
-            <h3>Printing Options</h3>
+            <h2>Custom Printing Options for Paper Bags</h2>
             <div class="printing-options">
                 <div class="printing-option">
                     <div class="icon">🎨</div>
-                    <h4>Single-Color Printing</h4>
+                    <h3>Single-Color Printing</h3>
+                    <p>Cost-effective branding solution</p>
                 </div>
                 <div class="printing-option">
                     <div class="icon">🖌️</div>
-                    <h4>Two-Color Printing</h4>
+                    <h3>Two-Color Printing</h3>
+                    <p>Enhanced brand visibility</p>
                 </div>
                 <div class="printing-option">
                     <div class="icon">🌈</div>
-                    <h4>Full Multi-Color Printing</h4>
+                    <h3>Full Multi-Color Printing</h3>
+                    <p>Premium custom designs</p>
                 </div>
             </div>
             <p class="ideal-for">
-                <strong>Ideal for:</strong> Retail stores, restaurants, boutiques, grocery, and takeaway businesses.
+                <strong>Perfect for Canadian Businesses:</strong> Retail stores, restaurants, boutiques, grocery stores, cafes, bakeries, and takeaway businesses across Canada.
             </p>
         </div>
 
         <!-- CTA Section -->
         <div class="cta-section-brochure">
-            <h3>Ready to Order?</h3>
-            <p>Download our pricing brochure or contact us for bulk orders and custom printing options</p>
+            <h2>Ready to Order Kraft Paper Bags in Canada?</h2>
+            <p>Download our comprehensive pricing brochure or contact us today for wholesale bulk orders, custom printing options, and special volume discounts</p>
             <div class="action-buttons">
-                <button onclick="window.print()" class="btn-download">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <button onclick="window.print()" class="btn-download" aria-label="Download pricing brochure as PDF">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                         <polyline points="7 10 12 15 17 10"></polyline>
                         <line x1="12" y1="15" x2="12" y2="3"></line>
                     </svg>
-                    Download Brochure
+                    Download Pricing Brochure
                 </button>
-                <a href="{% url 'core:quote_request' %}" class="btn-contact">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <a href="{% url 'core:quote_request' %}" class="btn-contact" aria-label="Request custom quote for bulk orders">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                         <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
                     </svg>
-                    Contact for Bulk Pricing
+                    Get Wholesale Quote
                 </a>
             </div>
         </div>
