@@ -218,6 +218,71 @@
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
     }
 
+    .bulk-order-notice {
+        background: #fff3cd;
+        border-left: 4px solid #ffc107;
+        padding: 1.5rem;
+        border-radius: 10px;
+        margin-bottom: 3rem;
+        text-align: center;
+    }
+
+    .bulk-order-notice h4 {
+        color: #856404;
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .bulk-order-notice p {
+        color: #856404;
+        font-size: 1rem;
+        margin: 0;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .btn-download, .btn-contact {
+        padding: 1rem 2.5rem;
+        border-radius: 50px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-download {
+        background: var(--primary-color);
+        color: white;
+    }
+
+    .btn-download:hover {
+        background: #1a5d38;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn-contact {
+        background: white;
+        color: var(--primary-color);
+        border: 2px solid white;
+    }
+
+    .btn-contact:hover {
+        background: transparent;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
     @media print {
         .navbar, .footer, .cta-section-brochure {
             display: none;
@@ -244,6 +309,15 @@
         th, td {
             padding: 0.75rem 0.5rem;
             font-size: 0.85rem;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+        }
+
+        .btn-download, .btn-contact {
+            width: 100%;
+            justify-content: center;
         }
     }
 </style>
@@ -405,6 +479,12 @@
             </div>
         </div>
 
+        <!-- Bulk Order Notice -->
+        <div class="bulk-order-notice">
+            <h4>🎉 Bulk Order Special Pricing</h4>
+            <p>Contact us for exclusive pricing on orders over 5,000 pieces</p>
+        </div>
+
         <!-- Printing Options -->
         <div class="printing-section">
             <h3>Printing Options</h3>
@@ -430,8 +510,23 @@
         <!-- CTA Section -->
         <div class="cta-section-brochure">
             <h3>Ready to Order?</h3>
-            <p>Contact us today for bulk orders and custom printing options</p>
-            <a href="{% url 'core:quote_request' %}" class="btn-white">Get Your Custom Quote</a>
+            <p>Download our pricing brochure or contact us for bulk orders and custom printing options</p>
+            <div class="action-buttons">
+                <button onclick="window.print()" class="btn-download">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Download Brochure
+                </button>
+                <a href="{% url 'core:quote_request' %}" class="btn-contact">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                    </svg>
+                    Contact for Bulk Pricing
+                </a>
+            </div>
         </div>
     </div>
 </div>
