@@ -16,17 +16,11 @@
     </section>
 
     <!-- Products Grid Section -->
-    <section id="products" class="products" style="padding-top: 0;">
+    <section id="products" class="products-grid-section" style="padding-top: 0;">
         <div class="container">
-            <div class="products-slider-wrapper">
-                <button class="slider-btn prev-btn" aria-label="Previous">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="15 18 9 12 15 6"></polyline>
-                    </svg>
-                </button>
-                <div class="products-slider">
+            <div class="products-grid">
                 {% for product in products %}
-                <div class="product-slide" onclick="window.location.href='{% url 'core:product_detail' product.slug %}'" style="cursor: pointer;">
+                <div class="product-card" onclick="window.location.href='{% url 'core:product_detail' product.slug %}'" style="cursor: pointer;">
                     {% if product.order == 1 %}
                     <div class="product-badge">Bestseller</div>
                     {% endif %}
@@ -35,22 +29,17 @@
                     </div>
                     <div class="product-content">
                         <h3>{{ product.title }}</h3>
-                        <p>{{ product.description|truncatewords:10 }}</p>
+                        <p>{{ product.description|truncatewords:15 }}</p>
+                        <span class="view-details">View Details →</span>
                     </div>
                 </div>
                 {% empty %}
-                <div class="product-slide">
+                <div class="product-card">
                     <div class="product-content">
                         <p>No products available at the moment.</p>
                     </div>
                 </div>
                 {% endfor %}
-            </div>
-            <button class="slider-btn next-btn" aria-label="Next">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-            </button>
             </div>
         </div>
     </section>
