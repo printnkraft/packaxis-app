@@ -18,11 +18,14 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from core.sitemaps import sitemap_view, robots_txt_view
 
 urlpatterns = [
     path('superusers/', admin.site.urls),
     path('', include('core.urls')),
     path('blog/', include('blog.urls')),
+    path('sitemap.xml', sitemap_view, name='sitemap'),
+    path('robots.txt', robots_txt_view, name='robots'),
 ]
 
 if settings.DEBUG:
