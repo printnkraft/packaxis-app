@@ -245,7 +245,6 @@ body {
     font-size: 0.875rem;
     font-weight: 600;
     margin-bottom: 1.5rem;
-    animation: fadeInUp 0.6s ease;
     letter-spacing: 0.03em;
     border: 1px solid rgba(45, 122, 78, 0.1);
 }
@@ -256,7 +255,6 @@ body {
     color: var(--text-dark);
     line-height: 1.15;
     margin-bottom: 1.5rem;
-    animation: fadeInUp 0.6s ease 0.2s backwards;
     letter-spacing: -0.02em;
 }
 
@@ -265,7 +263,6 @@ body {
     color: var(--text-light);
     line-height: 1.75;
     margin-bottom: 2.5rem;
-    animation: fadeInUp 0.6s ease 0.4s backwards;
     font-weight: 400;
 }
 
@@ -273,7 +270,6 @@ body {
     display: flex;
     gap: 1rem;
     margin-bottom: 2.5rem;
-    animation: fadeInUp 0.6s ease 0.6s backwards;
 }
 
 .btn {
