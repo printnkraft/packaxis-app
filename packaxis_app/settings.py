@@ -86,6 +86,9 @@ DATABASES = {
         'PASSWORD': config('DB_PASSWORD', default=''),
         'HOST': config('DB_HOST', default=''),
         'PORT': config('DB_PORT', default=''),
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        } if config('DB_ENGINE', default='django.db.backends.sqlite3') == 'django.db.backends.mysql' else {},
     }
 }
 
