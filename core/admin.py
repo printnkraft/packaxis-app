@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import MenuItem, Product, Service, Quote, Quote
+from .models import MenuItem, Product, Service, Quote, FAQ
 
 @admin.register(MenuItem)
 class MenuItemAdmin(admin.ModelAdmin):
@@ -167,3 +167,20 @@ class QuoteAdmin(admin.ModelAdmin):
         updated = queryset.update(is_processed=False)
         self.message_user(request, f'{updated} quote(s) marked as unprocessed.')
     mark_as_unprocessed.short_description = "Mark selected quotes as unprocessed"
+
+
+@admin.register(FAQ)
+class FAQAdmin(admin.ModelAdmin):
+    list_display = ['question', 'category', 'order', 'is_active', 'updated_at']
+    list_filter = ['is_active', 'category']
+    list_editable = ['order', 'is_active']
+    search_fields = ['question', 'answer']
+    
+    fieldsets = (
+        ('Question & Answer', {
+            'fields': ('question', 'answer')
+        }),
+        ('Organization', {
+            'fields': ('category', 'order', 'is_active')
+        }),
+    )

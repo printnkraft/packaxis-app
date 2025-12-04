@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import MenuItem, Product, Service, Quote
+from .models import MenuItem, Product, Service, Quote, FAQ
 import logging
 
 logger = logging.getLogger(__name__)
@@ -83,6 +83,13 @@ def products_page(request):
 def pricing_brochure(request):
     """Display pricing brochure for square bottom paper bags"""
     return render(request, 'core/pricing-brochure.html')
+
+
+def faq(request):
+    """Display FAQ page with common questions"""
+    faqs = FAQ.objects.filter(is_active=True)
+    return render(request, 'core/faq.html', {'faqs': faqs})
+
 
 def terms_of_service(request):
     return render(request, 'core/terms-of-service.html')

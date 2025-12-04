@@ -120,3 +120,27 @@ class Quote(models.Model):
     
     def __str__(self):
         return f"Quote from {self.name} - {self.product.title if self.product else 'No Product'}"
+
+
+class FAQ(models.Model):
+    """Frequently Asked Questions"""
+    
+    question = models.CharField(max_length=300, help_text="The question")
+    answer = models.TextField(help_text="The answer (supports HTML)")
+    order = models.IntegerField(default=0, help_text="Display order (lower numbers first)")
+    category = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text="Optional category for grouping FAQs"
+    )
+    is_active = models.BooleanField(default=True, help_text="Show on FAQ page")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['order', 'id']
+        verbose_name = 'FAQ'
+        verbose_name_plural = 'FAQs'
+    
+    def __str__(self):
+        return self.question
