@@ -613,16 +613,6 @@ body {
     transition: opacity 0.4s ease;
 }
 
-.feature-card:hover::before {
-    opacity: 1;
-}
-
-.feature-card:hover {
-    transform: translateY(-12px) scale(1.02);
-    box-shadow: 0 20px 60px rgba(57, 183, 93, 0.3);
-    border-color: rgba(57, 183, 93, 0.5);
-}
-
 .feature-icon {
     width: 60px;
     height: 60px;
@@ -636,11 +626,6 @@ body {
     position: relative;
     z-index: 2;
     transition: all 0.4s ease;
-}
-
-.feature-card:hover .feature-icon {
-    transform: rotate(10deg) scale(1.1);
-    box-shadow: 0 12px 32px rgba(57, 183, 93, 0.6);
 }
 
 .feature-icon svg,
@@ -671,10 +656,6 @@ body {
     font-size: 0.95rem;
     position: relative;
     z-index: 2;
-}
-
-.feature-card:hover p {
-    color: rgba(255, 255, 255, 0.9);
 }
 
 /* ===== About Section ===== */
