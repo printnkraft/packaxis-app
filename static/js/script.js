@@ -129,22 +129,6 @@ document.querySelectorAll('.product-card').forEach(card => {
     });
 });
 
-// Parallax effect for hero section
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const heroContent = document.querySelector('.hero-content');
-    const heroStats = document.querySelector('.hero-stats');
-    
-    if (heroContent && scrolled < window.innerHeight) {
-        heroContent.style.transform = `translateY(${scrolled * 0.5}px)`;
-        heroContent.style.opacity = 1 - scrolled / 500;
-    }
-    
-    if (heroStats && scrolled < window.innerHeight) {
-        heroStats.style.transform = `translateY(${scrolled * 0.3}px)`;
-    }
-});
-
 // Add active state to navigation based on scroll position
 const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('.nav-link');
