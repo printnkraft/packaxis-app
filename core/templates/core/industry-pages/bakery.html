@@ -1,0 +1,63 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}{{ title }} - {{ subtitle }} | PackAxis Canada{% endblock %}
+
+{% block description %}{{ description }}{% endblock %}
+
+{% block content %}
+    <!-- Hero Section -->
+    <section class="industry-hero" style="background: linear-gradient(135deg, #2D7A4E 0%, #1a4d2e 100%); padding: 120px 0 80px; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: -30%; right: -10%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); border-radius: 50%;"></div>
+        <div style="position: absolute; bottom: -20%; left: -5%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(212,175,55,0.15) 0%, transparent 70%); border-radius: 50%;"></div>
+        
+        <div class="container" style="position: relative; z-index: 2;">
+            <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+                <span style="display: inline-block; background: rgba(255,255,255,0.2); color: white; padding: 0.5rem 1.5rem; border-radius: 50px; font-size: 0.875rem; font-weight: 700; margin-bottom: 1.5rem; border: 1px solid rgba(255,255,255,0.3); text-transform: uppercase;">{{ industry }} SOLUTIONS</span>
+                <h1 style="font-size: 3.5rem; font-weight: 900; color: white; margin-bottom: 1.5rem; line-height: 1.2; text-shadow: 0 2px 20px rgba(0,0,0,0.2);">{{ title }}</h1>
+                <p style="font-size: 1.3rem; color: rgba(255,255,255,0.95); margin-bottom: 2.5rem; line-height: 1.7;">{{ subtitle }}</p>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="#products" class="btn" style="background: white; color: #2D7A4E; padding: 1rem 2.5rem; border-radius: 50px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 8px 25px rgba(0,0,0,0.2); transition: all 0.3s ease;">View Products</a>
+                    <a href="{% url 'core:quote_request' %}" class="btn" style="background: rgba(255,255,255,0.15); color: white; padding: 1rem 2.5rem; border-radius: 50px; font-weight: 700; text-decoration: none; border: 2px solid white; transition: all 0.3s ease;">Get Quote</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" style="padding: 5rem 0; background: #fafafa;">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <h2 style="font-size: 2.5rem; font-weight: 900; color: #1F1F1F; margin-bottom: 1rem;">Our {{ title }}</h2>
+                <p style="font-size: 1.125rem; color: #6B6B6B;">Premium paper bags designed specifically for your business.</p>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; max-width: 1200px; margin: 0 auto;">
+                {% for product in products %}
+                <div style="background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s ease; cursor: pointer;" onclick="window.location.href='{% url 'core:product_detail' product.slug %}'">
+                    <div style="height: 280px; overflow: hidden; background: #f5f5f5;">
+                        <img src="{{ product.image.url }}" alt="{{ product.title }}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;">
+                    </div>
+                    <div style="padding: 2rem;">
+                        <h3 style="font-size: 1.35rem; font-weight: 700; color: #1F1F1F; margin-bottom: 0.75rem;">{{ product.title }}</h3>
+                        <p style="color: #6B6B6B; margin-bottom: 1.25rem; line-height: 1.6;">{{ product.description|truncatewords:12 }}</p>
+                        <span style="color: #2D7A4E; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem;">Learn More →</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section style="padding: 5rem 0; background: linear-gradient(135deg, #2D7A4E 0%, #1a4d2e 100%); text-align: center; color: white; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: -40%; right: -5%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(212,175,55,0.2) 0%, transparent 70%); border-radius: 50%;"></div>
+        <div class="container" style="position: relative; z-index: 2;">
+            <h2 style="font-size: 2.75rem; font-weight: 900; margin-bottom: 1rem; text-shadow: 0 2px 20px rgba(0,0,0,0.2);">Ready to Order?</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 2.5rem; opacity: 0.95;">Get wholesale pricing for your business. Minimum order: 10,000 units.</p>
+            <a href="{% url 'core:quote_request' %}" style="background: white; color: #2D7A4E; padding: 1.1rem 3rem; border-radius: 50px; font-weight: 700; font-size: 1.1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.75rem; box-shadow: 0 8px 30px rgba(0,0,0,0.25); transition: all 0.3s ease;">
+                Get Your Quote Now →
+            </a>
+        </div>
+    </section>
+{% endblock %}

@@ -320,3 +320,59 @@ Submitted: {quote.created_at.strftime('%Y-%m-%d %H:%M:%S')}
         'products': products,
     }
     return render(request, 'core/quote.html', context)
+
+# Industry-Specific Landing Pages
+def restaurant_paper_bags(request):
+    products = Product.objects.filter(is_active=True).order_by('order')
+    context = {
+        'products': products,
+        'industry': 'restaurant',
+        'title': 'Restaurant Paper Bags',
+        'subtitle': 'Food-Safe, Grease-Resistant Paper Bags for Restaurants & Takeout',
+        'description': 'Premium paper bags designed specifically for restaurants, cafes, and food service businesses. FDA-approved, grease-resistant, and perfect for takeout orders.',
+    }
+    return render(request, 'core/industry-pages/restaurant.html', context)
+
+def retail_paper_bags(request):
+    products = Product.objects.filter(is_active=True).order_by('order')
+    context = {
+        'products': products,
+        'industry': 'retail',
+        'title': 'Retail Paper Bags',
+        'subtitle': 'Custom Branded Shopping Bags for Retail Stores',
+        'description': 'Elevate your retail brand with custom paper shopping bags. Perfect for clothing stores, gift shops, and retail businesses across Canada.',
+    }
+    return render(request, 'core/industry-pages/retail.html', context)
+
+def boutique_packaging(request):
+    products = Product.objects.filter(is_active=True).order_by('order')
+    context = {
+        'products': products,
+        'industry': 'boutique',
+        'title': 'Boutique Packaging',
+        'subtitle': 'Premium Luxury Paper Bags for High-End Boutiques',
+        'description': 'Luxury paper bags that reflect your boutique\'s premium brand. Custom designs, premium finishes, and elegant presentation for fashion boutiques and specialty stores.',
+    }
+    return render(request, 'core/industry-pages/boutique.html', context)
+
+def grocery_paper_bags(request):
+    products = Product.objects.filter(is_active=True).order_by('order')
+    context = {
+        'products': products,
+        'industry': 'grocery',
+        'title': 'Grocery Paper Bags',
+        'subtitle': 'Heavy-Duty Paper Bags for Grocery Stores & Supermarkets',
+        'description': 'Strong, reliable paper bags for groceries and bulk items. Reinforced handles and sturdy construction perfect for supermarkets, farmers markets, and grocery stores.',
+    }
+    return render(request, 'core/industry-pages/grocery.html', context)
+
+def bakery_paper_bags(request):
+    products = Product.objects.filter(is_active=True).order_by('order')
+    context = {
+        'products': products,
+        'industry': 'bakery',
+        'title': 'Bakery Paper Bags',
+        'subtitle': 'Food-Grade Paper Bags for Bakeries, Cafes & Pastry Shops',
+        'description': 'Grease-resistant paper bags perfect for baked goods, pastries, and bread. FDA-approved materials safe for direct food contact with custom branding options.',
+    }
+    return render(request, 'core/industry-pages/bakery.html', context)
