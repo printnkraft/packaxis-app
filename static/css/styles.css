@@ -249,7 +249,7 @@ section {
     display: flex;
     align-items: center;
     background: linear-gradient(135deg, #FAFAFA 0%, #F0F4F2 100%);
-    padding-top: 120px;
+    padding-top: 150px;
     padding-bottom: 3rem;
     overflow: visible;
 }
@@ -1150,19 +1150,19 @@ section {
     }
     
     .hero {
-        padding-top: 130px;
+        padding-top: 160px;
     }
     
     .section-header {
-        padding-top: 130px !important;
+        padding-top: 160px !important;
     }
     
     .industry-hero {
-        padding-top: 130px !important;
+        padding-top: 160px !important;
     }
     
     .product-hero {
-        padding-top: 130px !important;
+        padding-top: 160px !important;
     }
     
     .hero-grid {
@@ -1225,19 +1225,19 @@ section {
     }
     
     .hero {
-        padding-top: 120px;
+        padding-top: 140px;
     }
     
     .section-header {
-        padding-top: 120px !important;
+        padding-top: 140px !important;
     }
     
     .industry-hero {
-        padding-top: 120px !important;
+        padding-top: 140px !important;
     }
     
     .product-hero {
-        padding-top: 120px !important;
+        padding-top: 140px !important;
     }
     
     .hero-title {
