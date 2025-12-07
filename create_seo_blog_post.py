@@ -180,7 +180,7 @@ post_data = {
 <li><a href="/blog/">More packaging industry insights</a></li>
 </ul>''',
     'excerpt': 'Complete guide to sourcing paper bags wholesale Canada, custom paper bags Toronto, and eco-friendly packaging. Learn about kraft paper bags bulk pricing, customization options, and why Canadian restaurants and retailers choose recyclable paper bags.',
-    'meta_description': 'Paper bags wholesale Canada guide 2025: Custom paper bags Toronto, kraft paper bags bulk, branded shopping bags, and eco-friendly packaging for restaurants and retailers. Get wholesale pricing.',
+    'meta_description': 'Complete guide to paper bags wholesale Canada, custom paper bags Toronto, kraft bags bulk, and eco-friendly packaging for restaurants and retailers.',
     'meta_keywords': 'paper bags wholesale Canada, custom paper bags Toronto, eco-friendly packaging Canada, kraft paper bags bulk, restaurant paper bags supplier, branded shopping bags, recyclable paper bags',
     'status': 'published',
     'publish_date': timezone.now()
