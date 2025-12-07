@@ -223,7 +223,7 @@ section {
     display: flex;
     align-items: center;
     background: linear-gradient(135deg, #FAFAFA 0%, #F0F4F2 100%);
-    padding-top: 80px;
+    padding-top: 100px;
     padding-bottom: 3rem;
     overflow: visible;
 }
@@ -1097,6 +1097,22 @@ section {
         display: flex;
     }
     
+    .hero {
+        padding-top: 110px;
+    }
+    
+    .section-header {
+        padding-top: 110px !important;
+    }
+    
+    .industry-hero {
+        padding-top: 110px !important;
+    }
+    
+    .product-hero {
+        padding-top: 110px !important;
+    }
+    
     .hero-grid {
         grid-template-columns: 1fr;
         gap: 3rem;
@@ -1154,6 +1170,22 @@ section {
 @media (max-width: 640px) {
     .container {
         padding: 0 1rem;
+    }
+    
+    .hero {
+        padding-top: 100px;
+    }
+    
+    .section-header {
+        padding-top: 100px !important;
+    }
+    
+    .industry-hero {
+        padding-top: 100px !important;
+    }
+    
+    .product-hero {
+        padding-top: 100px !important;
     }
     
     .hero-title {
