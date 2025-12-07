@@ -23,6 +23,16 @@
                 </div>
                 <ul class="nav-menu">
                     <li><a href="{% url 'core:index' %}" class="nav-link">Home</a></li>
+                    <li class="nav-item-dropdown">
+                        <a href="#" class="nav-link">Industries</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'core:restaurant_paper_bags' %}">Restaurant & Takeout</a></li>
+                            <li><a href="{% url 'core:retail_paper_bags' %}">Retail Stores</a></li>
+                            <li><a href="{% url 'core:boutique_packaging' %}">Boutique & Fashion</a></li>
+                            <li><a href="{% url 'core:grocery_paper_bags' %}">Grocery & Supermarket</a></li>
+                            <li><a href="{% url 'core:bakery_paper_bags' %}">Bakery & Cafe</a></li>
+                        </ul>
+                    </li>
                     {% for item in menu_items %}
                         {% if item.has_children %}
                             <li class="nav-item-dropdown">
@@ -39,16 +49,6 @@
                             <li><a href="{{ item.url }}" class="nav-link"{% if item.open_in_new_tab %} target="_blank"{% endif %}>{{ item.title }}</a></li>
                         {% endif %}
                     {% endfor %}
-                    <li class="nav-item-dropdown">
-                        <a href="#" class="nav-link">Industries</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{% url 'core:restaurant_paper_bags' %}">Restaurant & Takeout</a></li>
-                            <li><a href="{% url 'core:retail_paper_bags' %}">Retail Stores</a></li>
-                            <li><a href="{% url 'core:boutique_packaging' %}">Boutique & Fashion</a></li>
-                            <li><a href="{% url 'core:grocery_paper_bags' %}">Grocery & Supermarket</a></li>
-                            <li><a href="{% url 'core:bakery_paper_bags' %}">Bakery & Cafe</a></li>
-                        </ul>
-                    </li>
                 </ul>
                 <a href="{% url 'core:quote_request' %}" class="btn btn-primary nav-quote-btn">Get Quote</a>
                 <div class="hamburger">
