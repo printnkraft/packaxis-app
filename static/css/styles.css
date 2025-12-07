@@ -185,20 +185,46 @@ section {
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
     color: white;
     border: none;
-    padding: 0.875rem 2rem;
-    border-radius: 12px;
+    padding: 1rem 2rem;
+    border-radius: 50px;
     font-weight: 600;
-    font-size: 0.9375rem;
+    font-size: 1rem;
     cursor: pointer;
-    transition: var(--transition);
-    box-shadow: 0 4px 12px rgba(45, 122, 78, 0.2);
-    letter-spacing: 0.02em;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(45, 122, 78, 0.3);
+    letter-spacing: 0.01em;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .cta-button:hover {
-    background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+    background: linear-gradient(135deg, #1a5d38 0%, var(--primary-color) 100%);
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(45, 122, 78, 0.3);
+    box-shadow: 0 8px 25px rgba(45, 122, 78, 0.4);
+}
+
+.nav-quote-btn {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #1a5d38 100%);
+    color: white;
+    border: none;
+    padding: 0.875rem 1.75rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(45, 122, 78, 0.3);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-quote-btn:hover {
+    background: linear-gradient(135deg, #1a5d38 0%, var(--primary-color) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(45, 122, 78, 0.4);
 }
 
 .hamburger {
@@ -285,16 +311,19 @@ section {
 }
 
 .btn {
-    padding: 0.625rem 1.75rem;
+    padding: 1rem 2rem;
     border-radius: 50px;
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 1rem;
     cursor: pointer;
-    transition: var(--transition);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border: none;
     text-decoration: none;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     letter-spacing: 0.01em;
+    gap: 0.5rem;
 }
 
 .btn-primary {
@@ -306,6 +335,7 @@ section {
 .btn-primary:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(45, 122, 78, 0.4);
+    background: linear-gradient(135deg, #1a5d38 0%, var(--primary-color) 100%);
 }
 
 .btn-secondary {
@@ -317,6 +347,8 @@ section {
 .btn-secondary:hover {
     background: var(--primary-color);
     color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(45, 122, 78, 0.3);
 }
     border-color: var(--primary-color);
     color: var(--primary-color);
@@ -359,13 +391,13 @@ section {
 
 /* ===== Products Section ===== */
 .products {
-    padding: 4rem 0;
+    padding: 5rem 0;
     background: var(--bg-white);
 }
 
 .section-header {
     text-align: center;
-    margin-bottom: 2.5rem;
+    margin-bottom: 3rem;
 }
 
 .section-tag {
@@ -385,14 +417,15 @@ section {
     font-size: 2.5rem;
     font-weight: 900;
     color: var(--text-dark);
-    margin-bottom: 0.875rem;
+    margin-bottom: 1rem;
     line-height: 1.2;
+    letter-spacing: -0.02em;
 }
 
 .section-description {
     font-size: 1.125rem;
     color: var(--text-light);
-    max-width: 700px;
+    max-width: 750px;
     margin: 0 auto;
     line-height: 1.7;
 }
@@ -425,14 +458,14 @@ section {
     overflow: hidden;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
     border: 1px solid var(--border-color);
-    transition: var(--transition);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     cursor: pointer;
 }
 
 .product-slide:hover {
     transform: translateY(-8px);
-    box-shadow: 0 12px 40px rgba(45, 122, 78, 0.12);
+    box-shadow: 0 12px 40px rgba(45, 122, 78, 0.15);
     border-color: var(--primary-color);
 }
 
@@ -507,7 +540,8 @@ section {
 .slider-btn:hover {
     background: var(--primary-color);
     border-color: var(--primary-color);
-    box-shadow: 0 6px 20px rgba(57, 183, 93, 0.3);
+    box-shadow: 0 6px 20px rgba(45, 122, 78, 0.3);
+    transform: translateY(-50%) scale(1.05);
 }
 
 .slider-btn svg {
@@ -547,7 +581,7 @@ section {
 
 /* ===== Services/Features Section ===== */
 .features {
-    padding: 4rem 0;
+    padding: 5rem 0;
     background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
     position: relative;
     overflow: hidden;
@@ -626,9 +660,9 @@ section {
 }
 
 .feature-card:hover {
-    transform: translateY(-12px) scale(1.02);
-    box-shadow: 0 20px 60px rgba(57, 183, 93, 0.3);
-    border-color: rgba(57, 183, 93, 0.5);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 60px rgba(45, 122, 78, 0.3);
+    border-color: rgba(45, 122, 78, 0.5);
 }
 
 .feature-icon {
@@ -687,7 +721,7 @@ section {
 
 /* ===== About Section ===== */
 .about {
-    padding: 3rem 0;
+    padding: 5rem 0;
     background: white;
 }
 
@@ -708,28 +742,34 @@ section {
 .about-features {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
-    margin: 1.5rem 0;
+    gap: 1rem;
+    margin: 2rem 0;
 }
 
 .about-feature {
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.about-feature:hover {
+    transform: translateX(4px);
 }
 
 .check-icon {
-    width: 22px;
-    height: 22px;
-    background: var(--primary-color);
+    width: 24px;
+    height: 24px;
+    background: linear-gradient(135deg, var(--primary-color) 0%, #1a5d38 100%);
     color: white;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(45, 122, 78, 0.25);
 }
 
 .about-feature span {
@@ -752,7 +792,7 @@ section {
 
 /* ===== Contact Section ===== */
 .contact {
-    padding: 3rem 0;
+    padding: 5rem 0;
     background: var(--bg-light);
 }
 
@@ -903,12 +943,12 @@ section {
 
 .contact-form input,
 .contact-form textarea {
-    padding: 0.875rem 1rem;
+    padding: 1rem 1.25rem;
     border: 2px solid var(--border-color);
-    border-radius: 10px;
+    border-radius: 12px;
     font-family: inherit;
-    font-size: 0.95rem;
-    transition: var(--transition);
+    font-size: 1rem;
+    transition: all 0.3s ease;
     background: var(--bg-white);
 }
 
@@ -916,7 +956,8 @@ section {
 .contact-form textarea:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 4px rgba(57, 183, 93, 0.1);
+    box-shadow: 0 0 0 4px rgba(45, 122, 78, 0.1);
+    transform: translateY(-1px);
 }
 
 .contact-form button {
@@ -927,7 +968,7 @@ section {
 .footer {
     background: var(--text-dark);
     color: white;
-    padding: 3.5rem 0 2rem;
+    padding: 4rem 0 2rem;
 }
 
 .footer-content {
@@ -1076,6 +1117,17 @@ section {
     to {
         opacity: 1;
         transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+    }
+    50% {
+        transform: scale(1.02);
+        box-shadow: 0 12px 40px rgba(0,0,0,0.35);
     }
 }
 
