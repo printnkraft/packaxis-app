@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import MenuItem, Product, Service, Quote, FAQ
+from .models import MenuItem, Product, Service, Quote, FAQ, Industry
 import logging
 
 logger = logging.getLogger(__name__)
@@ -63,9 +63,11 @@ def index(request):
     
     products = Product.objects.filter(is_active=True)
     services = Service.objects.filter(is_active=True)
+    industries = Industry.objects.filter(is_active=True)
     context = {
         'products': products,
-        'services': services
+        'services': services,
+        'industries': industries
     }
     return render(request, 'core/index.html', context)
 

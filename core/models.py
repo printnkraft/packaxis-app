@@ -99,6 +99,25 @@ class Service(models.Model):
         return self.title
 
 
+class Industry(models.Model):
+    """Industries displayed on the homepage"""
+    title = models.CharField(max_length=200, help_text="Industry name (e.g., Restaurant & Takeout)")
+    image = models.ImageField(upload_to='industries/', help_text="Industry icon/image")
+    url = models.CharField(max_length=200, help_text="URL path (e.g., /restaurant-paper-bags/)")
+    order = models.IntegerField(default=0, help_text="Display order (lower numbers appear first)")
+    is_active = models.BooleanField(default=True, help_text="Show/hide this industry")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['order', 'title']
+        verbose_name = "Industry"
+        verbose_name_plural = "Industries"
+    
+    def __str__(self):
+        return self.title
+
+
 class Quote(models.Model):
     """Quote requests from customers"""
     name = models.CharField(max_length=200, help_text="Customer name")
