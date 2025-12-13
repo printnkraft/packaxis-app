@@ -728,15 +728,15 @@ section {
 .industries-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 2rem;
-    max-width: 1200px;
+    gap: 1.5rem;
+    max-width: 1100px;
     margin: 0 auto;
 }
 
 .industry-card {
     background: white;
     padding: 0;
-    border-radius: 20px;
+    border-radius: 16px;
     box-shadow: var(--shadow-sm);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     border: 1px solid var(--border-color);
@@ -747,38 +747,65 @@ section {
     flex-direction: column;
     align-items: center;
     overflow: hidden;
+    position: relative;
+}
+
+.industry-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(45, 122, 78, 0.05) 0%, rgba(212, 175, 55, 0.05) 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.industry-card:hover::before {
+    opacity: 1;
 }
 
 .industry-card:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-lg);
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(45, 122, 78, 0.15);
     border-color: var(--primary-color);
 }
 
 .industry-image {
     width: 100%;
-    height: 180px;
+    height: 120px;
     overflow: hidden;
     position: relative;
+    border-radius: 16px 16px 0 0;
 }
 
 .industry-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.4s ease;
+    transition: transform 0.5s ease;
+    filter: brightness(0.95);
 }
 
 .industry-card:hover .industry-image img {
-    transform: scale(1.1);
+    transform: scale(1.15);
+    filter: brightness(1.05);
 }
 
 .industry-card h3 {
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 700;
-    padding: 1.25rem 1rem;
+    padding: 1rem 0.75rem;
     color: var(--text-dark);
     margin: 0;
+    position: relative;
+    z-index: 1;
+    transition: color 0.3s ease;
+}
+
+.industry-card:hover h3 {
+    color: var(--primary-color);
 }
 
 /* ===== About Section ===== */
