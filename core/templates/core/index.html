@@ -27,12 +27,14 @@
         <div class="container">
             <div class="industries-grid">
                 {% for industry in industries %}
+                {% if industry.image %}
                 <a href="{{ industry.url }}" class="industry-card">
                     <div class="industry-image">
                         <img src="{{ industry.image.url }}" alt="{{ industry.title }}">
                     </div>
                     <h3>{{ industry.title }}</h3>
                 </a>
+                {% endif %}
                 {% empty %}
                 <p>No industries available at the moment.</p>
                 {% endfor %}

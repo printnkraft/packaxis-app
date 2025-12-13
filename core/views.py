@@ -63,7 +63,7 @@ def index(request):
     
     products = Product.objects.filter(is_active=True)
     services = Service.objects.filter(is_active=True)
-    industries = Industry.objects.filter(is_active=True)
+    industries = Industry.objects.filter(is_active=True).exclude(image='')
     context = {
         'products': products,
         'services': services,
