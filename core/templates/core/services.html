@@ -1,0 +1,50 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- Services Hero Section -->
+    <section class="hero" style="min-height: 60vh;">
+        <div class="container">
+            <div class="section-header" style="text-align: center; max-width: 800px; margin: 0 auto;">
+                <span class="section-tag">Our Services</span>
+                <h1 class="section-title" style="font-size: 3rem;">What We Offer</h1>
+                <p class="section-description">From custom branded packaging to wholesale paper bags, PackAxis delivers sustainable solutions for Canadian businesses. We specialize in kraft paper bags available in bulk, branded shopping bags, and recyclable packaging for restaurants and retailers across Toronto and Canada.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Grid Section -->
+    <section class="features" style="padding: 5rem 0;">
+        <div class="container">
+            <div class="features-grid">
+                {% for service in services %}
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="{{ service.icon }}"></i>
+                    </div>
+                    <h3>{{ service.title }}</h3>
+                    <p>{{ service.description }}</p>
+                </div>
+                {% empty %}
+                <div class="feature-card">
+                    <p>No services available at the moment.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta" style="padding: 5rem 0; background: linear-gradient(135deg, #FAFAFA 0%, #F0F4F2 100%);">
+        <div class="container">
+            <div class="cta-content" style="text-align: center; max-width: 700px; margin: 0 auto;">
+                <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem; color: var(--text-dark);">Ready to Get Started?</h2>
+                <p style="font-size: 1.125rem; color: var(--text-light); margin-bottom: 2rem;">Contact us today for a free quote and discover how our eco-friendly packaging solutions can elevate your brand.</p>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="{% url 'core:quote_request' %}" class="btn btn-primary">Get a Quote</a>
+                    <a href="{% url 'core:index' %}#contact" class="btn btn-secondary">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -72,6 +72,14 @@ def index(request):
 def privacy_policy(request):
     return render(request, 'core/privacy-policy.html')
 
+def services_page(request):
+    """Display all services on a dedicated page"""
+    services = Service.objects.filter(is_active=True)
+    context = {
+        'services': services,
+    }
+    return render(request, 'core/services.html', context)
+
 def products_page(request):
     """Display all products on a dedicated page"""
     products = Product.objects.filter(is_active=True)

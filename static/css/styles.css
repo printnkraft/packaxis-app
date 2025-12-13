@@ -249,7 +249,7 @@ section {
     display: flex;
     align-items: center;
     background: linear-gradient(135deg, #FAFAFA 0%, #F0F4F2 100%);
-    padding-top: 150px;
+    padding-top: 120px;
     padding-bottom: 3rem;
     overflow: visible;
 }
@@ -288,7 +288,7 @@ section {
 }
 
 .hero-title {
-    font-size: 3.25rem;
+    font-size: 3rem;
     font-weight: 800;
     color: var(--text-dark);
     line-height: 1.15;
@@ -311,7 +311,7 @@ section {
 }
 
 .btn {
-    padding: 1rem 2rem;
+    padding: 0.65rem 2rem;
     border-radius: 50px;
     font-weight: 600;
     font-size: 1rem;
@@ -717,6 +717,84 @@ section {
 
 .feature-card:hover p {
     color: rgba(255, 255, 255, 0.9);
+}
+
+/* ===== Industries Section ===== */
+.industries {
+    padding: 5rem 0;
+    background: var(--bg-white);
+}
+
+.industries-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.industry-card {
+    background: white;
+    padding: 2rem 1.5rem;
+    border-radius: 20px;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid var(--border-color);
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.industry-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-color);
+}
+
+.industry-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, rgba(45, 122, 78, 0.1) 0%, rgba(212, 175, 55, 0.1) 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+    transition: all 0.4s ease;
+    border: 2px solid transparent;
+}
+
+.industry-card:hover .industry-icon {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    border-color: var(--accent-color);
+    transform: rotate(10deg) scale(1.1);
+}
+
+.industry-icon svg {
+    width: 36px;
+    height: 36px;
+    color: var(--primary-color);
+    transition: color 0.3s ease;
+}
+
+.industry-card:hover .industry-icon svg {
+    color: white;
+}
+
+.industry-card h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--text-dark);
+}
+
+.industry-card p {
+    font-size: 0.875rem;
+    color: var(--text-light);
+    line-height: 1.5;
 }
 
 /* ===== About Section ===== */
@@ -1150,19 +1228,19 @@ section {
     }
     
     .hero {
-        padding-top: 160px;
+        padding-top: 130px;
     }
     
     .section-header {
-        padding-top: 160px !important;
+        padding-top: 130px !important;
     }
     
     .industry-hero {
-        padding-top: 160px !important;
+        padding-top: 130px !important;
     }
     
     .product-hero {
-        padding-top: 160px !important;
+        padding-top: 130px !important;
     }
     
     .hero-grid {
@@ -1180,6 +1258,11 @@ section {
     
     .features-grid {
         grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .industries-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
     }
 
     .products-slider-wrapper {
@@ -1225,19 +1308,19 @@ section {
     }
     
     .hero {
-        padding-top: 140px;
+        padding-top: 100px;
     }
     
     .section-header {
-        padding-top: 140px !important;
+        padding-top: 100px !important;
     }
     
     .industry-hero {
-        padding-top: 140px !important;
+        padding-top: 100px !important;
     }
     
     .product-hero {
-        padding-top: 140px !important;
+        padding-top: 100px !important;
     }
     
     .hero-title {
@@ -1263,6 +1346,11 @@ section {
 
     .features-grid {
         grid-template-columns: 1fr;
+    }
+    
+    .industries-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
     }
 
     .products-slider-wrapper {
