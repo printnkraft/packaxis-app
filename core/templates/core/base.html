@@ -19,7 +19,7 @@
         <div class="container">
             <div class="nav-wrapper">
                 <div class="logo-container">
-                    <a href="{% url 'core:index' %}"><img src="{% static 'images/assests/packaxis logo.png' %}" alt="PackAxis Canada - Custom Paper Bags Manufacturer" class="logo"></a>
+                    <a href="{% url 'core:index' %}"><img src="{% static 'images/assests/packaxis logo.png' %}" alt="PackAxis Packaging Canada - Custom Paper Bags Manufacturer" class="logo"></a>
                 </div>
                 <ul class="nav-menu">
                     <li><a href="{% url 'core:index' %}" class="nav-link">Home</a></li>
@@ -82,10 +82,10 @@
                     </ul>
                 </div>
                 <div class="footer-col">
-                    <h4>Products</h4>
+                    <h4>Product Categories</h4>
                     <ul>
-                        {% for product in products %}
-                        <li><a href="{% url 'core:product_detail' product.slug %}">{{ product.title }}</a></li>
+                        {% for product_category in product_categories %}
+                        <li><a href="{% url 'core:product_detail' product_category.slug %}">{{ product_category.title }}</a></li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -101,7 +101,7 @@
             </div>
             <div class="footer-bottom">
                 <div class="footer-bottom-content">
-                    <p>&copy; 2025 PackAxis Canada. All rights reserved.</p>
+                    <p>&copy; 2025 PackAxis Packaging Canada. All rights reserved.</p>
                     <div class="social-links">
                         <a href="https://www.facebook.com/people/PackAxis-Packaging/61584632132597/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
                             <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">

@@ -21,25 +21,25 @@
     <section id="products" class="products-grid-section" style="padding: 5rem 0; background: linear-gradient(180deg, #fafafa 0%, #ffffff 100%);">
         <div class="container">
             <div class="products-grid">
-                {% for product in products %}
-                <div class="product-card" onclick="window.location.href='{% url 'core:product_detail' product.slug %}'" style="cursor: pointer; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);">
-                    {% if product.order == 1 %}
+                {% for product_category in product_categories %}
+                <div class="product-card" onclick="window.location.href='{% url 'core:product_detail' product_category.slug %}'" style="cursor: pointer; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);">
+                    {% if product_category.order == 1 %}
                     <div class="product-badge" style="background: linear-gradient(135deg, #2D7A4E 0%, #1a4d2e 100%); box-shadow: 0 4px 12px rgba(45, 122, 78, 0.4);">Bestseller</div>
                     {% endif %}
                     <div class="product-image" style="position: relative; overflow: hidden;">
                         <div style="position: absolute; inset: 0; background: linear-gradient(180deg, transparent 0%, rgba(45, 122, 78, 0.1) 100%); opacity: 0; transition: opacity 0.4s ease;" class="product-overlay"></div>
-                        <img src="{{ product.image.url }}" alt="{{ product.title }} - Custom wholesale paper bags with handles for Canadian businesses" loading="lazy" style="transition: transform 0.4s ease;">
+                        <img src="{{ product_category.image.url }}" alt="{{ product_category.title }} - Custom wholesale paper bags with handles for Canadian businesses" loading="lazy" style="transition: transform 0.4s ease;">
                     </div>
                     <div class="product-content" style="padding: 1.75rem;">
-                        <h3 style="font-size: 1.35rem; font-weight: 700; color: #1F1F1F; margin-bottom: 0.75rem;">{{ product.title }}</h3>
-                        <p style="color: #6B6B6B; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.25rem;">{{ product.description|truncatewords:15 }}</p>
+                        <h3 style="font-size: 1.35rem; font-weight: 700; color: #1F1F1F; margin-bottom: 0.75rem;">{{ product_category.title }}</h3>
+                        <p style="color: #6B6B6B; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.25rem;">{{ product_category.description|truncatewords:15 }}</p>
                         <span class="view-details" style="color: #2D7A4E; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 0.5rem; transition: gap 0.3s ease;">View Details <span style="transition: transform 0.3s ease; display: inline-block;">→</span></span>
                     </div>
                 </div>
                 {% empty %}
                 <div class="product-card">
                     <div class="product-content">
-                        <p>No products available at the moment.</p>
+                        <p>No product categories available at the moment.</p>
                     </div>
                 </div>
                 {% endfor %}

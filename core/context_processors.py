@@ -1,4 +1,4 @@
-from .models import MenuItem, Product
+from .models import MenuItem, Product, ProductCategory
 
 def menu_items(request):
     """Make menu items available to all templates"""
@@ -8,9 +8,11 @@ def menu_items(request):
     }
 
 def active_products(request):
-    """Make active products available to all templates"""
-    products = Product.objects.filter(is_active=True)
+    """Make active product categories available to all templates"""
+    product_categories = ProductCategory.objects.filter(is_active=True)
+    # Keep 'products' for backward compatibility, but use product_categories
     return {
-        'products': products,
-        'active_products_count': products.count()
+        'products': product_categories,  # Backward compatibility
+        'product_categories': product_categories,
+        'active_products_count': product_categories.count()
     }

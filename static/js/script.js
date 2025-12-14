@@ -242,6 +242,13 @@ const nextBtn = document.querySelector('.next-btn');
 
 if (productsSlider && prevBtn && nextBtn) {
     const slideWidth = 300; // 280px card + 20px gap
+    const productSlides = productsSlider.querySelectorAll('.product-slide');
+    
+    // Hide next button if 4 or fewer items
+    if (productSlides.length <= 4) {
+        nextBtn.style.display = 'none';
+        prevBtn.style.display = 'none';
+    }
     
     prevBtn.addEventListener('click', () => {
         productsSlider.scrollBy({
