@@ -82,6 +82,14 @@ def services_page(request):
     }
     return render(request, 'core/services.html', context)
 
+def industries_page(request):
+    """Display all industries on a dedicated page"""
+    industries = Industry.objects.filter(is_active=True)
+    context = {
+        'industries': industries,
+    }
+    return render(request, 'core/industries.html', context)
+
 def products_page(request):
     """Display all product categories on a dedicated page"""
     product_categories = ProductCategory.objects.filter(is_active=True)
