@@ -8,14 +8,23 @@
 <section class="product-detail-section">
     <div class="container">
         <div class="product-detail-wrapper">
-            <!-- Image Gallery -->
-            <div class="product-gallery">
-                <div class="main-image-container">
+            <!-- Image Gallery (Left Side) -->
+            <div class="product-gallery-left">
+                <!-- Vertical Thumbnails -->
+                {% if product_images|length > 1 %}
+                <div class="thumbnail-gallery-vertical">
+                    {% for img in product_images %}
+                        <div class="thumbnail-item-vertical {% if forloop.first %}active{% endif %}" onclick="changeImage('{{ img.url }}', this)">
+                            <img src="{{ img.url }}" alt="{{ img.alt }}">
+                        </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                <!-- Main Image -->
+                <div class="main-image-container-left">
                     {% if product.image %}
                         <img src="{{ product.image.url }}" alt="{{ product.title }}" class="main-product-image" id="mainImage">
-                        {% if product.price_range %}
-                        <span class="discount-badge">Best Price</span>
-                        {% endif %}
                     {% else %}
                         <div class="image-placeholder">
                             <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -26,125 +35,155 @@
                         </div>
                     {% endif %}
                 </div>
-                
-                {% if product_images|length > 1 %}
-                <div class="thumbnail-gallery">
-                    {% for img in product_images %}
-                        <div class="thumbnail-item {% if forloop.first %}active{% endif %}" onclick="changeImage('{{ img.url }}', this)">
-                            <img src="{{ img.url }}" alt="{{ img.alt }}">
-                        </div>
-                    {% endfor %}
-                </div>
-                {% endif %}
             </div>
 
-            <!-- Product Info -->
-            <div class="product-info">
-                <!-- Breadcrumb -->
-                <div class="breadcrumb-product">
-                    <a href="{% url 'core:index' %}">Home</a>
-                    <span>/</span>
-                    <a href="{% url 'core:products' %}">Products</a>
-                    <span>/</span>
-                    <span>{{ product.category.title }}</span>
-                </div>
-
-                <h1 class="product-title">{{ product.title }}</h1>
+            <!-- Product Info (Right Side) -->
+            <div class="product-info-right">
+                <h1 class="product-title-main">{{ product.title }}</h1>
                 
+                <!-- SKU -->
+                <div class="product-sku">
+                    <span>SKU: {{ product.slug|upper }}</span>
+                </div>
+                
+                <!-- Pricing -->
                 {% if product.price_range %}
-                <div class="product-pricing">
-                    <span class="price-label">Price Range:</span>
-                    <span class="price-value">{{ product.price_range }}</span>
+                <div class="product-pricing-main">
+                    <span class="price-current">{{ product.price_range }}</span>
+                    {% if product.minimum_order %}
+                    <span class="price-unit">{{ product.minimum_order }} pcs / Case</span>
+                    {% endif %}
                 </div>
                 {% endif %}
 
-                {% if product.description %}
-                <div class="product-description">
-                    <p>{{ product.description }}</p>
-                </div>
-                {% endif %}
-
-                <!-- Specifications -->
-                {% if specifications %}
-                <div class="specifications-section">
-                    <h3>Specifications</h3>
-                    <ul class="spec-list">
-                        {% for spec in specifications %}
-                        <li>
-                            <span class="spec-label">{{ spec.label }}:</span>
-                            <span class="spec-value">{{ spec.value }}</span>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                {% endif %}
-
-                <!-- Key Features -->
-                {% if features %}
-                <div class="features-section">
-                    <h3>Key Features</h3>
-                    <ul class="features-list">
-                        {% for feature in features %}
-                        <li>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="20 6 9 17 4 12"></polyline>
-                            </svg>
-                            {{ feature }}
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                {% endif %}
-
-                <!-- Trust Badges -->
-                <div class="trust-badges">
-                    <div class="badge-item">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                            <polyline points="7.5 4.21 12 6.81 16.5 4.21"></polyline>
-                            <polyline points="7.5 19.79 7.5 14.6 3 12"></polyline>
-                            <polyline points="21 12 16.5 14.6 16.5 19.79"></polyline>
-                            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                            <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                        </svg>
-                        <span>Free Shipping on $200+</span>
+                <!-- Size/Specifications Quick View -->
+                {% if product.size or product.color %}
+                <div class="product-options">
+                    {% if product.size %}
+                    <div class="option-group">
+                        <label>Size</label>
+                        <div class="option-value">{{ product.size }}</div>
                     </div>
-                    <div class="badge-item">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-                            <path d="M2 17l10 5 10-5M2 12l10 5 10-5"></path>
-                        </svg>
-                        <span>Custom Packaging Available</span>
+                    {% endif %}
+                    {% if product.color %}
+                    <div class="option-group">
+                        <label>Color</label>
+                        <div class="option-value">{{ product.color }}</div>
                     </div>
-                    <div class="badge-item">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <polyline points="12 6 12 12 16 14"></polyline>
-                        </svg>
-                        <span>Fast Turnaround Time</span>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                <!-- Quantity Selector -->
+                <div class="quantity-section">
+                    <label>Qty</label>
+                    <div class="quantity-selector">
+                        <button class="qty-btn minus" onclick="decrementQty()">-</button>
+                        <input type="number" id="quantity" value="1" min="1" readonly>
+                        <button class="qty-btn plus" onclick="incrementQty()">+</button>
                     </div>
                 </div>
 
                 <!-- CTA Buttons -->
-                <div class="product-actions">
-                    <a href="{% url 'core:quote_request' %}" class="btn btn-primary btn-large">Get a Quote</a>
-                    <a href="tel:+14164004747" class="btn btn-secondary btn-large">
+                <div class="product-actions-main">
+                    <a href="{% url 'core:quote_request' %}" class="btn-add-cart">GET A QUOTE</a>
+                    <a href="tel:+14164004747" class="btn-call">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                         </svg>
-                        Call Us
                     </a>
                 </div>
+
+                <!-- Trust Badges - Compact -->
+                <div class="trust-badges-compact">
+                    <div class="badge-compact">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                        </svg>
+                        <div>
+                            <strong>Free Shipping</strong>
+                            <span>On orders $200+</span>
+                        </div>
+                    </div>
+                    <div class="badge-compact">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="9 12 12 15 15 9"></polyline>
+                        </svg>
+                        <div>
+                            <strong>Secure Payment</strong>
+                            <span>Shop with confidence!</span>
+                        </div>
+                    </div>
+                    <div class="badge-compact">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                        </svg>
+                        <div>
+                            <strong>Custom Packaging</strong>
+                            <span>We are here to assist you</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Product Details Tabs (Full Width Below) -->
+        <div class="product-tabs-section">
+            <div class="tabs-nav">
+                <button class="tab-btn active" onclick="switchTab(event, 'description')">Description</button>
+                <button class="tab-btn" onclick="switchTab(event, 'specifications')">Specifications</button>
+                {% if features %}
+                <button class="tab-btn" onclick="switchTab(event, 'features')">Key Features</button>
+                {% endif %}
+            </div>
+            
+            <div class="tabs-content">
+                <!-- Description Tab -->
+                <div id="description" class="tab-panel active">
+                    {% if product.description %}
+                        <p>{{ product.description }}</p>
+                    {% else %}
+                        <p>Premium quality packaging solution designed for your business needs. Contact us for detailed product information.</p>
+                    {% endif %}
+                </div>
+                
+                <!-- Specifications Tab -->
+                <div id="specifications" class="tab-panel">
+                    {% if specifications %}
+                        <ul class="spec-list-tab">
+                            {% for spec in specifications %}
+                            <li>
+                                <strong>{{ spec.label }}:</strong> {{ spec.value }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>Contact us for detailed specifications.</p>
+                    {% endif %}
+                </div>
+                
+                <!-- Features Tab -->
+                {% if features %}
+                <div id="features" class="tab-panel">
+                    <ul class="features-list-tab">
+                        {% for feature in features %}
+                        <li>{{ feature }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>
 </section>
 
+
 <!-- Related Products -->
 {% if related_products %}
 <section class="related-products-section">
     <div class="container">
-        <h2 class="section-title">Related Products</h2>
+        <h2 class="section-title">You may also like</h2>
         <div class="related-products-grid">
             {% for related in related_products %}
             <a href="{% url 'core:product_detail' related.slug %}" class="related-product-card">
@@ -167,15 +206,37 @@
 {% endif %}
 
 <script>
+// Image gallery switcher
 function changeImage(imageUrl, thumbnail) {
-    // Update main image
     document.getElementById('mainImage').src = imageUrl;
-    
-    // Update active thumbnail
-    document.querySelectorAll('.thumbnail-item').forEach(item => {
+    document.querySelectorAll('.thumbnail-item-vertical').forEach(item => {
         item.classList.remove('active');
     });
     thumbnail.classList.add('active');
+}
+
+// Quantity controls
+function incrementQty() {
+    const qtyInput = document.getElementById('quantity');
+    qtyInput.value = parseInt(qtyInput.value) + 1;
+}
+
+function decrementQty() {
+    const qtyInput = document.getElementById('quantity');
+    if (parseInt(qtyInput.value) > 1) {
+        qtyInput.value = parseInt(qtyInput.value) - 1;
+    }
+}
+
+// Tab switcher
+function switchTab(event, tabId) {
+    // Remove active from all tabs and panels
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+    
+    // Add active to clicked tab and corresponding panel
+    event.target.classList.add('active');
+    document.getElementById(tabId).classList.add('active');
 }
 </script>
 {% endblock %}
