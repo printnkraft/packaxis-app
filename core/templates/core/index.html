@@ -46,9 +46,8 @@
     <section id="products" class="products">
         <div class="container">
             <div class="section-header">
-                <span class="section-tag">Featured: Brown Kraft Bags</span>
-                <h2 class="section-title">Sustainable Brown Kraft Paper Bags in Bulk</h2>
-                <p class="section-description">Discover our premium brown kraft paper bags - the eco-friendly choice for conscious businesses. Made from 100% recyclable kraft paper, available in bulk quantities with custom branding options. Perfect for restaurants, grocery stores, and retailers across Canada.</p>
+                <h2 class="section-title">Premium Brown Kraft Paper Bags in Bulk</h2>
+                <p class="section-description">100% recyclable kraft paper bags with custom branding. Perfect for restaurants, retailers, and grocery stores across Canada.</p>
             </div>
             <div class="products-slider-wrapper">
                 <button class="slider-btn prev-btn" aria-label="Previous">
@@ -57,23 +56,23 @@
                     </svg>
                 </button>
                 <div class="products-slider">
-                {% for product in products %}
-                <div class="product-slide" onclick="window.location.href='{% url 'core:product_detail' product.slug %}'" style="cursor: pointer;">
-                    {% if product.order == 1 %}
+                {% for product_category in product_categories %}
+                <div class="product-slide" onclick="window.location.href='{% url 'core:product_detail' product_category.slug %}'" style="cursor: pointer;">
+                    {% if product_category.order == 1 %}
                     <div class="product-badge">Bestseller</div>
                     {% endif %}
                     <div class="product-image">
-                        <img src="{{ product.image.url }}" alt="{{ product.title }} - Custom paper bags for retail and wholesale in Canada" loading="lazy">
+                        <img src="{{ product_category.image.url }}" alt="{{ product_category.title }} - Custom paper bags for retail and wholesale in Canada" loading="lazy">
                     </div>
                     <div class="product-content">
-                        <h3>{{ product.title }}</h3>
-                        <p>{{ product.description|truncatewords:10 }}</p>
+                        <h3>{{ product_category.title }}</h3>
+                        <p>{{ product_category.description|truncatewords:10 }}</p>
                     </div>
                 </div>
                 {% empty %}
                 <div class="product-slide">
                     <div class="product-content">
-                        <p>No products available at the moment.</p>
+                        <p>No product categories available at the moment.</p>
                     </div>
                 </div>
                 {% endfor %}
@@ -92,10 +91,9 @@
         <div class="container">
             <div class="about-content">
                 <div class="about-text">
-                    <span class="section-tag">About PackAxis Canada</span>
                     <h2 class="section-title">Quality Packaging, Delivered</h2>
-                    <p>For over a decade, PackAxis has been Canada's go-to wholesale supplier for custom paper bags and eco-friendly packaging. Serving restaurants, retailers, and businesses from Toronto to coast-to-coast, we bring expertise and reliability to every order.</p>
-                    <p>Whether you need kraft paper bags in bulk, custom branded shopping bags, or recyclable packaging solutions, we've got you covered. Our commitment to quality, sustainability, and exceptional service has made us a trusted partner for thousands of Canadian businesses.</p>
+                    <p>For over a decade, PackAxis has been Canada's trusted wholesale supplier for custom paper bags and eco-friendly packaging. We serve businesses coast-to-coast with expertise and reliability.</p>
+                    <p>From kraft bags in bulk to custom branded packaging, we deliver quality, sustainability, and exceptional service to thousands of Canadian businesses.</p>
                     <div class="about-features">
                         <div class="about-feature">
                             <div class="check-icon">✓</div>
@@ -122,10 +120,42 @@
                             <span>Excellent Logistics</span>
                         </div>
                     </div>
-                    <a href="#contact" class="btn btn-primary">Contact Us Today</a>
+                    <a href="/about/" class="btn btn-primary">About Us</a>
                 </div>
                 <div class="about-image">
                     <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=800&fit=crop" alt="PackAxis paper bag manufacturing facility - sustainable packaging production in Canada" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sustainability Features Section -->
+    <section class="sustainability-features">
+        <div class="container">
+            <div class="sustainability-grid">
+                <div class="sustainability-item">
+                    <div class="sustainability-icon">
+                        <i class="fa-solid fa-leaf"></i>
+                    </div>
+                    <h4>Sustainable Resources</h4>
+                </div>
+                <div class="sustainability-item">
+                    <div class="sustainability-icon">
+                        <i class="fa-solid fa-recycle"></i>
+                    </div>
+                    <h4>Recyclable</h4>
+                </div>
+                <div class="sustainability-item">
+                    <div class="sustainability-icon">
+                        <i class="fa-solid fa-pen-nib"></i>
+                    </div>
+                    <h4>Custom Printing</h4>
+                </div>
+                <div class="sustainability-item">
+                    <div class="sustainability-icon">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <h4>Quality Printing</h4>
                 </div>
             </div>
         </div>
@@ -136,9 +166,8 @@
         <div class="container">
             <div class="contact-wrapper">
                 <div class="contact-info">
-                    <span class="section-tag">Get In Touch</span>
                     <h2 class="section-title">Let's Talk About Your Packaging Needs</h2>
-                    <p>Ready to elevate your brand with custom paper bags? Get wholesale pricing on kraft paper bags in bulk, branded shopping bags, and recyclable packaging. We're here to help restaurants, retailers, and businesses across Toronto and Canada find the perfect eco-friendly solution.</p>
+                    <p>Ready to elevate your brand with custom paper bags? Get wholesale pricing on kraft bags, branded packaging, and eco-friendly solutions for businesses across Canada.</p>
                     <div class="contact-details">
                         <div class="contact-item">
                             <div class="contact-icon">
@@ -163,18 +192,6 @@
                                 <p>hello@packaxis.ca</p>
                             </div>
                         </div>
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                                    <circle cx="12" cy="10" r="3"/>
-                                </svg>
-                            </div>
-                            <div>
-                                <h4>Location</h4>
-                                <p>Serving all of Canada</p>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <form class="contact-form" method="post" action="{% url 'core:index' %}">
@@ -194,7 +211,7 @@
                     <div class="form-group full-width">
                         <textarea name="message" placeholder="Tell us about your paper bag requirements..." rows="4" required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Send Message</button>
+                    <button type="submit" class="btn btn-primary btn-submit">Get In Touch</button>
                     {% if messages %}
                         <div class="messages-container form-messages">
                             {% for message in messages %}
