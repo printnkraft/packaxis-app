@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import MenuItem, Product, Service, Quote, FAQ, Industry
+from .models import MenuItem, Product, ProductCategory, Service, Quote, FAQ, Industry
 import logging
 
 logger = logging.getLogger(__name__)
@@ -61,11 +61,11 @@ def index(request):
         from django.http import HttpResponseRedirect
         return HttpResponseRedirect('/#contact')
     
-    products = Product.objects.filter(is_active=True)
+    product_categories = ProductCategory.objects.filter(is_active=True)
     services = Service.objects.filter(is_active=True)
     industries = Industry.objects.filter(is_active=True).exclude(image='')
     context = {
-        'products': products,
+        'product_categories': product_categories,
         'services': services,
         'industries': industries
     }
@@ -83,10 +83,10 @@ def services_page(request):
     return render(request, 'core/services.html', context)
 
 def products_page(request):
-    """Display all products on a dedicated page"""
-    products = Product.objects.filter(is_active=True)
+    """Display all product categories on a dedicated page"""
+    product_categories = ProductCategory.objects.filter(is_active=True)
     context = {
-        'products': products,
+        'product_categories': product_categories,
     }
     return render(request, 'core/products.html', context)
 
@@ -105,17 +105,30 @@ def terms_of_service(request):
     return render(request, 'core/terms-of-service.html')
 
 def product_detail(request, slug):
-    """Dynamic product detail view using slug"""
-    product = get_object_or_404(Product, slug=slug, is_active=True)
-    context = {
-        'product': product,
-        'product_name': product.title,
-        'category': product.category,
-        'product_description': product.description,
-        'product_image': product.image.url if product.image else '',
-        'specifications': product.get_specifications(),
-        'features': product.get_features(),
-    }
+    """Dynamic product category detail view using slug"""
+    # Try ProductCategory first, fallback to old Product for backward compatibility
+    try:
+        product_category = get_object_or_404(ProductCategory, slug=slug, is_active=True)
+        context = {
+            'product': product_category,
+            'product_name': product_category.title,
+            'category': product_category.description,
+            'product_description': product_category.description,
+            'product_image': product_category.image.url if product_category.image else '',
+            'specifications': product_category.get_specifications(),
+            'features': product_category.get_features(),
+        }
+    except:
+        product = get_object_or_404(Product, slug=slug, is_active=True)
+        context = {
+            'product': product,
+            'product_name': product.title,
+            'category': product.category,
+            'product_description': product.description,
+            'product_image': product.image.url if product.image else '',
+            'specifications': product.get_specifications(),
+            'features': product.get_features(),
+        }
     return render(request, 'core/product-detail.html', context)
     context = {
         'product_name': 'Shopping Paper Bags',
@@ -254,7 +267,7 @@ def product_detail(request, slug):
 
 def quote_request(request):
     """Quote request page with form"""
-    products = Product.objects.filter(is_active=True)
+    product_categories = ProductCategory.objects.filter(is_active=True)
     
     if request.method == 'POST':
         try:
@@ -327,15 +340,15 @@ Submitted: {quote.created_at.strftime('%Y-%m-%d %H:%M:%S')}
             messages.error(request, f'An error occurred: {str(e)}. Please try again or contact us directly.')
     
     context = {
-        'products': products,
+        'product_categories': product_categories,
     }
     return render(request, 'core/quote.html', context)
 
 # Industry-Specific Landing Pages
 def restaurant_paper_bags(request):
-    products = Product.objects.filter(is_active=True).order_by('order')
+    product_categories = ProductCategory.objects.filter(is_active=True).order_by('order')
     context = {
-        'products': products,
+        'product_categories': product_categories,
         'industry': 'restaurant',
         'title': 'Restaurant Paper Bags',
         'subtitle': 'Food-Safe, Grease-Resistant Paper Bags for Restaurants & Takeout',
@@ -344,9 +357,9 @@ def restaurant_paper_bags(request):
     return render(request, 'core/industry-pages/restaurant.html', context)
 
 def retail_paper_bags(request):
-    products = Product.objects.filter(is_active=True).order_by('order')
+    product_categories = ProductCategory.objects.filter(is_active=True).order_by('order')
     context = {
-        'products': products,
+        'product_categories': product_categories,
         'industry': 'retail',
         'title': 'Retail Paper Bags',
         'subtitle': 'Custom Branded Shopping Bags for Retail Stores',
@@ -355,9 +368,9 @@ def retail_paper_bags(request):
     return render(request, 'core/industry-pages/retail.html', context)
 
 def boutique_packaging(request):
-    products = Product.objects.filter(is_active=True).order_by('order')
+    product_categories = ProductCategory.objects.filter(is_active=True).order_by('order')
     context = {
-        'products': products,
+        'product_categories': product_categories,
         'industry': 'boutique',
         'title': 'Boutique Packaging',
         'subtitle': 'Premium Luxury Paper Bags for High-End Boutiques',
@@ -366,9 +379,9 @@ def boutique_packaging(request):
     return render(request, 'core/industry-pages/boutique.html', context)
 
 def grocery_paper_bags(request):
-    products = Product.objects.filter(is_active=True).order_by('order')
+    product_categories = ProductCategory.objects.filter(is_active=True).order_by('order')
     context = {
-        'products': products,
+        'product_categories': product_categories,
         'industry': 'grocery',
         'title': 'Grocery Paper Bags',
         'subtitle': 'Heavy-Duty Paper Bags for Grocery Stores & Supermarkets',
@@ -377,9 +390,9 @@ def grocery_paper_bags(request):
     return render(request, 'core/industry-pages/grocery.html', context)
 
 def bakery_paper_bags(request):
-    products = Product.objects.filter(is_active=True).order_by('order')
+    product_categories = ProductCategory.objects.filter(is_active=True).order_by('order')
     context = {
-        'products': products,
+        'product_categories': product_categories,
         'industry': 'bakery',
         'title': 'Bakery Paper Bags',
         'subtitle': 'Food-Grade Paper Bags for Bakeries, Cafes & Pastry Shops',

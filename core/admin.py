@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import MenuItem, Product, Service, Quote, FAQ, Industry
+from .models import MenuItem, Product, ProductCategory, Service, Quote, FAQ, Industry
 
 @admin.register(MenuItem)
 class MenuItemAdmin(admin.ModelAdmin):
@@ -25,6 +25,42 @@ class MenuItemAdmin(admin.ModelAdmin):
     has_children.short_description = 'Has Dropdown'
 
 
+@admin.register(ProductCategory)
+class ProductCategoryAdmin(admin.ModelAdmin):
+    list_display = ['image_preview', 'title', 'description', 'order', 'is_active', 'created_at']
+    list_filter = ['is_active', 'created_at']
+    list_editable = ['order', 'is_active']
+    search_fields = ['title', 'description']
+    prepopulated_fields = {'slug': ('title',)}
+    list_per_page = 20
+    
+    fieldsets = (
+        ('Basic Information', {
+            'fields': ('title', 'slug', 'description', 'image'),
+            'description': 'Core category information displayed on the website'
+        }),
+        ('Category Specifications', {
+            'fields': ('material', 'gsm_range', 'handle_type', 'customization'),
+            'description': 'Technical specifications shown on category detail page',
+            'classes': ('collapse',)
+        }),
+        ('Category Features', {
+            'fields': ('feature_1', 'feature_2', 'feature_3', 'feature_4', 'feature_5', 'feature_6'),
+            'description': 'Add up to 6 key features (leave blank if not needed)',
+            'classes': ('collapse',)
+        }),
+        ('Display Settings', {
+            'fields': ('order', 'is_active')
+        }),
+    )
+    
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" style="max-height: 50px; max-width: 50px; object-fit: cover; border-radius: 8px;" />', obj.image.url)
+        return "No image"
+    image_preview.short_description = 'Preview'
+
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['image_preview', 'title', 'category', 'order', 'is_active', 'created_at']
@@ -35,6 +71,10 @@ class ProductAdmin(admin.ModelAdmin):
     list_per_page = 20
     
     fieldsets = (
+        ('⚠️ DEPRECATED - Use Product Categories Instead', {
+            'fields': (),
+            'description': 'This model is deprecated. Please use "Product Categories" for new entries.'
+        }),
         ('Basic Information', {
             'fields': ('title', 'slug', 'category', 'description', 'image'),
             'description': 'Core product information displayed on the website'
