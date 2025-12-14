@@ -19,11 +19,27 @@
     --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06);
     --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.08);
     --shadow-xl: 0 16px 56px rgba(0, 0, 0, 0.10);
-    --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 html {
     scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
 }
 
 body {
@@ -35,6 +51,30 @@ body {
     width: 100%;
     max-width: 100vw;
     position: relative;
+}
+
+/* Smooth scrolling for all elements */
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Hardware acceleration for transforms */
+.product-slide,
+.industry-card,
+.feature-card,
+.btn,
+.cta-button,
+.nav-link {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+/* Improve text rendering */
+h1, h2, h3, h4, h5, h6, p, a, span, button {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }
 
 .container {
@@ -62,8 +102,9 @@ section {
     backdrop-filter: blur(20px);
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
     z-index: 1000;
-    transition: var(--transition);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+    transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                background 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n    border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+    will-change: transform;
 }
 
 .navbar.scrolled {
@@ -453,9 +494,11 @@ section {
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     cursor: pointer;
+    will-change: transform;
 }
 
 .product-slide:hover {
@@ -489,7 +532,8 @@ section {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: var(--transition);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
 }
 
 .product-slide:hover .product-image img {
@@ -637,10 +681,13 @@ section {
     padding: 1.75rem;
     border-radius: 20px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border: 1px solid rgba(255, 255, 255, 0.1);
     position: relative;
     overflow: hidden;
+    will-change: transform;
 }
 
 .feature-card::before {
@@ -652,7 +699,8 @@ section {
     height: 100%;
     background: linear-gradient(135deg, rgba(57, 183, 93, 0.1) 0%, rgba(255, 107, 53, 0.1) 100%);
     opacity: 0;
-    transition: opacity 0.4s ease;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: opacity;
 }
 
 .feature-card:hover::before {
@@ -677,7 +725,8 @@ section {
     box-shadow: 0 8px 24px rgba(57, 183, 93, 0.4);
     position: relative;
     z-index: 2;
-    transition: all 0.4s ease;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
 }
 
 .feature-card:hover .feature-icon {
@@ -741,7 +790,8 @@ section {
     flex-direction: column;
     align-items: center;
     gap: 1.25rem;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
 }
 
 .industry-card:hover {
@@ -758,8 +808,10 @@ section {
     align-items: center;
     justify-content: center;
     box-shadow: 0 2px 6px rgba(45, 122, 78, 0.1);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
+    will-change: transform;
 }
 
 .industry-image::before {
@@ -781,7 +833,8 @@ section {
     object-fit: contain;
     position: relative;
     z-index: 2;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
 }
 
 .industry-card:hover .industry-image img {
@@ -793,7 +846,7 @@ section {
     font-weight: 700;
     color: var(--text-dark);
     margin: 0;
-    transition: color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .industry-card:hover h3 {
