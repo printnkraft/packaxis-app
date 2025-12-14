@@ -112,54 +112,6 @@ def faq(request):
 def terms_of_service(request):
     return render(request, 'core/terms-of-service.html')
 
-def product_detail(request, slug):
-    """Dynamic product category detail view using slug"""
-    # Try ProductCategory first, fallback to old Product for backward compatibility
-    try:
-        product_category = get_object_or_404(ProductCategory, slug=slug, is_active=True)
-        context = {
-            'product': product_category,
-            'product_name': product_category.title,
-            'category': product_category.description,
-            'product_description': product_category.description,
-            'product_image': product_category.image.url if product_category.image else '',
-            'specifications': product_category.get_specifications(),
-            'features': product_category.get_features(),
-        }
-    except:
-        product = get_object_or_404(Product, slug=slug, is_active=True)
-        context = {
-            'product': product,
-            'product_name': product.title,
-            'category': product.category,
-            'product_description': product.description,
-            'product_image': product.image.url if product.image else '',
-            'specifications': product.get_specifications(),
-            'features': product.get_features(),
-        }
-    return render(request, 'core/product-detail.html', context)
-    context = {
-        'product_name': 'Shopping Paper Bags',
-        'category': 'Retail Packaging',
-        'product_description': 'Premium kraft paper bags perfect for retail stores, boutiques, and shopping centers. Durable, eco-friendly, and customizable to match your brand.',
-        'product_image': 'images/assests/products/Shopping Paper Bags.jpg',
-        'specifications': [
-            {'title': 'Material', 'description': 'Premium Kraft Paper'},
-            {'title': 'GSM Range', 'description': '100-300 GSM'},
-            {'title': 'Handle Type', 'description': 'Twisted/Flat Paper Handles'},
-            {'title': 'Sizes', 'description': 'Multiple sizes available'},
-        ],
-        'features': [
-            'Customizable with your logo and branding',
-            '100% Recyclable and biodegradable',
-            'Strong reinforced handles',
-            'Ideal for retail and shopping',
-            'Available in bulk quantities',
-            'Fast turnaround time',
-        ]
-    }
-    return render(request, 'core/product-detail.html', context)
-
 def brown_kraft_bags(request):
     context = {
         'product_name': 'Brown Kraft Bags',
@@ -261,14 +213,23 @@ def terms_of_service(request):
 def product_detail(request, slug):
     """Dynamic product detail view using slug"""
     product = get_object_or_404(Product, slug=slug, is_active=True)
+    
+    # Get related products from the same category
+    related_products = Product.objects.filter(
+        category=product.category,
+        is_active=True
+    ).exclude(id=product.id)[:4]
+    
     context = {
         'product': product,
         'product_name': product.title,
         'category': product.category,
         'product_description': product.description,
         'product_image': product.image.url if product.image else '',
+        'product_images': product.get_all_images(),
         'specifications': product.get_specifications(),
         'features': product.get_features(),
+        'related_products': related_products,
     }
     return render(request, 'core/product-detail.html', context)
 

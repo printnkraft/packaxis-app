@@ -1,378 +1,135 @@
 {% extends 'core/base.html' %}
 {% load static %}
 
-{% block title %}{{ product_name }} - PackAxis Packaging Canada{% endblock %}
-
-{% block extra_css %}
-<style>
-    .product-hero {
-        background: white;
-        padding: 8rem 0 5rem;
-        border-bottom: 1px solid #e5e7eb;
-    }
-
-    .product-hero-content {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 5rem;
-        align-items: center;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-
-    .product-hero-image {
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-        max-width: 450px;
-        margin: 0 auto;
-    }
-
-    .product-hero-image img {
-        width: 100%;
-        height: auto;
-        display: block;
-        object-fit: cover;
-    }
-
-    .product-hero-text h1 {
-        font-size: 3rem;
-        font-weight: 800;
-        line-height: 1.2;
-        margin-bottom: 1.5rem;
-        color: var(--text-dark);
-        letter-spacing: -0.02em;
-    }
-
-    .product-hero-text .section-tag {
-        font-size: 0.875rem;
-        letter-spacing: 2px;
-        margin-bottom: 1rem;
-        display: inline-block;
-        color: var(--primary-color);
-        font-weight: 600;
-        text-transform: uppercase;
-        padding: 0.5rem 1rem;
-        background: rgba(45, 122, 78, 0.1);
-        border-radius: 50px;
-    }
-
-    .product-hero-text p {
-        font-size: 1.125rem;
-        line-height: 1.8;
-        color: var(--text-light);
-        margin-bottom: 2rem;
-    }
-
-    .cta-buttons {
-        display: flex;
-        gap: 1rem;
-        margin-top: 2.5rem;
-    }
-
-    .btn-primary-custom {
-        background: linear-gradient(135deg, var(--primary-color) 0%, #1a5d38 100%);
-        color: white;
-        padding: 1rem 2rem;
-        border-radius: 50px;
-        font-weight: 600;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(45, 122, 78, 0.3);
-    }
-
-    .btn-primary-custom:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(45, 122, 78, 0.4);
-    }
-
-    .btn-secondary-custom {
-        background: white;
-        color: var(--primary-color);
-        padding: 1rem 2rem;
-        border-radius: 50px;
-        font-weight: 600;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        border: 2px solid var(--primary-color);
-        transition: all 0.3s ease;
-    }
-
-    .btn-secondary-custom:hover {
-        background: var(--primary-color);
-        color: white;
-    }
-
-    .product-specs {
-        background: #fafafa;
-        padding: 5rem 0;
-    }
-
-    .section-header-premium {
-        text-align: center;
-        margin-bottom: 3.5rem;
-    }
-
-    .section-header-premium h2 {
-        font-size: 2.75rem;
-        font-weight: 900;
-        color: var(--text-dark);
-        margin-bottom: 1rem;
-        line-height: 1.2;
-    }
-
-    .section-header-premium p {
-        font-size: 1.125rem;
-        color: var(--text-light);
-        max-width: 700px;
-        margin: 0 auto;
-        line-height: 1.7;
-    }
-
-    .specs-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 2rem;
-        margin-top: 3rem;
-    }
-
-    .spec-card {
-        background: white;
-        padding: 2rem;
-        border-radius: 16px;
-        border: 1px solid var(--border-color);
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .spec-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 4px;
-        height: 100%;
-        background: linear-gradient(180deg, var(--primary-color), var(--accent-color));
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-
-    .spec-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 30px rgba(45, 122, 78, 0.15);
-        border-color: var(--primary-color);
-    }
-
-    .spec-card:hover::before {
-        opacity: 1;
-    }
-
-    .spec-card h3 {
-        font-size: 0.875rem;
-        font-weight: 700;
-        margin-bottom: 0.75rem;
-        color: var(--primary-color);
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-    .spec-card h3::before {
-        content: '▸';
-        font-size: 1rem;
-        color: var(--accent-color);
-    }
-
-    .spec-card p {
-        color: var(--text-dark);
-        font-size: 1.15rem;
-        line-height: 1.6;
-        font-weight: 600;
-        padding-left: 1.5rem;
-    }
-
-    .features-section {
-        background: white;
-        padding: 5rem 0;
-    }
-
-    .features-grid-premium {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-        gap: 1.5rem;
-        margin-top: 3rem;
-    }
-
-    .feature-card-premium {
-        background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
-        padding: 1.75rem;
-        border-radius: 16px;
-        display: flex;
-        align-items: center;
-        gap: 1.25rem;
-        border: 2px solid transparent;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .feature-card-premium::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        border-radius: 16px;
-        padding: 2px;
-        background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        -webkit-mask-composite: xor;
-        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        mask-composite: exclude;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-
-    .feature-card-premium:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 12px 30px rgba(45, 122, 78, 0.12);
-    }
-
-    .feature-card-premium:hover::before {
-        opacity: 1;
-    }
-
-    .feature-icon-premium {
-        flex-shrink: 0;
-        width: 48px;
-        height: 48px;
-        background: linear-gradient(135deg, var(--primary-color) 0%, #1a5d38 100%);
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 1.25rem;
-        font-weight: 700;
-        box-shadow: 0 4px 12px rgba(45, 122, 78, 0.25);
-    }
-
-    .feature-content-premium p {
-        color: var(--text-dark);
-        line-height: 1.7;
-        font-size: 1.05rem;
-        margin: 0;
-        font-weight: 500;
-    }
-
-    .cta-section {
-        background: var(--primary-color);
-        padding: 5rem 0;
-        text-align: center;
-        color: white;
-    }
-
-    .cta-content {
-        max-width: 700px;
-        margin: 0 auto;
-    }
-
-    .cta-content h2 {
-        font-size: 2.5rem;
-        font-weight: 800;
-        margin-bottom: 1rem;
-        color: white;
-        line-height: 1.3;
-        letter-spacing: -0.02em;
-    }
-
-    .cta-content p {
-        font-size: 1.125rem;
-        margin-bottom: 2rem;
-        opacity: 0.95;
-        line-height: 1.6;
-    }
-
-    .cta-content .btn-cta {
-        background: white;
-        color: var(--primary-color);
-        padding: 1rem 2.5rem;
-        border-radius: 50px;
-        font-weight: 600;
-        font-size: 1.05rem;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.75rem;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .cta-content .btn-cta:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-    }
-
-    @media (max-width: 768px) {
-        .product-hero-content {
-            grid-template-columns: 1fr;
-            gap: 3rem;
-        }
-
-        .product-hero-image {
-            padding: 2rem;
-        }
-
-        .product-hero-text h1 {
-            font-size: 2.5rem;
-        }
-
-        .cta-buttons {
-            flex-direction: column;
-        }
-
-        .specs-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .features-grid-premium {
-            grid-template-columns: 1fr;
-        }
-
-        .cta-content h2 {
-            font-size: 2rem;
-        }
-    }
-</style>
-{% endblock %}
+{% block title %}{{ product.title }} - {{ product.category.title }} | PackAxis Packaging{% endblock %}
 
 {% block content %}
-<section class="product-hero" style="padding-top: 100px;">
+<!-- Product Detail Section -->
+<section class="product-detail-section">
     <div class="container">
-        <div class="product-hero-content">
-            <div class="product-hero-image">
-                <img src="{{ product.image.url }}" alt="{{ product_name }} - Custom printed paper bags available in multiple sizes and GSM options for Canadian retailers">
+        <div class="product-detail-wrapper">
+            <!-- Image Gallery -->
+            <div class="product-gallery">
+                <div class="main-image-container">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.title }}" class="main-product-image" id="mainImage">
+                        {% if product.price_range %}
+                        <span class="discount-badge">Best Price</span>
+                        {% endif %}
+                    {% else %}
+                        <div class="image-placeholder">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                <polyline points="21 15 16 10 5 21"></polyline>
+                            </svg>
+                        </div>
+                    {% endif %}
+                </div>
+                
+                {% if product_images|length > 1 %}
+                <div class="thumbnail-gallery">
+                    {% for img in product_images %}
+                        <div class="thumbnail-item {% if forloop.first %}active{% endif %}" onclick="changeImage('{{ img.url }}', this)">
+                            <img src="{{ img.url }}" alt="{{ img.alt }}">
+                        </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
-            <div class="product-hero-text">
-                <span class="section-tag">{{ category }}</span>
-                <h1>{{ product_name }}</h1>
-                <p>{{ product_description }}</p>
-                <div class="cta-buttons">
-                    <a href="{% url 'core:quote_request' %}" class="btn-primary-custom">
-                        Request a Quote
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                            <polyline points="12 5 19 12 12 19"></polyline>
+
+            <!-- Product Info -->
+            <div class="product-info">
+                <!-- Breadcrumb -->
+                <div class="breadcrumb-product">
+                    <a href="{% url 'core:index' %}">Home</a>
+                    <span>/</span>
+                    <a href="{% url 'core:products' %}">Products</a>
+                    <span>/</span>
+                    <span>{{ product.category.title }}</span>
+                </div>
+
+                <h1 class="product-title">{{ product.title }}</h1>
+                
+                {% if product.price_range %}
+                <div class="product-pricing">
+                    <span class="price-label">Price Range:</span>
+                    <span class="price-value">{{ product.price_range }}</span>
+                </div>
+                {% endif %}
+
+                {% if product.description %}
+                <div class="product-description">
+                    <p>{{ product.description }}</p>
+                </div>
+                {% endif %}
+
+                <!-- Specifications -->
+                {% if specifications %}
+                <div class="specifications-section">
+                    <h3>Specifications</h3>
+                    <ul class="spec-list">
+                        {% for spec in specifications %}
+                        <li>
+                            <span class="spec-label">{{ spec.label }}:</span>
+                            <span class="spec-value">{{ spec.value }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+                <!-- Key Features -->
+                {% if features %}
+                <div class="features-section">
+                    <h3>Key Features</h3>
+                    <ul class="features-list">
+                        {% for feature in features %}
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            {{ feature }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+                <!-- Trust Badges -->
+                <div class="trust-badges">
+                    <div class="badge-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                            <polyline points="7.5 4.21 12 6.81 16.5 4.21"></polyline>
+                            <polyline points="7.5 19.79 7.5 14.6 3 12"></polyline>
+                            <polyline points="21 12 16.5 14.6 16.5 19.79"></polyline>
+                            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                            <line x1="12" y1="22.08" x2="12" y2="12"></line>
                         </svg>
-                    </a>
-                    <a href="tel:+12499892496" class="btn-secondary-custom">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <span>Free Shipping on $200+</span>
+                    </div>
+                    <div class="badge-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                            <path d="M2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                        </svg>
+                        <span>Custom Packaging Available</span>
+                    </div>
+                    <div class="badge-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        <span>Fast Turnaround Time</span>
+                    </div>
+                </div>
+
+                <!-- CTA Buttons -->
+                <div class="product-actions">
+                    <a href="{% url 'core:quote_request' %}" class="btn btn-primary btn-large">Get a Quote</a>
+                    <a href="tel:+14164004747" class="btn btn-secondary btn-large">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                         </svg>
                         Call Us
@@ -383,53 +140,42 @@
     </div>
 </section>
 
-<section class="product-specs">
+<!-- Related Products -->
+{% if related_products %}
+<section class="related-products-section">
     <div class="container">
-        <div class="section-header-premium">
-            <h2>Product Specifications</h2>
-            <p>High-quality materials and construction for exceptional durability and performance</p>
-        </div>
-        <div class="specs-grid">
-            {% for spec in specifications %}
-            <div class="spec-card">
-                <h3>{{ spec.label }}</h3>
-                <p>{{ spec.value }}</p>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-</section>
-
-<section class="features-section">
-    <div class="container">
-        <div class="section-header-premium">
-            <h2>Key Features & Benefits</h2>
-            <p>Discover what makes our {{ product_name }} the perfect choice for your business</p>
-        </div>
-        <div class="features-grid-premium">
-            {% for feature in features %}
-            <div class="feature-card-premium">
-                <div class="feature-icon-premium">✓</div>
-                <div class="feature-content-premium">
-                    <p>{{ feature }}</p>
+        <h2 class="section-title">Related Products</h2>
+        <div class="related-products-grid">
+            {% for related in related_products %}
+            <a href="{% url 'core:product_detail' related.slug %}" class="related-product-card">
+                {% if related.image %}
+                    <div class="related-product-image">
+                        <img src="{{ related.image.url }}" alt="{{ related.title }}">
+                    </div>
+                {% endif %}
+                <div class="related-product-info">
+                    <h3>{{ related.title }}</h3>
+                    {% if related.price_range %}
+                        <p class="related-price">{{ related.price_range }}</p>
+                    {% endif %}
                 </div>
-            </div>
+            </a>
             {% endfor %}
         </div>
     </div>
 </section>
+{% endif %}
 
-<section class="cta-section">
-    <div class="cta-content">
-        <h2>Ready to Order {{ product_name }}?</h2>
-        <p>Get competitive pricing on bulk orders. Contact our team today for a custom quote tailored to your business needs.</p>
-        <a href="{% url 'core:quote_request' %}" class="btn-cta">
-            Get Your Custom Quote
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-        </a>
-    </div>
-</section>
+<script>
+function changeImage(imageUrl, thumbnail) {
+    // Update main image
+    document.getElementById('mainImage').src = imageUrl;
+    
+    // Update active thumbnail
+    document.querySelectorAll('.thumbnail-item').forEach(item => {
+        item.classList.remove('active');
+    });
+    thumbnail.classList.add('active');
+}
+</script>
 {% endblock %}
