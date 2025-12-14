@@ -55,16 +55,22 @@ class ProductCategoryAdmin(admin.ModelAdmin):
     )
     
     def image_preview(self, obj):
-        if obj.image:
-            return format_html('<img src="{}" style="max-height: 50px; max-width: 50px; object-fit: cover; border-radius: 8px;" />', obj.image.url)
+        try:
+            if obj.image:
+                return format_html('<img src="{}" style="max-height: 50px; max-width: 50px; object-fit: cover; border-radius: 8px;" />', obj.image.url)
+        except Exception:
+            pass
         return "No image"
     image_preview.short_description = 'Preview'
     
     def product_count(self, obj):
-        count = obj.products.count()
-        if count > 0:
-            return format_html('<span style="color: green; font-weight: bold;">{}</span>', count)
-        return format_html('<span style="color: gray;">0</span>')
+        try:
+            count = obj.products.count()
+            if count > 0:
+                return format_html('<span style="color: green; font-weight: bold;">{}</span>', count)
+            return format_html('<span style="color: gray;">0</span>')
+        except Exception:
+            return format_html('<span style="color: gray;">-</span>')
     product_count.short_description = 'Products'
 
 
