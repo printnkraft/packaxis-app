@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import MenuItem, Product, ProductCategory, Service, Quote, FAQ, Industry
+from .models import MenuItem, Product, ProductImage, ProductCategory, Service, Quote, FAQ, Industry
 
 @admin.register(MenuItem)
 class MenuItemAdmin(admin.ModelAdmin):
@@ -27,7 +27,7 @@ class MenuItemAdmin(admin.ModelAdmin):
 
 @admin.register(ProductCategory)
 class ProductCategoryAdmin(admin.ModelAdmin):
-    list_display = ['image_preview', 'title', 'description', 'order', 'is_active', 'created_at']
+    list_display = ['image_preview', 'title', 'description', 'product_count', 'order', 'is_active', 'created_at']
     list_filter = ['is_active', 'created_at']
     list_editable = ['order', 'is_active']
     search_fields = ['title', 'description']
@@ -59,49 +59,64 @@ class ProductCategoryAdmin(admin.ModelAdmin):
             return format_html('<img src="{}" style="max-height: 50px; max-width: 50px; object-fit: cover; border-radius: 8px;" />', obj.image.url)
         return "No image"
     image_preview.short_description = 'Preview'
+    
+    def product_count(self, obj):
+        count = obj.products.count()
+        if count > 0:
+            return format_html('<span style="color: green; font-weight: bold;">{}</span>', count)
+        return format_html('<span style="color: gray;">0</span>')
+    product_count.short_description = 'Products'
+
+
+class ProductImageInline(admin.TabularInline):
+    model = ProductImage
+    extra = 1
+    fields = ['image', 'alt_text', 'order', 'is_active', 'image_preview']
+    readonly_fields = ['image_preview']
+    
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" style="max-height: 80px; max-width: 80px; object-fit: cover; border-radius: 8px;" />', obj.image.url)
+        return "No image"
+    image_preview.short_description = 'Preview'
 
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['image_preview', 'title', 'category', 'order', 'is_active', 'created_at']
-    list_filter = ['is_active', 'category', 'created_at']
-    list_editable = ['order', 'is_active']
-    search_fields = ['title', 'description', 'category']
+    list_display = ['image_preview', 'title', 'category', 'size', 'gsm', 'order', 'is_active', 'is_featured']
+    list_filter = ['is_active', 'is_featured', 'category', 'created_at']
+    list_editable = ['order', 'is_active', 'is_featured']
+    search_fields = ['title', 'description', 'category__title']
     prepopulated_fields = {'slug': ('title',)}
     list_per_page = 20
+    autocomplete_fields = ['category']
+    inlines = [ProductImageInline]
     
     fieldsets = (
-        ('⚠️ DEPRECATED - Use Product Categories Instead', {
-            'fields': (),
-            'description': 'This model is deprecated. Please use "Product Categories" for new entries.'
-        }),
         ('Basic Information', {
-            'fields': ('title', 'slug', 'category', 'description', 'image'),
-            'description': 'Core product information displayed on the website'
+            'fields': ('category', 'title', 'slug', 'description', 'image'),
+            'description': 'Core product information'
         }),
         ('Product Specifications', {
-            'fields': ('material', 'gsm_range', 'handle_type', 'customization'),
-            'description': 'Technical specifications shown on product detail page',
+            'fields': ('size', 'gsm', 'color', 'handle_type', 'price_range', 'minimum_order'),
+            'description': 'Technical specifications and pricing',
             'classes': ('collapse',)
         }),
         ('Product Features', {
-            'fields': ('feature_1', 'feature_2', 'feature_3', 'feature_4', 'feature_5', 'feature_6'),
-            'description': 'Add up to 6 key features (leave blank if not needed)',
+            'fields': ('feature_1', 'feature_2', 'feature_3', 'feature_4'),
+            'description': 'Add up to 4 key features (leave blank if not needed)',
             'classes': ('collapse',)
         }),
         ('Display Settings', {
-            'fields': ('order', 'is_active'),
-            'description': 'Control visibility and ordering on the website'
+            'fields': ('order', 'is_active', 'is_featured')
         }),
     )
     
-    readonly_fields = ['created_at', 'updated_at']
-    
     def image_preview(self, obj):
         if obj.image:
-            return format_html('<img src="{}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;" />', obj.image.url)
-        return "No Image"
-    image_preview.short_description = "Image"
+            return format_html('<img src="{}" style="max-height: 50px; max-width: 50px; object-fit: cover; border-radius: 8px;" />', obj.image.url)
+        return "No image"
+    image_preview.short_description = 'Preview'
 
 
 @admin.register(Service)
