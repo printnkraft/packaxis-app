@@ -1,4 +1,4 @@
-from .models import MenuItem, Product, ProductCategory
+from .models import MenuItem, Product, ProductCategory, Cart
 
 def menu_items(request):
     """Make menu items available to all templates"""
@@ -15,4 +15,20 @@ def active_products(request):
         'products': product_categories,  # Backward compatibility
         'product_categories': product_categories,
         'active_products_count': product_categories.count()
+    }
+
+
+def cart_context(request):
+    """Make cart information available to all templates"""
+    cart_total_items = 0
+    
+    if request.session.session_key:
+        try:
+            cart = Cart.objects.get(session_key=request.session.session_key)
+            cart_total_items = cart.total_items
+        except Cart.DoesNotExist:
+            pass
+    
+    return {
+        'cart_total_items': cart_total_items
     }

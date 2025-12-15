@@ -21,4 +21,12 @@ urlpatterns = [
     path('boutique-packaging/', views.boutique_packaging, name='boutique_packaging'),
     path('grocery-paper-bags/', views.grocery_paper_bags, name='grocery_paper_bags'),
     path('bakery-paper-bags/', views.bakery_paper_bags, name='bakery_paper_bags'),
+    
+    # E-commerce / Cart URLs
+    path('cart/', views.cart_view, name='cart'),
+    path('cart/add/<slug:slug>/', views.add_to_cart, name='add_to_cart'),
+    path('cart/update/', views.update_cart, name='update_cart'),
+    path('cart/remove/<int:item_id>/', views.remove_from_cart, name='remove_from_cart'),
+    path('checkout/', views.checkout, name='checkout'),
+    path('order-confirmation/<str:order_number>/', views.order_confirmation, name='order_confirmation'),
 ]

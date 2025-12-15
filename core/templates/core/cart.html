@@ -1,0 +1,518 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Shopping Cart - PackAxis{% endblock %}
+
+{% block extra_css %}
+<style>
+    .cart-page {
+        padding: 60px 0;
+        min-height: 60vh;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    }
+    
+    .cart-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    .cart-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    
+    .cart-header h1 {
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        margin-bottom: 10px;
+        font-weight: 700;
+    }
+    
+    .cart-header p {
+        color: #666;
+        font-size: 1.1rem;
+    }
+    
+    .cart-content {
+        display: grid;
+        grid-template-columns: 1fr 380px;
+        gap: 30px;
+        align-items: start;
+    }
+    
+    @media (max-width: 900px) {
+        .cart-content {
+            grid-template-columns: 1fr;
+        }
+    }
+    
+    .cart-items {
+        background: white;
+        border-radius: 16px;
+        box-shadow: var(--shadow-md);
+        overflow: hidden;
+    }
+    
+    .cart-item {
+        display: grid;
+        grid-template-columns: 100px 1fr auto auto;
+        gap: 20px;
+        padding: 20px;
+        border-bottom: 1px solid #eee;
+        align-items: center;
+    }
+    
+    .cart-item:last-child {
+        border-bottom: none;
+    }
+    
+    .cart-item-image {
+        width: 100px;
+        height: 100px;
+        border-radius: 12px;
+        object-fit: cover;
+        background: #f5f5f5;
+    }
+    
+    .cart-item-details h3 {
+        font-size: 1.1rem;
+        color: #333;
+        margin-bottom: 8px;
+        font-weight: 600;
+    }
+    
+    .cart-item-details h3 a {
+        color: inherit;
+        text-decoration: none;
+    }
+    
+    .cart-item-details h3 a:hover {
+        color: var(--primary-color);
+    }
+    
+    .cart-item-price {
+        color: var(--primary-color);
+        font-weight: 600;
+        font-size: 1rem;
+    }
+    
+    .cart-item-sku {
+        font-size: 0.85rem;
+        color: #888;
+    }
+    
+    .quantity-selector {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        background: #f5f5f5;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    
+    .quantity-btn {
+        width: 36px;
+        height: 36px;
+        border: none;
+        background: transparent;
+        color: #333;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .quantity-btn:hover {
+        background: var(--primary-color);
+        color: white;
+    }
+    
+    .quantity-input {
+        width: 50px;
+        height: 36px;
+        border: none;
+        background: transparent;
+        text-align: center;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+    
+    .quantity-input:focus {
+        outline: none;
+    }
+    
+    .cart-item-total {
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: #333;
+        min-width: 80px;
+        text-align: right;
+    }
+    
+    .remove-btn {
+        background: none;
+        border: none;
+        color: #dc3545;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 8px;
+        transition: all 0.2s;
+    }
+    
+    .remove-btn:hover {
+        background: #fee2e2;
+    }
+    
+    .remove-btn i {
+        font-size: 1.2rem;
+    }
+    
+    /* Cart Summary */
+    .cart-summary {
+        background: white;
+        border-radius: 16px;
+        box-shadow: var(--shadow-md);
+        padding: 30px;
+        position: sticky;
+        top: 100px;
+    }
+    
+    .cart-summary h2 {
+        font-size: 1.4rem;
+        color: #333;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #eee;
+    }
+    
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+        font-size: 1rem;
+    }
+    
+    .summary-row.total {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 2px solid #eee;
+    }
+    
+    .checkout-btn {
+        width: 100%;
+        padding: 16px 24px;
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .checkout-btn:hover {
+        background: var(--secondary-color);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .continue-shopping {
+        display: block;
+        text-align: center;
+        margin-top: 15px;
+        color: #666;
+        text-decoration: none;
+        font-size: 0.95rem;
+    }
+    
+    .continue-shopping:hover {
+        color: var(--primary-color);
+    }
+    
+    /* Trust badges */
+    .cart-trust-badges {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+    }
+    
+    .cart-trust-badge {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.85rem;
+        color: #666;
+    }
+    
+    .cart-trust-badge i {
+        color: var(--primary-color);
+    }
+    
+    /* Empty Cart */
+    .empty-cart {
+        text-align: center;
+        padding: 80px 20px;
+        background: white;
+        border-radius: 16px;
+        box-shadow: var(--shadow-md);
+    }
+    
+    .empty-cart i {
+        font-size: 5rem;
+        color: #ddd;
+        margin-bottom: 20px;
+    }
+    
+    .empty-cart h2 {
+        font-size: 1.8rem;
+        color: #333;
+        margin-bottom: 10px;
+    }
+    
+    .empty-cart p {
+        color: #666;
+        margin-bottom: 30px;
+    }
+    
+    .shop-now-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 30px;
+        background: var(--primary-color);
+        color: white;
+        text-decoration: none;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s;
+    }
+    
+    .shop-now-btn:hover {
+        background: var(--secondary-color);
+        transform: translateY(-2px);
+        color: white;
+    }
+    
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+        .cart-item {
+            grid-template-columns: 80px 1fr;
+            gap: 15px;
+        }
+        
+        .cart-item-image {
+            width: 80px;
+            height: 80px;
+        }
+        
+        .cart-item-details {
+            grid-column: 2;
+        }
+        
+        .quantity-selector {
+            grid-column: 1 / -1;
+            justify-self: start;
+        }
+        
+        .cart-item-total {
+            grid-column: 1 / -1;
+            text-align: left;
+        }
+        
+        .remove-btn {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+        
+        .cart-item {
+            position: relative;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="cart-page">
+    <div class="cart-container">
+        <div class="cart-header">
+            <h1><i class="fas fa-shopping-cart"></i> Shopping Cart</h1>
+            <p>{% if cart.total_items > 0 %}You have {{ cart.total_items }} item{{ cart.total_items|pluralize }} in your cart{% else %}Your cart is empty{% endif %}</p>
+        </div>
+        
+        {% if cart.total_items > 0 %}
+        <div class="cart-content">
+            <div class="cart-items">
+                {% for item in cart_items %}
+                <div class="cart-item" data-item-id="{{ item.id }}">
+                    {% if item.product.image %}
+                    <img src="{{ item.product.image.url }}" alt="{{ item.product.title }}" class="cart-item-image">
+                    {% else %}
+                    <div class="cart-item-image" style="display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-box" style="font-size: 2rem; color: #ccc;"></i>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="cart-item-details">
+                        <h3><a href="{% url 'core:product_detail' item.product.slug %}">{{ item.product.title }}</a></h3>
+                        <p class="cart-item-price">${{ item.unit_price }} each</p>
+                        {% if item.product.sku %}
+                        <p class="cart-item-sku">SKU: {{ item.product.sku }}</p>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="quantity-selector">
+                        <button class="quantity-btn minus-btn" data-item="{{ item.id }}">−</button>
+                        <input type="number" class="quantity-input" value="{{ item.quantity }}" min="1" data-item="{{ item.id }}">
+                        <button class="quantity-btn plus-btn" data-item="{{ item.id }}">+</button>
+                    </div>
+                    
+                    <div class="cart-item-total">${{ item.total_price }}</div>
+                    
+                    <a href="{% url 'core:remove_from_cart' item.id %}" class="remove-btn" title="Remove item">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="cart-summary">
+                <h2>Order Summary</h2>
+                
+                <div class="summary-row">
+                    <span>Subtotal ({{ cart.total_items }} item{{ cart.total_items|pluralize }})</span>
+                    <span>${{ cart.subtotal }}</span>
+                </div>
+                
+                <div class="summary-row">
+                    <span>Shipping</span>
+                    <span>Calculated at checkout</span>
+                </div>
+                
+                <div class="summary-row">
+                    <span>Tax</span>
+                    <span>Calculated at checkout</span>
+                </div>
+                
+                <div class="summary-row total">
+                    <span>Estimated Total</span>
+                    <span>${{ cart.total }}</span>
+                </div>
+                
+                <a href="{% url 'core:checkout' %}" class="checkout-btn">
+                    <i class="fas fa-lock"></i>
+                    Proceed to Checkout
+                </a>
+                
+                <a href="{% url 'core:products' %}" class="continue-shopping">
+                    <i class="fas fa-arrow-left"></i> Continue Shopping
+                </a>
+                
+                <div class="cart-trust-badges">
+                    <div class="cart-trust-badge">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Secure</span>
+                    </div>
+                    <div class="cart-trust-badge">
+                        <i class="fas fa-truck"></i>
+                        <span>Fast Shipping</span>
+                    </div>
+                    <div class="cart-trust-badge">
+                        <i class="fas fa-leaf"></i>
+                        <span>Eco-Friendly</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="empty-cart">
+            <i class="fas fa-shopping-cart"></i>
+            <h2>Your Cart is Empty</h2>
+            <p>Looks like you haven't added any products yet. Explore our eco-friendly packaging solutions!</p>
+            <a href="{% url 'core:products' %}" class="shop-now-btn">
+                <i class="fas fa-shopping-bag"></i>
+                Start Shopping
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Quantity update functionality
+    document.querySelectorAll('.quantity-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const itemId = this.dataset.item;
+            const input = document.querySelector(`.quantity-input[data-item="${itemId}"]`);
+            let quantity = parseInt(input.value);
+            
+            if (this.classList.contains('plus-btn')) {
+                quantity++;
+            } else if (this.classList.contains('minus-btn') && quantity > 1) {
+                quantity--;
+            }
+            
+            input.value = quantity;
+            updateCartItem(itemId, quantity);
+        });
+    });
+    
+    // Direct input change
+    document.querySelectorAll('.quantity-input').forEach(input => {
+        input.addEventListener('change', function() {
+            const itemId = this.dataset.item;
+            let quantity = parseInt(this.value);
+            if (quantity < 1) {
+                quantity = 1;
+                this.value = 1;
+            }
+            updateCartItem(itemId, quantity);
+        });
+    });
+    
+    function updateCartItem(itemId, quantity) {
+        fetch('{% url "core:update_cart" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({
+                item_id: itemId,
+                quantity: quantity
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Update item total
+                const itemRow = document.querySelector(`.cart-item[data-item-id="${itemId}"]`);
+                if (itemRow) {
+                    itemRow.querySelector('.cart-item-total').textContent = '$' + data.item_total;
+                }
+                // Reload page for full update (or implement partial update)
+                location.reload();
+            } else {
+                alert(data.message);
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

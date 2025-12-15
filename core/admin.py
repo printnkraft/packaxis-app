@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import MenuItem, Product, ProductImage, ProductCategory, Service, Quote, FAQ, Industry
+from .models import MenuItem, Product, ProductImage, ProductCategory, Service, Quote, FAQ, Industry, Cart, CartItem, Order, OrderItem
 
 @admin.register(MenuItem)
 class MenuItemAdmin(admin.ModelAdmin):
@@ -89,10 +89,10 @@ class ProductImageInline(admin.TabularInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['image_preview', 'title', 'category', 'size', 'gsm', 'order', 'is_active', 'is_featured']
-    list_filter = ['is_active', 'is_featured', 'category', 'created_at']
+    list_display = ['image_preview', 'title', 'category', 'display_price_admin', 'stock_status', 'order', 'is_active', 'is_featured']
+    list_filter = ['is_active', 'is_featured', 'category', 'track_inventory', 'created_at']
     list_editable = ['order', 'is_active', 'is_featured']
-    search_fields = ['title', 'description', 'category__title']
+    search_fields = ['title', 'description', 'category__title', 'sku']
     prepopulated_fields = {'slug': ('title',)}
     list_per_page = 20
     autocomplete_fields = ['category']
@@ -103,9 +103,18 @@ class ProductAdmin(admin.ModelAdmin):
             'fields': ('category', 'title', 'slug', 'description', 'image'),
             'description': 'Core product information'
         }),
+        ('E-Commerce Pricing', {
+            'fields': ('price', 'compare_at_price', 'price_per', 'sku'),
+            'description': 'Set price for e-commerce. Leave price blank to show price_range instead (quote mode).',
+        }),
+        ('Inventory Management', {
+            'fields': ('stock_quantity', 'track_inventory', 'allow_backorder', 'case_quantity', 'minimum_order'),
+            'description': 'Stock and inventory settings',
+            'classes': ('collapse',)
+        }),
         ('Product Specifications', {
-            'fields': ('size', 'gsm', 'color', 'handle_type', 'price_range', 'minimum_order'),
-            'description': 'Technical specifications and pricing',
+            'fields': ('size', 'gsm', 'color', 'handle_type', 'weight', 'price_range'),
+            'description': 'Technical specifications (price_range is shown if no e-commerce price set)',
             'classes': ('collapse',)
         }),
         ('Product Features', {
@@ -123,6 +132,33 @@ class ProductAdmin(admin.ModelAdmin):
             return format_html('<img src="{}" style="max-height: 50px; max-width: 50px; object-fit: cover; border-radius: 8px;" />', obj.image.url)
         return "No image"
     image_preview.short_description = 'Preview'
+    
+    def display_price_admin(self, obj):
+        if obj.price:
+            if obj.compare_at_price and obj.compare_at_price > obj.price:
+                return format_html(
+                    '<span style="color: green; font-weight: bold;">${}</span> '
+                    '<span style="text-decoration: line-through; color: #999;">${}</span>',
+                    obj.price, obj.compare_at_price
+                )
+            return format_html('<span style="color: green; font-weight: bold;">${}</span>', obj.price)
+        elif obj.price_range:
+            return format_html('<span style="color: #666;">{}</span>', obj.price_range)
+        return format_html('<span style="color: #999;">—</span>')
+    display_price_admin.short_description = 'Price'
+    
+    def stock_status(self, obj):
+        if not obj.track_inventory:
+            return format_html('<span style="background: #6c757d; color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px;">Not Tracked</span>')
+        elif obj.stock_quantity > 10:
+            return format_html('<span style="background: #28a745; color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px;">In Stock ({})</span>', obj.stock_quantity)
+        elif obj.stock_quantity > 0:
+            return format_html('<span style="background: #ffc107; color: #000; padding: 2px 8px; border-radius: 10px; font-size: 11px;">Low Stock ({})</span>', obj.stock_quantity)
+        else:
+            if obj.allow_backorder:
+                return format_html('<span style="background: #17a2b8; color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px;">Backorder</span>')
+            return format_html('<span style="background: #dc3545; color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px;">Out of Stock</span>')
+    stock_status.short_description = 'Stock'
 
 
 @admin.register(Service)
@@ -271,3 +307,154 @@ class FAQAdmin(admin.ModelAdmin):
             'fields': ('category', 'order', 'is_active')
         }),
     )
+
+
+# ============================================
+# E-COMMERCE ADMIN
+# ============================================
+
+class CartItemInline(admin.TabularInline):
+    model = CartItem
+    extra = 0
+    readonly_fields = ['product', 'quantity', 'unit_price', 'total_price']
+    can_delete = True
+
+
+@admin.register(Cart)
+class CartAdmin(admin.ModelAdmin):
+    list_display = ['id', 'session_key_short', 'total_items', 'subtotal', 'created_at', 'updated_at']
+    list_filter = ['created_at']
+    search_fields = ['session_key']
+    readonly_fields = ['session_key', 'created_at', 'updated_at']
+    inlines = [CartItemInline]
+    date_hierarchy = 'created_at'
+    
+    def session_key_short(self, obj):
+        return obj.session_key[:20] + '...' if len(obj.session_key) > 20 else obj.session_key
+    session_key_short.short_description = 'Session'
+
+
+class OrderItemInline(admin.TabularInline):
+    model = OrderItem
+    extra = 0
+    readonly_fields = ['product', 'product_title', 'product_sku', 'quantity', 'unit_price', 'total_price']
+    can_delete = False
+
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ['order_number', 'full_name', 'email', 'total', 'status_badge', 'payment_badge', 'created_at']
+    list_filter = ['status', 'payment_status', 'created_at']
+    search_fields = ['order_number', 'email', 'first_name', 'last_name', 'phone', 'company_name']
+    readonly_fields = ['order_number', 'created_at', 'updated_at', 'order_summary']
+    date_hierarchy = 'created_at'
+    list_per_page = 25
+    inlines = [OrderItemInline]
+    actions = ['mark_as_processing', 'mark_as_shipped', 'mark_as_delivered']
+    
+    fieldsets = (
+        ('Order Summary', {
+            'fields': ('order_summary',),
+        }),
+        ('Order Status', {
+            'fields': ('order_number', 'status', 'payment_status', 'payment_method', 'payment_id'),
+        }),
+        ('Customer Information', {
+            'fields': ('first_name', 'last_name', 'email', 'phone', 'company_name'),
+        }),
+        ('Shipping Address', {
+            'fields': ('shipping_address_1', 'shipping_address_2', 'shipping_city', 'shipping_state', 'shipping_postal_code', 'shipping_country'),
+        }),
+        ('Order Totals', {
+            'fields': ('subtotal', 'shipping_cost', 'tax', 'discount', 'total'),
+        }),
+        ('Shipping & Tracking', {
+            'fields': ('tracking_number', 'tracking_url', 'shipped_at', 'delivered_at'),
+            'classes': ('collapse',)
+        }),
+        ('Notes', {
+            'fields': ('customer_notes', 'admin_notes'),
+            'classes': ('collapse',)
+        }),
+        ('Timestamps', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        }),
+    )
+    
+    def status_badge(self, obj):
+        colors = {
+            'pending': '#ffc107',
+            'confirmed': '#17a2b8',
+            'processing': '#6f42c1',
+            'shipped': '#0dcaf0',
+            'delivered': '#28a745',
+            'cancelled': '#dc3545',
+            'refunded': '#6c757d',
+        }
+        color = colors.get(obj.status, '#6c757d')
+        text_color = '#000' if obj.status in ['pending'] else '#fff'
+        return format_html(
+            '<span style="background: {}; color: {}; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600;">{}</span>',
+            color, text_color, obj.get_status_display().upper()
+        )
+    status_badge.short_description = 'Status'
+    status_badge.admin_order_field = 'status'
+    
+    def payment_badge(self, obj):
+        colors = {
+            'pending': '#ffc107',
+            'paid': '#28a745',
+            'failed': '#dc3545',
+            'refunded': '#6c757d',
+        }
+        color = colors.get(obj.payment_status, '#6c757d')
+        text_color = '#000' if obj.payment_status == 'pending' else '#fff'
+        return format_html(
+            '<span style="background: {}; color: {}; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600;">{}</span>',
+            color, text_color, obj.get_payment_status_display().upper()
+        )
+    payment_badge.short_description = 'Payment'
+    payment_badge.admin_order_field = 'payment_status'
+    
+    def order_summary(self, obj):
+        items_html = ''.join([
+            f'<li>{item.quantity}x {item.product_title} @ ${item.unit_price} = ${item.total_price}</li>'
+            for item in obj.items.all()
+        ])
+        return format_html(
+            '<div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #2D7A4E;">'
+            '<h3 style="margin-top: 0; color: #2D7A4E;">Order #{}</h3>'
+            '<p><strong>Customer:</strong> {} {}{}</p>'
+            '<p><strong>Contact:</strong> {} | {}</p>'
+            '<p><strong>Shipping:</strong><br>{}</p>'
+            '<p><strong>Items:</strong></p>'
+            '<ul style="margin: 0; padding-left: 20px;">{}</ul>'
+            '<p style="margin-top: 10px;"><strong>Total:</strong> ${}</p>'
+            '</div>',
+            obj.order_number,
+            obj.first_name, obj.last_name,
+            f" ({obj.company_name})" if obj.company_name else "",
+            obj.email, obj.phone,
+            obj.shipping_address.replace('\n', '<br>'),
+            items_html,
+            obj.total
+        )
+    order_summary.short_description = 'Order Summary'
+    
+    def mark_as_processing(self, request, queryset):
+        updated = queryset.update(status='processing')
+        self.message_user(request, f'{updated} order(s) marked as processing.')
+    mark_as_processing.short_description = "Mark as Processing"
+    
+    def mark_as_shipped(self, request, queryset):
+        from django.utils import timezone
+        updated = queryset.update(status='shipped', shipped_at=timezone.now())
+        self.message_user(request, f'{updated} order(s) marked as shipped.')
+    mark_as_shipped.short_description = "Mark as Shipped"
+    
+    def mark_as_delivered(self, request, queryset):
+        from django.utils import timezone
+        updated = queryset.update(status='delivered', delivered_at=timezone.now())
+        self.message_user(request, f'{updated} order(s) marked as delivered.')
+    mark_as_delivered.short_description = "Mark as Delivered"

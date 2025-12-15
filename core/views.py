@@ -2,7 +2,12 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import MenuItem, Product, ProductCategory, Service, Quote, FAQ, Industry
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
+from decimal import Decimal
+import json
+from .models import MenuItem, Product, ProductCategory, Service, Quote, FAQ, Industry, Cart, CartItem, Order, OrderItem
 import logging
 
 logger = logging.getLogger(__name__)
@@ -368,3 +373,309 @@ def bakery_paper_bags(request):
         'description': 'Grease-resistant paper bags perfect for baked goods, pastries, and bread. FDA-approved materials safe for direct food contact with custom branding options.',
     }
     return render(request, 'core/industry-pages/bakery.html', context)
+
+
+# ============================================
+# E-COMMERCE / CART VIEWS
+# ============================================
+
+def get_or_create_cart(request):
+    """Get or create a cart for the current session"""
+    if not request.session.session_key:
+        request.session.create()
+    
+    session_key = request.session.session_key
+    cart, created = Cart.objects.get_or_create(session_key=session_key)
+    return cart
+
+
+def cart_view(request):
+    """Display shopping cart"""
+    cart = get_or_create_cart(request)
+    
+    context = {
+        'cart': cart,
+        'cart_items': cart.items.select_related('product').all(),
+    }
+    return render(request, 'core/cart.html', context)
+
+
+def add_to_cart(request, slug):
+    """Add a product to cart"""
+    product = get_object_or_404(Product, slug=slug, is_active=True)
+    cart = get_or_create_cart(request)
+    
+    quantity = int(request.POST.get('quantity', 1))
+    
+    # Check stock if tracking inventory
+    if product.track_inventory and not product.allow_backorder:
+        if product.stock_quantity < quantity:
+            messages.error(request, f'Sorry, only {product.stock_quantity} items available in stock.')
+            return redirect('core:product_detail', slug=slug)
+    
+    # Check minimum order quantity
+    if product.minimum_order and quantity < product.minimum_order:
+        messages.warning(request, f'Minimum order quantity is {product.minimum_order} items.')
+        quantity = product.minimum_order
+    
+    # Add to cart or update quantity
+    cart_item, created = CartItem.objects.get_or_create(
+        cart=cart,
+        product=product,
+        defaults={'quantity': quantity}
+    )
+    
+    if not created:
+        cart_item.quantity += quantity
+        cart_item.save()
+        messages.success(request, f'Updated quantity of "{product.title}" in your cart.')
+    else:
+        messages.success(request, f'Added "{product.title}" to your cart.')
+    
+    # Return JSON for AJAX requests
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return JsonResponse({
+            'success': True,
+            'message': f'Added {quantity}x {product.title} to cart',
+            'cart_total_items': cart.total_items,
+            'cart_subtotal': str(cart.subtotal),
+        })
+    
+    return redirect('core:cart')
+
+
+@require_POST
+def update_cart(request):
+    """Update cart item quantity"""
+    cart = get_or_create_cart(request)
+    
+    try:
+        data = json.loads(request.body) if request.content_type == 'application/json' else request.POST
+        item_id = data.get('item_id')
+        quantity = int(data.get('quantity', 1))
+        
+        cart_item = get_object_or_404(CartItem, id=item_id, cart=cart)
+        
+        if quantity <= 0:
+            cart_item.delete()
+            message = f'Removed "{cart_item.product.title}" from cart.'
+        else:
+            # Check stock
+            if cart_item.product.track_inventory and not cart_item.product.allow_backorder:
+                if cart_item.product.stock_quantity < quantity:
+                    return JsonResponse({
+                        'success': False,
+                        'message': f'Only {cart_item.product.stock_quantity} items available in stock.'
+                    })
+            
+            cart_item.quantity = quantity
+            cart_item.save()
+            message = f'Updated quantity to {quantity}.'
+        
+        return JsonResponse({
+            'success': True,
+            'message': message,
+            'cart_total_items': cart.total_items,
+            'cart_subtotal': str(cart.subtotal),
+            'item_total': str(cart_item.total_price) if quantity > 0 else '0',
+        })
+        
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'message': str(e)
+        })
+
+
+def remove_from_cart(request, item_id):
+    """Remove an item from cart"""
+    cart = get_or_create_cart(request)
+    
+    cart_item = get_object_or_404(CartItem, id=item_id, cart=cart)
+    product_title = cart_item.product.title
+    cart_item.delete()
+    
+    messages.success(request, f'Removed "{product_title}" from your cart.')
+    
+    # Return JSON for AJAX requests
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return JsonResponse({
+            'success': True,
+            'message': f'Removed from cart',
+            'cart_total_items': cart.total_items,
+            'cart_subtotal': str(cart.subtotal),
+        })
+    
+    return redirect('core:cart')
+
+
+def checkout(request):
+    """Checkout page with order form"""
+    cart = get_or_create_cart(request)
+    
+    # Redirect to cart if empty
+    if cart.total_items == 0:
+        messages.warning(request, 'Your cart is empty. Add some products before checkout.')
+        return redirect('core:cart')
+    
+    if request.method == 'POST':
+        try:
+            # Create order from cart
+            order = Order.objects.create(
+                email=request.POST.get('email'),
+                first_name=request.POST.get('first_name'),
+                last_name=request.POST.get('last_name'),
+                company_name=request.POST.get('company_name', ''),
+                phone=request.POST.get('phone'),
+                shipping_address_1=request.POST.get('shipping_address_1'),
+                shipping_address_2=request.POST.get('shipping_address_2', ''),
+                shipping_city=request.POST.get('shipping_city'),
+                shipping_state=request.POST.get('shipping_state'),
+                shipping_postal_code=request.POST.get('shipping_postal_code'),
+                shipping_country=request.POST.get('shipping_country', 'Canada'),
+                customer_notes=request.POST.get('customer_notes', ''),
+                subtotal=cart.subtotal,
+                total=cart.total,
+            )
+            
+            # Create order items from cart items
+            for cart_item in cart.items.all():
+                OrderItem.objects.create(
+                    order=order,
+                    product=cart_item.product,
+                    product_title=cart_item.product.title,
+                    product_sku=cart_item.product.sku or '',
+                    quantity=cart_item.quantity,
+                    unit_price=cart_item.unit_price,
+                    total_price=cart_item.total_price,
+                )
+                
+                # Update stock if tracking
+                if cart_item.product.track_inventory:
+                    cart_item.product.stock_quantity -= cart_item.quantity
+                    cart_item.product.save()
+            
+            # Send order confirmation email
+            send_order_confirmation_email(order)
+            
+            # Send notification to admin
+            send_order_notification_email(order)
+            
+            # Clear cart
+            cart.items.all().delete()
+            
+            messages.success(request, f'Order {order.order_number} placed successfully!')
+            return redirect('core:order_confirmation', order_number=order.order_number)
+            
+        except Exception as e:
+            logger.error(f'Checkout error: {str(e)}')
+            messages.error(request, 'An error occurred during checkout. Please try again.')
+    
+    context = {
+        'cart': cart,
+        'cart_items': cart.items.select_related('product').all(),
+    }
+    return render(request, 'core/checkout.html', context)
+
+
+def order_confirmation(request, order_number):
+    """Order confirmation page"""
+    order = get_object_or_404(Order, order_number=order_number)
+    
+    context = {
+        'order': order,
+        'order_items': order.items.all(),
+    }
+    return render(request, 'core/order-confirmation.html', context)
+
+
+def send_order_confirmation_email(order):
+    """Send order confirmation to customer"""
+    try:
+        subject = f'Order Confirmation - {order.order_number}'
+        
+        items_text = '\n'.join([
+            f"  - {item.product_title} x {item.quantity} @ ${item.unit_price} = ${item.total_price}"
+            for item in order.items.all()
+        ])
+        
+        message = f"""
+Thank you for your order!
+
+Order Number: {order.order_number}
+Order Date: {order.created_at.strftime('%B %d, %Y at %I:%M %p')}
+
+Order Details:
+{items_text}
+
+Subtotal: ${order.subtotal}
+Shipping: ${order.shipping_cost}
+Tax: ${order.tax}
+Total: ${order.total}
+
+Shipping Address:
+{order.full_name}
+{order.shipping_address}
+
+We'll notify you when your order ships.
+
+Thank you for shopping with PackAxis!
+        """
+        
+        send_mail(
+            subject,
+            message,
+            settings.DEFAULT_FROM_EMAIL,
+            [order.email],
+            fail_silently=True,
+        )
+    except Exception as e:
+        logger.error(f'Failed to send order confirmation email: {str(e)}')
+
+
+def send_order_notification_email(order):
+    """Send new order notification to admin"""
+    try:
+        subject = f'New Order Received - {order.order_number}'
+        
+        items_text = '\n'.join([
+            f"  - {item.product_title} x {item.quantity} @ ${item.unit_price} = ${item.total_price}"
+            for item in order.items.all()
+        ])
+        
+        message = f"""
+New Order Received!
+
+Order Number: {order.order_number}
+Order Date: {order.created_at.strftime('%B %d, %Y at %I:%M %p')}
+
+Customer Information:
+- Name: {order.full_name}
+- Email: {order.email}
+- Phone: {order.phone}
+- Company: {order.company_name or 'N/A'}
+
+Order Details:
+{items_text}
+
+Subtotal: ${order.subtotal}
+Shipping: ${order.shipping_cost}
+Tax: ${order.tax}
+Total: ${order.total}
+
+Shipping Address:
+{order.shipping_address}
+
+Customer Notes:
+{order.customer_notes or 'None'}
+        """
+        
+        send_mail(
+            subject,
+            message,
+            settings.DEFAULT_FROM_EMAIL,
+            [settings.QUOTE_EMAIL],
+            fail_silently=True,
+        )
+    except Exception as e:
+        logger.error(f'Failed to send order notification email: {str(e)}')

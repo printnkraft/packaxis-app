@@ -268,6 +268,54 @@ section {
     box-shadow: 0 8px 25px rgba(45, 122, 78, 0.4);
 }
 
+/* Nav Actions (Cart + Quote Button) */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.nav-cart-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #f5f5f5;
+    color: #333;
+    transition: all 0.3s;
+}
+
+.nav-cart-link:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: scale(1.05);
+}
+
+.nav-cart-link svg {
+    width: 20px;
+    height: 20px;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #dc3545;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+}
+
 .hamburger {
     display: none;
     flex-direction: column;
@@ -2500,7 +2548,8 @@ section {
 
 .product-pricing-main {
     display: flex;
-    align-items: baseline;
+    align-items: center;
+    flex-wrap: wrap;
     gap: 0.75rem;
     margin-bottom: 1.25rem;
     padding-bottom: 1.25rem;
@@ -2515,6 +2564,22 @@ section {
     line-height: 1;
 }
 
+.price-compare {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    text-decoration: line-through;
+}
+
+.price-discount {
+    background: #dc3545;
+    color: white;
+    padding: 0.25rem 0.625rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
 .price-old {
     font-size: 1rem;
     color: var(--text-light);
@@ -2525,6 +2590,34 @@ section {
     font-size: 0.875rem;
     color: var(--text-light);
     font-weight: 500;
+}
+
+/* Min order note */
+.min-order-note {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin-top: 0.5rem;
+}
+
+/* Out of stock styling */
+.availability-badge.out-of-stock {
+    background: #fee2e2;
+}
+
+.availability-badge.out-of-stock .badge-dot {
+    background: #dc3545;
+    animation: none;
+}
+
+.btn-add-cart.out-of-stock {
+    background: #6c757d !important;
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+.btn-add-cart.out-of-stock:hover {
+    transform: none;
+    box-shadow: none;
 }
 
 /* Product Options */

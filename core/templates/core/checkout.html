@@ -1,0 +1,516 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Checkout - PackAxis{% endblock %}
+
+{% block extra_css %}
+<style>
+    .checkout-page {
+        padding: 60px 0;
+        min-height: 60vh;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    }
+    
+    .checkout-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    .checkout-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    
+    .checkout-header h1 {
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        margin-bottom: 10px;
+        font-weight: 700;
+    }
+    
+    .checkout-steps {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        margin-top: 20px;
+    }
+    
+    .checkout-step {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #999;
+    }
+    
+    .checkout-step.active {
+        color: var(--primary-color);
+    }
+    
+    .checkout-step.completed {
+        color: #28a745;
+    }
+    
+    .step-number {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: #ddd;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+    }
+    
+    .checkout-step.active .step-number {
+        background: var(--primary-color);
+    }
+    
+    .checkout-step.completed .step-number {
+        background: #28a745;
+    }
+    
+    .checkout-content {
+        display: grid;
+        grid-template-columns: 1fr 400px;
+        gap: 30px;
+        align-items: start;
+    }
+    
+    @media (max-width: 900px) {
+        .checkout-content {
+            grid-template-columns: 1fr;
+        }
+    }
+    
+    /* Form Styles */
+    .checkout-form-section {
+        background: white;
+        border-radius: 16px;
+        box-shadow: var(--shadow-md);
+        padding: 30px;
+        margin-bottom: 20px;
+    }
+    
+    .checkout-form-section h2 {
+        font-size: 1.3rem;
+        color: #333;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #eee;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .checkout-form-section h2 i {
+        color: var(--primary-color);
+    }
+    
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .form-row.full-width {
+        grid-template-columns: 1fr;
+    }
+    
+    @media (max-width: 600px) {
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+    }
+    
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .form-group label {
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #333;
+        font-size: 0.95rem;
+    }
+    
+    .form-group label .required {
+        color: #dc3545;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 12px 15px;
+        border: 2px solid #e5e5e5;
+        border-radius: 10px;
+        font-size: 1rem;
+        transition: all 0.3s;
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(45, 122, 78, 0.1);
+    }
+    
+    .form-group textarea {
+        resize: vertical;
+        min-height: 100px;
+    }
+    
+    /* Order Summary */
+    .order-summary {
+        background: white;
+        border-radius: 16px;
+        box-shadow: var(--shadow-md);
+        padding: 30px;
+        position: sticky;
+        top: 100px;
+    }
+    
+    .order-summary h2 {
+        font-size: 1.3rem;
+        color: #333;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #eee;
+    }
+    
+    .order-items {
+        max-height: 300px;
+        overflow-y: auto;
+        margin-bottom: 20px;
+    }
+    
+    .order-item {
+        display: grid;
+        grid-template-columns: 60px 1fr auto;
+        gap: 12px;
+        padding: 12px 0;
+        border-bottom: 1px solid #eee;
+        align-items: center;
+    }
+    
+    .order-item:last-child {
+        border-bottom: none;
+    }
+    
+    .order-item-image {
+        width: 60px;
+        height: 60px;
+        border-radius: 8px;
+        object-fit: cover;
+        background: #f5f5f5;
+    }
+    
+    .order-item-details h4 {
+        font-size: 0.95rem;
+        color: #333;
+        margin-bottom: 4px;
+    }
+    
+    .order-item-details p {
+        font-size: 0.85rem;
+        color: #888;
+    }
+    
+    .order-item-total {
+        font-weight: 600;
+        color: #333;
+    }
+    
+    .summary-divider {
+        height: 2px;
+        background: #eee;
+        margin: 15px 0;
+    }
+    
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        font-size: 0.95rem;
+    }
+    
+    .summary-row.total {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 2px solid #eee;
+    }
+    
+    .place-order-btn {
+        width: 100%;
+        padding: 16px 24px;
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .place-order-btn:hover {
+        background: var(--secondary-color);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .back-to-cart {
+        display: block;
+        text-align: center;
+        margin-top: 15px;
+        color: #666;
+        text-decoration: none;
+        font-size: 0.95rem;
+    }
+    
+    .back-to-cart:hover {
+        color: var(--primary-color);
+    }
+    
+    /* Secure checkout notice */
+    .secure-checkout-notice {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+        color: #28a745;
+        font-size: 0.9rem;
+    }
+    
+    /* Payment info notice */
+    .payment-notice {
+        background: #fff3cd;
+        border: 1px solid #ffc107;
+        border-radius: 10px;
+        padding: 15px;
+        margin-top: 15px;
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    
+    .payment-notice i {
+        color: #856404;
+        font-size: 1.2rem;
+        margin-top: 2px;
+    }
+    
+    .payment-notice p {
+        color: #856404;
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="checkout-page">
+    <div class="checkout-container">
+        <div class="checkout-header">
+            <h1><i class="fas fa-credit-card"></i> Checkout</h1>
+            <div class="checkout-steps">
+                <div class="checkout-step completed">
+                    <span class="step-number"><i class="fas fa-check"></i></span>
+                    <span>Cart</span>
+                </div>
+                <div class="checkout-step active">
+                    <span class="step-number">2</span>
+                    <span>Checkout</span>
+                </div>
+                <div class="checkout-step">
+                    <span class="step-number">3</span>
+                    <span>Confirmation</span>
+                </div>
+            </div>
+        </div>
+        
+        <form method="POST" class="checkout-form">
+            {% csrf_token %}
+            <div class="checkout-content">
+                <div class="checkout-forms">
+                    <!-- Contact Information -->
+                    <div class="checkout-form-section">
+                        <h2><i class="fas fa-user"></i> Contact Information</h2>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>First Name <span class="required">*</span></label>
+                                <input type="text" name="first_name" required placeholder="John">
+                            </div>
+                            <div class="form-group">
+                                <label>Last Name <span class="required">*</span></label>
+                                <input type="text" name="last_name" required placeholder="Doe">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Email Address <span class="required">*</span></label>
+                                <input type="email" name="email" required placeholder="john@company.com">
+                            </div>
+                            <div class="form-group">
+                                <label>Phone Number <span class="required">*</span></label>
+                                <input type="tel" name="phone" required placeholder="(416) 555-0123">
+                            </div>
+                        </div>
+                        <div class="form-row full-width">
+                            <div class="form-group">
+                                <label>Company Name (Optional)</label>
+                                <input type="text" name="company_name" placeholder="Your Company Inc.">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Shipping Address -->
+                    <div class="checkout-form-section">
+                        <h2><i class="fas fa-truck"></i> Shipping Address</h2>
+                        <div class="form-row full-width">
+                            <div class="form-group">
+                                <label>Address Line 1 <span class="required">*</span></label>
+                                <input type="text" name="shipping_address_1" required placeholder="123 Main Street">
+                            </div>
+                        </div>
+                        <div class="form-row full-width">
+                            <div class="form-group">
+                                <label>Address Line 2 (Optional)</label>
+                                <input type="text" name="shipping_address_2" placeholder="Suite 100, Unit 5, etc.">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>City <span class="required">*</span></label>
+                                <input type="text" name="shipping_city" required placeholder="Toronto">
+                            </div>
+                            <div class="form-group">
+                                <label>Province <span class="required">*</span></label>
+                                <select name="shipping_state" required>
+                                    <option value="">Select Province</option>
+                                    <option value="AB">Alberta</option>
+                                    <option value="BC">British Columbia</option>
+                                    <option value="MB">Manitoba</option>
+                                    <option value="NB">New Brunswick</option>
+                                    <option value="NL">Newfoundland and Labrador</option>
+                                    <option value="NS">Nova Scotia</option>
+                                    <option value="NT">Northwest Territories</option>
+                                    <option value="NU">Nunavut</option>
+                                    <option value="ON" selected>Ontario</option>
+                                    <option value="PE">Prince Edward Island</option>
+                                    <option value="QC">Quebec</option>
+                                    <option value="SK">Saskatchewan</option>
+                                    <option value="YT">Yukon</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Postal Code <span class="required">*</span></label>
+                                <input type="text" name="shipping_postal_code" required placeholder="M5V 1A1">
+                            </div>
+                            <div class="form-group">
+                                <label>Country</label>
+                                <input type="text" name="shipping_country" value="Canada" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Additional Notes -->
+                    <div class="checkout-form-section">
+                        <h2><i class="fas fa-sticky-note"></i> Additional Notes</h2>
+                        <div class="form-row full-width">
+                            <div class="form-group">
+                                <label>Order Notes (Optional)</label>
+                                <textarea name="customer_notes" placeholder="Any special instructions for your order..."></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-notice">
+                            <i class="fas fa-info-circle"></i>
+                            <p>
+                                <strong>Payment Information:</strong> After placing your order, our team will contact you within 24 hours to finalize payment and confirm your order. We accept e-Transfer, credit cards, and cheque payments.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Order Summary -->
+                <div class="order-summary">
+                    <h2>Order Summary</h2>
+                    
+                    <div class="order-items">
+                        {% for item in cart_items %}
+                        <div class="order-item">
+                            {% if item.product.image %}
+                            <img src="{{ item.product.image.url }}" alt="{{ item.product.title }}" class="order-item-image">
+                            {% else %}
+                            <div class="order-item-image" style="display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-box" style="color: #ccc;"></i>
+                            </div>
+                            {% endif %}
+                            <div class="order-item-details">
+                                <h4>{{ item.product.title }}</h4>
+                                <p>Qty: {{ item.quantity }} × ${{ item.unit_price }}</p>
+                            </div>
+                            <div class="order-item-total">${{ item.total_price }}</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="summary-divider"></div>
+                    
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span>${{ cart.subtotal }}</span>
+                    </div>
+                    
+                    <div class="summary-row">
+                        <span>Shipping</span>
+                        <span>To be calculated</span>
+                    </div>
+                    
+                    <div class="summary-row">
+                        <span>Tax (HST/GST)</span>
+                        <span>To be calculated</span>
+                    </div>
+                    
+                    <div class="summary-row total">
+                        <span>Estimated Total</span>
+                        <span>${{ cart.total }}</span>
+                    </div>
+                    
+                    <button type="submit" class="place-order-btn">
+                        <i class="fas fa-check-circle"></i>
+                        Place Order
+                    </button>
+                    
+                    <a href="{% url 'core:cart' %}" class="back-to-cart">
+                        <i class="fas fa-arrow-left"></i> Back to Cart
+                    </a>
+                    
+                    <div class="secure-checkout-notice">
+                        <i class="fas fa-lock"></i>
+                        <span>Secure Checkout</span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}
