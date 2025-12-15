@@ -2738,6 +2738,7 @@ section {
     border-radius: 10px;
     transition: var(--transition);
     border: none;
+    cursor: pointer;
     box-shadow: 0 4px 12px rgba(45, 122, 78, 0.25);
 }
 
