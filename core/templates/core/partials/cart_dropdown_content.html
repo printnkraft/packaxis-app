@@ -1,0 +1,46 @@
+{% load static %}
+{% if cart_items_preview %}
+    <div class="cart-dropdown-items">
+        {% for item in cart_items_preview %}
+        <div class="cart-dropdown-item" data-item-id="{{ item.id }}">
+            {% if item.product.image %}
+            <img src="{{ item.product.image.url }}" alt="{{ item.product.title }}" class="cart-dropdown-img">
+            {% else %}
+            <div class="cart-dropdown-img cart-dropdown-placeholder">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+            </div>
+            {% endif %}
+            <div class="cart-dropdown-info">
+                <span class="cart-dropdown-name">{{ item.product.title|truncatechars:22 }}</span>
+                <div class="cart-dropdown-controls">
+                    <div class="cart-dropdown-qty-control">
+                        <button type="button" class="cart-qty-btn minus" onclick="updateCartDropdown({{ item.id }}, -1)">−</button>
+                        <span class="cart-qty-value">{{ item.quantity }}</span>
+                        <button type="button" class="cart-qty-btn plus" onclick="updateCartDropdown({{ item.id }}, 1)">+</button>
+                    </div>
+                    <span class="cart-dropdown-price">${{ item.line_total }}</span>
+                </div>
+            </div>
+            <button type="button" class="cart-dropdown-remove" onclick="removeFromCartDropdown({{ item.id }})" title="Remove">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+    {% if cart_total_items > 3 %}
+    <div class="cart-dropdown-more">+ {{ cart_total_items|add:"-3" }} more item{{ cart_total_items|add:"-3"|pluralize }}</div>
+    {% endif %}
+    <div class="cart-dropdown-footer">
+        <div class="cart-dropdown-subtotal">
+            <span>Subtotal:</span>
+            <strong>${{ cart_subtotal }}</strong>
+        </div>
+        <a href="{% url 'core:cart' %}" class="cart-dropdown-btn">View Cart</a>
+    </div>
+{% else %}
+    <div class="cart-dropdown-empty">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <p>Your cart is empty</p>
+        <a href="{% url 'core:products' %}" class="cart-dropdown-shop">Shop Now</a>
+    </div>
+{% endif %}

@@ -1,0 +1,280 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Order History - PackAxis{% endblock %}
+
+{% block extra_css %}
+<style>
+    .orders-page {
+        padding: 4rem 0;
+        min-height: 70vh;
+        background: #f8f9fa;
+    }
+    
+    .orders-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+    }
+    
+    .orders-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+    
+    .orders-header h1 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: #1F1F1F;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    
+    .orders-header h1 svg {
+        width: 28px;
+        height: 28px;
+        color: var(--primary-color);
+    }
+    
+    .back-link {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.9375rem;
+    }
+    
+    .back-link:hover {
+        text-decoration: underline;
+    }
+    
+    .orders-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .order-card {
+        background: white;
+        border-radius: 12px;
+        border: 1px solid #e5e5e5;
+        overflow: hidden;
+    }
+    
+    .order-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.25rem;
+        background: #f8f9fa;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .order-info h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #1F1F1F;
+        margin-bottom: 0.25rem;
+    }
+    
+    .order-info p {
+        font-size: 0.8125rem;
+        color: #666;
+    }
+    
+    .order-status {
+        padding: 0.375rem 0.875rem;
+        border-radius: 50px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+    
+    .order-status.completed {
+        background: #d1fae5;
+        color: #065f46;
+    }
+    
+    .order-status.processing {
+        background: #fef3c7;
+        color: #92400e;
+    }
+    
+    .order-status.pending {
+        background: #e0e7ff;
+        color: #3730a3;
+    }
+    
+    .order-status.cancelled {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+    
+    .order-body {
+        padding: 1.25rem;
+    }
+    
+    .order-items {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+    }
+    
+    .order-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.9rem;
+    }
+    
+    .order-item-name {
+        color: #333;
+    }
+    
+    .order-item-qty {
+        color: #666;
+        font-size: 0.8125rem;
+    }
+    
+    .order-item-price {
+        font-weight: 600;
+        color: #333;
+    }
+    
+    .order-total {
+        display: flex;
+        justify-content: space-between;
+        padding-top: 1rem;
+        border-top: 1px solid #eee;
+        font-weight: 600;
+    }
+    
+    .order-total span:last-child {
+        font-size: 1.1rem;
+        color: var(--primary-color);
+    }
+    
+    .no-orders {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: white;
+        border-radius: 12px;
+        border: 1px solid #e5e5e5;
+    }
+    
+    .no-orders svg {
+        width: 64px;
+        height: 64px;
+        color: #ccc;
+        margin-bottom: 1.5rem;
+    }
+    
+    .no-orders h2 {
+        font-size: 1.25rem;
+        color: #333;
+        margin-bottom: 0.5rem;
+    }
+    
+    .no-orders p {
+        color: #666;
+        margin-bottom: 1.5rem;
+    }
+    
+    .shop-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.875rem 1.75rem;
+        background: var(--primary-color);
+        color: white;
+        border-radius: 10px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+    
+    .shop-btn:hover {
+        background: #1a5d38;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="orders-page">
+    <div class="orders-container">
+        <div class="orders-header">
+            <h1>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+                Order History
+            </h1>
+            <a href="{% url 'accounts:profile' %}" class="back-link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Back to Profile
+            </a>
+        </div>
+        
+        {% if orders %}
+        <div class="orders-list">
+            {% for order in orders %}
+            <div class="order-card">
+                <div class="order-header">
+                    <div class="order-info">
+                        <h3>Order #{{ order.order_number }}</h3>
+                        <p>Placed on {{ order.created_at|date:"F d, Y" }}</p>
+                    </div>
+                    <span class="order-status {{ order.status|lower }}">{{ order.get_status_display }}</span>
+                </div>
+                <div class="order-body">
+                    <div class="order-items">
+                        {% for item in order.items.all %}
+                        <div class="order-item">
+                            <div>
+                                <span class="order-item-name">{{ item.product_name }}</span>
+                                <span class="order-item-qty">× {{ item.quantity }}</span>
+                            </div>
+                            <span class="order-item-price">${{ item.line_total }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="order-total">
+                        <span>Total</span>
+                        <span>${{ order.total }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="no-orders">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+            <h2>No Orders Yet</h2>
+            <p>You haven't placed any orders yet. Start shopping to see your orders here!</p>
+            <a href="{% url 'core:products' %}" class="shop-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
+                Browse Products
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

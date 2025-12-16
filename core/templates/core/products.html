@@ -12,35 +12,92 @@
             <div class="section-header" style="padding-top: 120px; padding-bottom: 60px;">
                 <span class="section-tag" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3);">Our Products</span>
                 <h1 class="section-title" style="color: white; text-shadow: 0 2px 20px rgba(0,0,0,0.2);">Sustainable Paper Bags for Every Need</h1>
-                <p class="section-description" style="color: rgba(255,255,255,0.95); max-width: 750px; margin: 0 auto;">From wholesale kraft paper bags to custom branded shopping bags, our recyclable packaging solutions help Canadian businesses make an eco-friendly statement. Available in bulk for restaurants, retailers, and businesses across Toronto and Canada.</p>
+                <p class="section-description" style="color: rgba(255,255,255,0.95); max-width: 750px; margin: 0 auto;">From wholesale kraft paper bags to custom branded shopping bags, our recyclable packaging solutions help Canadian businesses make an eco-friendly statement.</p>
             </div>
         </div>
     </section>
 
     <!-- Products Grid Section -->
-    <section id="products" class="products-grid-section" style="padding: 5rem 0; background: linear-gradient(180deg, #fafafa 0%, #ffffff 100%);">
+    <section id="products" class="products-grid-section" style="padding: 4rem 0; background: #fafafa;">
         <div class="container">
-            <div class="products-grid">
-                {% for product_category in product_categories %}
-                <div class="product-card" onclick="window.location.href='{% url 'core:product_detail' product_category.slug %}'" style="cursor: pointer; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);">
-                    {% if product_category.order == 1 %}
-                    <div class="product-badge" style="background: linear-gradient(135deg, #2D7A4E 0%, #1a4d2e 100%); box-shadow: 0 4px 12px rgba(45, 122, 78, 0.4);">Bestseller</div>
+            <!-- Category Filter -->
+            <div class="products-filter" style="margin-bottom: 2rem; display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center;">
+                <a href="{% url 'core:products' %}" 
+                   class="filter-btn {% if not selected_category %}active{% endif %}"
+                   style="padding: 0.625rem 1.25rem; border-radius: 50px; font-size: 0.875rem; font-weight: 600; text-decoration: none; transition: all 0.2s; {% if not selected_category %}background: var(--primary-color); color: white;{% else %}background: white; color: var(--text-dark); border: 1px solid #e0e0e0;{% endif %}">
+                    All Products
+                </a>
+                {% for category in categories %}
+                <a href="{% url 'core:products' %}?category={{ category.slug }}" 
+                   class="filter-btn {% if selected_category == category.slug %}active{% endif %}"
+                   style="padding: 0.625rem 1.25rem; border-radius: 50px; font-size: 0.875rem; font-weight: 600; text-decoration: none; transition: all 0.2s; {% if selected_category == category.slug %}background: var(--primary-color); color: white;{% else %}background: white; color: var(--text-dark); border: 1px solid #e0e0e0;{% endif %}">
+                    {{ category.title }}
+                </a>
+                {% endfor %}
+            </div>
+
+            <!-- Products Count -->
+            <p style="text-align: center; color: #666; margin-bottom: 2rem; font-size: 0.9375rem;">
+                Showing <strong>{{ products|length }}</strong> product{{ products|length|pluralize }}
+            </p>
+
+            <!-- Products Grid -->
+            <div class="products-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;">
+                {% for product in products %}
+                <div class="product-card" style="background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: all 0.3s ease; position: relative;">
+                    {% if product.is_featured %}
+                    <div class="product-badge">Featured</div>
                     {% endif %}
-                    <div class="product-image" style="position: relative; overflow: hidden;">
-                        <div style="position: absolute; inset: 0; background: linear-gradient(180deg, transparent 0%, rgba(45, 122, 78, 0.1) 100%); opacity: 0; transition: opacity 0.4s ease;" class="product-overlay"></div>
-                        <img src="{{ product_category.image.url }}" alt="{{ product_category.title }} - Custom wholesale paper bags with handles for Canadian businesses" loading="lazy" style="transition: transform 0.4s ease;">
-                    </div>
-                    <div class="product-content" style="padding: 1.75rem;">
-                        <h3 style="font-size: 1.35rem; font-weight: 700; color: #1F1F1F; margin-bottom: 0.75rem;">{{ product_category.title }}</h3>
-                        <p style="color: #6B6B6B; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.25rem;">{{ product_category.description|truncatewords:15 }}</p>
-                        <span class="view-details" style="color: #2D7A4E; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 0.5rem; transition: gap 0.3s ease;">View Details <span style="transition: transform 0.3s ease; display: inline-block;">→</span></span>
+                    {% if not product.is_in_stock %}
+                    <div class="product-badge sold-out">Sold Out</div>
+                    {% endif %}
+                    <a href="{% url 'core:product_detail' product.slug %}" class="product-image-link" style="display: block; position: relative; height: 220px; overflow: hidden; background: #f5f5f5;">
+                        {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.title }}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;">
+                        {% else %}
+                        <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #ccc;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+                        </div>
+                        {% endif %}
+                    </a>
+                    <div class="product-content" style="padding: 1.25rem;">
+                        {% if product.category %}
+                        <span style="font-size: 0.75rem; color: var(--primary-color); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">{{ product.category.title }}</span>
+                        {% endif %}
+                        <a href="{% url 'core:product_detail' product.slug %}" style="text-decoration: none;">
+                            <h3 style="font-size: 1.125rem; font-weight: 700; color: #1F1F1F; margin: 0.5rem 0; line-height: 1.3;">{{ product.title }}</h3>
+                        </a>
+                        <p style="color: #666; font-size: 0.875rem; line-height: 1.5; margin-bottom: 1rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">{{ product.short_description|truncatewords:12 }}</p>
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+                            <div class="product-price">
+                                {% if product.compare_at_price %}
+                                <span style="text-decoration: line-through; color: #999; font-size: 0.875rem; margin-right: 0.5rem;">${{ product.compare_at_price }}</span>
+                                {% endif %}
+                                <span style="font-size: 1.25rem; font-weight: 700; color: var(--primary-color);">${{ product.price }}</span>
+                            </div>
+                        </div>
+                        {% if product.is_in_stock and product.price %}
+                        <button type="button" class="quick-add-btn" data-slug="{{ product.slug }}" data-title="{{ product.title }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="m1 1 4 4 14 1-2 9H7"/></svg>
+                            Add to Cart
+                        </button>
+                        {% elif not product.is_in_stock %}
+                        <button type="button" class="quick-add-btn sold-out" disabled>
+                            Sold Out
+                        </button>
+                        {% else %}
+                        <a href="{% url 'core:product_detail' product.slug %}" class="quick-add-btn view-btn">
+                            View Details
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                        </a>
+                        {% endif %}
                     </div>
                 </div>
                 {% empty %}
-                <div class="product-card">
-                    <div class="product-content">
-                        <p>No product categories available at the moment.</p>
-                    </div>
+                <div style="grid-column: 1 / -1; text-align: center; padding: 4rem 2rem;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5" style="margin-bottom: 1rem;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <h3 style="color: #666; font-size: 1.25rem; margin-bottom: 0.5rem;">No products found</h3>
+                    <p style="color: #999;">Try selecting a different category or check back later.</p>
                 </div>
                 {% endfor %}
             </div>
@@ -75,7 +132,7 @@
                     </div>
                 </div>
                 <div class="quality-image" style="border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.15);">
-                    <img src="{% static 'images/assests/Paper Bag Restaurant.png' %}" alt="High-quality kraft paper bags with twisted handles - durable eco-friendly packaging for restaurants and retail" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
+                    <img src="{% static 'images/assests/Paper Bag Restaurant.png' %}" alt="High-quality kraft paper bags" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
             </div>
         </div>
@@ -87,10 +144,10 @@
         <div style="position: absolute; bottom: -40%; left: -10%; width: 450px; height: 450px; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); border-radius: 50%;"></div>
         <div class="cta-content" style="position: relative; z-index: 2;">
             <h2 style="font-size: 2.75rem; color: white; text-shadow: 0 2px 20px rgba(0,0,0,0.2);">Ready to Order?</h2>
-            <p style="font-size: 1.2rem; opacity: 0.95;">Get competitive pricing on bulk orders. Contact our team today for a custom quote tailored to your business needs.</p>
-            <a href="{% url 'core:quote_request' %}" class="btn-cta" style="background: white; color: #2D7A4E; padding: 1.1rem 2.75rem; border-radius: 50px; font-weight: 700; font-size: 1.1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.75rem; transition: all 0.4s ease; box-shadow: 0 8px 30px rgba(0,0,0,0.25); animation: pulse 2s infinite;">
+            <p style="font-size: 1.2rem; opacity: 0.95;">Get competitive pricing on bulk orders. Contact our team today for a custom quote.</p>
+            <a href="{% url 'core:quote_request' %}" class="btn-cta" style="background: white; color: #2D7A4E; padding: 1.1rem 2.75rem; border-radius: 50px; font-weight: 700; font-size: 1.1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.75rem; transition: all 0.3s ease; box-shadow: 0 8px 30px rgba(0,0,0,0.25);">
                 Get Your Custom Quote
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="transition: transform 0.3s ease;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                     <polyline points="12 5 19 12 12 19"></polyline>
                 </svg>
@@ -99,25 +156,72 @@
     </section>
     
     <style>
-    @keyframes pulse {
-        0%, 100% { transform: scale(1); box-shadow: 0 8px 30px rgba(0,0,0,0.25); }
-        50% { transform: scale(1.02); box-shadow: 0 12px 40px rgba(0,0,0,0.35); }
+    .filter-btn:hover {
+        background: var(--primary-color) !important;
+        color: white !important;
+        border-color: var(--primary-color) !important;
     }
     
-    .product-card:hover .product-overlay {
-        opacity: 1 !important;
+    .product-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 32px rgba(0,0,0,0.12);
     }
     
     .product-card:hover img {
-        transform: scale(1.08) !important;
+        transform: scale(1.05);
     }
     
-    .product-card:hover .view-details {
-        gap: 0.75rem !important;
+    .product-image-link {
+        cursor: pointer;
     }
     
-    .product-card:hover .view-details span {
-        transform: translateX(4px) !important;
+    /* Quick Add Button */
+    .quick-add-btn {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        transition: all 0.2s ease;
+        text-decoration: none;
+    }
+    
+    .quick-add-btn:hover {
+        background: var(--secondary-color);
+        transform: translateY(-1px);
+    }
+    
+    .quick-add-btn.sold-out {
+        background: #999;
+        cursor: not-allowed;
+    }
+    
+    .quick-add-btn.view-btn {
+        background: transparent;
+        color: var(--primary-color);
+        border: 2px solid var(--primary-color);
+    }
+    
+    .quick-add-btn.view-btn:hover {
+        background: var(--primary-color);
+        color: white;
+    }
+    
+    .quick-add-btn.adding {
+        background: #666;
+        pointer-events: none;
+    }
+    
+    .quick-add-btn.added {
+        background: #28a745;
     }
     
     .about-feature:hover {
@@ -126,12 +230,198 @@
     }
     
     .btn-cta:hover {
-        transform: translateY(-3px) scale(1.03) !important;
+        transform: translateY(-3px);
         box-shadow: 0 15px 45px rgba(0,0,0,0.4) !important;
     }
     
-    .btn-cta:hover svg {
-        transform: translateX(5px) !important;
+    /* Toast notification */
+    .toast-notification {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: white;
+        padding: 1rem 1.25rem;
+        border-radius: 12px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        z-index: 9999;
+        transform: translateY(100px);
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+    
+    .toast-notification.show {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    
+    .toast-notification.success svg {
+        color: #28a745;
+    }
+    
+    .toast-notification span {
+        font-size: 0.9375rem;
+        font-weight: 500;
+        color: #333;
+    }
+    
+    .toast-action {
+        margin-left: 0.5rem;
+        padding: 0.375rem 0.75rem;
+        background: var(--primary-color);
+        color: white !important;
+        text-decoration: none;
+        border-radius: 50px;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    
+    .toast-action:hover {
+        background: var(--secondary-color);
+    }
+    
+    @media (max-width: 600px) {
+        .toast-notification {
+            left: 20px;
+            right: 20px;
+            bottom: 10px;
+        }
+    }
+    @media (max-width: 768px) {
+        .products-filter {
+            padding: 0 1rem;
+        }
+        
+        .products-grid {
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)) !important;
+            gap: 1rem !important;
+        }
+    }
+    </style>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Quick Add to Cart
+        document.querySelectorAll('.quick-add-btn[data-slug]').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const slug = this.dataset.slug;
+                const title = this.dataset.title;
+                const originalText = this.innerHTML;
+                
+                // Show loading state
+                this.classList.add('adding');
+                this.innerHTML = `
+                    <svg class="spinner" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation: spin 0.6s linear infinite;">
+                        <circle cx="12" cy="12" r="10"></circle>
+                    </svg>
+                    Adding...
+                `;
+                
+                // Create form data
+                const formData = new FormData();
+                formData.append('quantity', '1');
+                formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+                
+                fetch(`/cart/add/${slug}/`, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Update cart badge
+                        const badge = document.querySelector('.cart-badge');
+                        if (badge) {
+                            badge.textContent = data.cart_total_items;
+                            badge.style.transform = 'scale(1.3)';
+                            setTimeout(() => badge.style.transform = 'scale(1)', 200);
+                        } else {
+                            const cartLink = document.querySelector('.nav-cart-link');
+                            if (cartLink) {
+                                const newBadge = document.createElement('span');
+                                newBadge.className = 'cart-badge';
+                                newBadge.textContent = data.cart_total_items;
+                                cartLink.appendChild(newBadge);
+                            }
+                        }
+                        
+                        // Refresh the cart dropdown content
+                        if (typeof refreshCartDropdown === 'function') {
+                            refreshCartDropdown();
+                        }
+                        
+                        // Show success state
+                        this.classList.remove('adding');
+                        this.classList.add('added');
+                        this.innerHTML = `
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            Added!
+                        `;
+                        
+                        // Show toast
+                        showToast(`${title} added to cart!`);
+                        
+                        // Reset button
+                        setTimeout(() => {
+                            this.classList.remove('added');
+                            this.innerHTML = originalText;
+                        }, 2000);
+                    } else {
+                        this.classList.remove('adding');
+                        this.innerHTML = originalText;
+                        showAlert('error', 'Unable to Add', data.message || 'There was an error adding this item to your cart.');
+                    }
+                })
+                .catch(error => {
+                    this.classList.remove('adding');
+                    this.innerHTML = originalText;
+                    showAlert('error', 'Connection Error', 'Unable to connect. Please try again.');
+                });
+            });
+        });
+        
+        // Toast notification
+        function showToast(message) {
+            const existingToast = document.querySelector('.toast-notification');
+            if (existingToast) existingToast.remove();
+            
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification success';
+            toast.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+                <span>${message}</span>
+                <a href="{% url 'core:cart' %}" class="toast-action">View Cart</a>
+            `;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => toast.classList.add('show'), 10);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+    });
+    </script>
+    
+    <style>
+    @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
     }
     </style>
 {% endblock %}

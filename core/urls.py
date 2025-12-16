@@ -27,6 +27,9 @@ urlpatterns = [
     path('cart/add/<slug:slug>/', views.add_to_cart, name='add_to_cart'),
     path('cart/update/', views.update_cart, name='update_cart'),
     path('cart/remove/<int:item_id>/', views.remove_from_cart, name='remove_from_cart'),
+    path('cart/update-ajax/<int:item_id>/', views.update_cart_ajax, name='update_cart_ajax'),
+    path('cart/remove-ajax/<int:item_id>/', views.remove_cart_ajax, name='remove_cart_ajax'),
+    path('cart/dropdown-html/', views.cart_dropdown_html, name='cart_dropdown_html'),
     path('checkout/', views.checkout, name='checkout'),
     path('order-confirmation/<str:order_number>/', views.order_confirmation, name='order_confirmation'),
 ]

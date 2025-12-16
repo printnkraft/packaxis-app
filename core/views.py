@@ -96,10 +96,19 @@ def industries_page(request):
     return render(request, 'core/industries.html', context)
 
 def products_page(request):
-    """Display all product categories on a dedicated page"""
-    product_categories = ProductCategory.objects.filter(is_active=True)
+    """Display all products on a dedicated page"""
+    products = Product.objects.filter(is_active=True).select_related('category').order_by('category', 'title')
+    categories = ProductCategory.objects.filter(is_active=True)
+    
+    # Get selected category filter
+    selected_category = request.GET.get('category', '')
+    if selected_category:
+        products = products.filter(category__slug=selected_category)
+    
     context = {
-        'product_categories': product_categories,
+        'products': products,
+        'categories': categories,
+        'selected_category': selected_category,
     }
     return render(request, 'core/products.html', context)
 
@@ -404,18 +413,25 @@ def add_to_cart(request, slug):
     """Add a product to cart"""
     product = get_object_or_404(Product, slug=slug, is_active=True)
     cart = get_or_create_cart(request)
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
     
     quantity = int(request.POST.get('quantity', 1))
     
     # Check stock if tracking inventory
     if product.track_inventory and not product.allow_backorder:
         if product.stock_quantity < quantity:
+            if is_ajax:
+                return JsonResponse({
+                    'success': False,
+                    'message': f'Sorry, only {product.stock_quantity} items available in stock.'
+                })
             messages.error(request, f'Sorry, only {product.stock_quantity} items available in stock.')
             return redirect('core:product_detail', slug=slug)
     
     # Check minimum order quantity
     if product.minimum_order and quantity < product.minimum_order:
-        messages.warning(request, f'Minimum order quantity is {product.minimum_order} items.')
+        if not is_ajax:
+            messages.warning(request, f'Minimum order quantity is {product.minimum_order} items.')
         quantity = product.minimum_order
     
     # Add to cart or update quantity
@@ -428,12 +444,14 @@ def add_to_cart(request, slug):
     if not created:
         cart_item.quantity += quantity
         cart_item.save()
-        messages.success(request, f'Updated quantity of "{product.title}" in your cart.')
+        if not is_ajax:
+            messages.success(request, f'Updated quantity of "{product.title}" in your cart.')
     else:
-        messages.success(request, f'Added "{product.title}" to your cart.')
+        if not is_ajax:
+            messages.success(request, f'Added "{product.title}" to your cart.')
     
     # Return JSON for AJAX requests
-    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+    if is_ajax:
         return JsonResponse({
             'success': True,
             'message': f'Added {quantity}x {product.title} to cart',
@@ -507,6 +525,89 @@ def remove_from_cart(request, item_id):
         })
     
     return redirect('core:cart')
+
+
+@require_POST
+def update_cart_ajax(request, item_id):
+    """AJAX endpoint for updating cart item quantity from dropdown"""
+    cart = get_or_create_cart(request)
+    
+    try:
+        data = json.loads(request.body) if request.content_type == 'application/json' else request.POST
+        change = int(data.get('change', 0))
+        
+        cart_item = get_object_or_404(CartItem, id=item_id, cart=cart)
+        new_quantity = cart_item.quantity + change
+        
+        if new_quantity <= 0:
+            cart_item.delete()
+            return JsonResponse({
+                'success': True,
+                'removed': True,
+                'cart_total_items': cart.total_items,
+                'cart_subtotal': str(cart.subtotal),
+            })
+        
+        # Check stock
+        if cart_item.product.track_inventory and not cart_item.product.allow_backorder:
+            if cart_item.product.stock_quantity < new_quantity:
+                return JsonResponse({
+                    'success': False,
+                    'error': f'Only {cart_item.product.stock_quantity} items available in stock.'
+                })
+        
+        cart_item.quantity = new_quantity
+        cart_item.save()
+        
+        return JsonResponse({
+            'success': True,
+            'new_quantity': new_quantity,
+            'item_total': str(cart_item.total_price),
+            'cart_total_items': cart.total_items,
+            'cart_subtotal': str(cart.subtotal),
+        })
+        
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'error': str(e)
+        })
+
+
+@require_POST
+def remove_cart_ajax(request, item_id):
+    """AJAX endpoint for removing cart item from dropdown"""
+    cart = get_or_create_cart(request)
+    
+    try:
+        cart_item = get_object_or_404(CartItem, id=item_id, cart=cart)
+        cart_item.delete()
+        
+        return JsonResponse({
+            'success': True,
+            'cart_total_items': cart.total_items,
+            'cart_subtotal': str(cart.subtotal),
+        })
+        
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'error': str(e)
+        })
+
+
+def cart_dropdown_html(request):
+    """Returns the cart dropdown HTML for AJAX updates"""
+    cart = get_or_create_cart(request)
+    cart_items = cart.items.select_related('product').all()
+    
+    context = {
+        'cart_items_preview': cart_items[:3],
+        'cart_total_items': cart.total_items,
+        'cart_subtotal': cart.subtotal,
+    }
+    
+    return render(request, 'core/partials/cart_dropdown_content.html', context)
 
 
 def checkout(request):

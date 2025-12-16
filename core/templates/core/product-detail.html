@@ -129,7 +129,7 @@
                                     <circle cx="20" cy="21" r="1"></circle>
                                     <path d="m1 1 4 4 14 1-2 9H7"></path>
                                 </svg>
-                                ADD TO CART
+                                Add to Cart
                             </button>
                             {% else %}
                             <button type="button" class="btn-add-cart out-of-stock" disabled>
@@ -137,7 +137,7 @@
                                     <circle cx="12" cy="12" r="10"></circle>
                                     <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
                                 </svg>
-                                OUT OF STOCK
+                                Out of Stock
                             </button>
                             {% endif %}
                         {% else %}
@@ -149,7 +149,7 @@
                                     <line x1="16" y1="13" x2="8" y2="13"></line>
                                     <line x1="16" y1="17" x2="8" y2="17"></line>
                                 </svg>
-                                GET A QUOTE
+                                Get a Quote
                             </a>
                         {% endif %}
                         <a href="tel:+14164004747" class="btn-call" title="Call us now">
@@ -163,7 +163,7 @@
                 <!-- Trust Badges - Compact -->
                 <div class="trust-badges-compact">
                     <div class="badge-compact">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <rect x="1" y="3" width="15" height="13" rx="2" ry="2"></rect>
                             <polyline points="16 8 20 8 23 11 23 16 20 16"></polyline>
                             <circle cx="5.5" cy="18.5" r="2.5"></circle>
@@ -171,26 +171,26 @@
                         </svg>
                         <div>
                             <strong>Free Shipping</strong>
-                            <span>On orders $2000+</span>
+                            <span>Orders $2000+</span>
                         </div>
                     </div>
                     <div class="badge-compact">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                             <polyline points="9 12 11 14 15 10"></polyline>
                         </svg>
                         <div>
-                            <strong>100% Secure</strong>
-                            <span>Shop with confidence</span>
+                            <strong>Secure Checkout</strong>
+                            <span>100% Protected</span>
                         </div>
                     </div>
                     <div class="badge-compact">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="12" cy="12" r="10"></circle>
                             <polyline points="12 6 12 12 16 14"></polyline>
                         </svg>
                         <div>
-                            <strong>Quick Response</strong>
+                            <strong>Fast Response</strong>
                             <span>Within 24 hours</span>
                         </div>
                     </div>
@@ -198,11 +198,11 @@
                 
                 <!-- Guarantee Banner -->
                 <div class="guarantee-banner">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="8" r="7"></circle>
                         <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
                     </svg>
-                    <span><strong>Quality Guaranteed</strong> — 100% satisfaction or we'll make it right</span>
+                    <span><strong>Quality Guarantee</strong> — 100% satisfaction or we'll make it right</span>
                 </div>
             </div>
         </div>
@@ -302,20 +302,211 @@ function incrementQty() {
 
 function decrementQty() {
     const qtyInput = document.getElementById('quantity');
-    if (parseInt(qtyInput.value) > 1) {
+    const minQty = parseInt(qtyInput.min) || 1;
+    if (parseInt(qtyInput.value) > minQty) {
         qtyInput.value = parseInt(qtyInput.value) - 1;
     }
 }
 
 // Tab switcher
 function switchTab(event, tabId) {
-    // Remove active from all tabs and panels
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
-    
-    // Add active to clicked tab and corresponding panel
     event.target.classList.add('active');
     document.getElementById(tabId).classList.add('active');
 }
+
+// AJAX Add to Cart
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('.add-to-cart-form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const btn = form.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            
+            // Show loading state
+            btn.disabled = true;
+            btn.innerHTML = `
+                <svg class="spinner" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10" stroke-dasharray="60" stroke-dashoffset="20"></circle>
+                </svg>
+                Adding...
+            `;
+            btn.style.opacity = '0.8';
+            
+            const formData = new FormData(form);
+            
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update cart badge in header
+                    const badge = document.querySelector('.cart-badge');
+                    if (badge) {
+                        badge.textContent = data.cart_total_items;
+                        badge.style.transform = 'scale(1.3)';
+                        setTimeout(() => badge.style.transform = 'scale(1)', 200);
+                    } else {
+                        const cartLink = document.querySelector('.nav-cart-link');
+                        if (cartLink) {
+                            const newBadge = document.createElement('span');
+                            newBadge.className = 'cart-badge';
+                            newBadge.textContent = data.cart_total_items;
+                            cartLink.appendChild(newBadge);
+                        }
+                    }
+                    
+                    // Refresh the cart dropdown content
+                    if (typeof refreshCartDropdown === 'function') {
+                        refreshCartDropdown();
+                    }
+                    
+                    // Show success state
+                    btn.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        Added to Cart!
+                    `;
+                    btn.style.background = '#28a745';
+                    btn.style.opacity = '1';
+                    
+                    // Show toast notification
+                    showToast('Added to cart successfully!', 'success');
+                    
+                    // Reset button after 2 seconds
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                        btn.style.background = '';
+                        btn.disabled = false;
+                    }, 2000);
+                } else {
+                    btn.innerHTML = originalText;
+                    btn.style.opacity = '1';
+                    btn.disabled = false;
+                    showToast(data.message || 'Error adding to cart', 'error');
+                }
+            })
+            .catch(error => {
+                btn.innerHTML = originalText;
+                btn.style.opacity = '1';
+                btn.disabled = false;
+                showToast('Error adding to cart', 'error');
+            });
+        });
+    }
+});
+
+// Toast notification
+function showToast(message, type) {
+    // Remove existing toast
+    const existingToast = document.querySelector('.toast-notification');
+    if (existingToast) existingToast.remove();
+    
+    const toast = document.createElement('div');
+    toast.className = `toast-notification ${type}`;
+    toast.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            ${type === 'success' 
+                ? '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline>'
+                : '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>'
+            }
+        </svg>
+        <span>${message}</span>
+        <a href="{% url 'core:cart' %}" class="toast-action">View Cart</a>
+    `;
+    document.body.appendChild(toast);
+    
+    // Animate in
+    setTimeout(() => toast.classList.add('show'), 10);
+    
+    // Remove after 4 seconds
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, 4000);
+}
 </script>
+
+<style>
+/* Toast Notification */
+.toast-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: white;
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    z-index: 9999;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.toast-notification.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.toast-notification.success svg {
+    color: #28a745;
+}
+
+.toast-notification.error svg {
+    color: #dc3545;
+}
+
+.toast-notification span {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.toast-action {
+    margin-left: 0.5rem;
+    padding: 0.375rem 0.75rem;
+    background: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.toast-action:hover {
+    background: var(--secondary-color);
+    color: white;
+}
+
+/* Spinner animation */
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@media (max-width: 600px) {
+    .toast-notification {
+        left: 20px;
+        right: 20px;
+        bottom: 10px;
+    }
+}
+</style>
 {% endblock %}

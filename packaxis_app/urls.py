@@ -24,6 +24,8 @@ urlpatterns = [
     path('superusers/', admin.site.urls),
     path('', include('core.urls')),
     path('blog/', include('blog.urls')),
+    path('accounts/', include('accounts.urls')),
+    path('accounts/', include('allauth.urls')),
     path('sitemap.xml', sitemap_view, name='sitemap'),
     path('robots.txt', robots_txt_view, name='robots'),
 ]

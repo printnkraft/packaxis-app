@@ -21,14 +21,20 @@ def active_products(request):
 def cart_context(request):
     """Make cart information available to all templates"""
     cart_total_items = 0
+    cart_items = []
+    cart_subtotal = 0
     
     if request.session.session_key:
         try:
             cart = Cart.objects.get(session_key=request.session.session_key)
             cart_total_items = cart.total_items
+            cart_items = cart.items.select_related('product')[:3]  # Limit to 3 items for dropdown
+            cart_subtotal = cart.subtotal
         except Cart.DoesNotExist:
             pass
     
     return {
-        'cart_total_items': cart_total_items
+        'cart_total_items': cart_total_items,
+        'cart_items_preview': cart_items,
+        'cart_subtotal': cart_subtotal
     }
