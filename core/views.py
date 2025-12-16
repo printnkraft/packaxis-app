@@ -518,58 +518,87 @@ def checkout(request):
         messages.warning(request, 'Your cart is empty. Add some products before checkout.')
         return redirect('core:cart')
     
+    # Re-verify stock availability before checkout
+    stock_errors = []
+    for item in cart.items.select_related('product').all():
+        if item.product.track_inventory and not item.product.allow_backorder:
+            if item.product.stock_quantity < item.quantity:
+                stock_errors.append(f'{item.product.title}: only {item.product.stock_quantity} available')
+    
+    if stock_errors:
+        for error in stock_errors:
+            messages.error(request, error)
+        return redirect('core:cart')
+    
     if request.method == 'POST':
-        try:
-            # Create order from cart
-            order = Order.objects.create(
-                email=request.POST.get('email'),
-                first_name=request.POST.get('first_name'),
-                last_name=request.POST.get('last_name'),
-                company_name=request.POST.get('company_name', ''),
-                phone=request.POST.get('phone'),
-                shipping_address_1=request.POST.get('shipping_address_1'),
-                shipping_address_2=request.POST.get('shipping_address_2', ''),
-                shipping_city=request.POST.get('shipping_city'),
-                shipping_state=request.POST.get('shipping_state'),
-                shipping_postal_code=request.POST.get('shipping_postal_code'),
-                shipping_country=request.POST.get('shipping_country', 'Canada'),
-                customer_notes=request.POST.get('customer_notes', ''),
-                subtotal=cart.subtotal,
-                total=cart.total,
-            )
-            
-            # Create order items from cart items
-            for cart_item in cart.items.all():
-                OrderItem.objects.create(
-                    order=order,
-                    product=cart_item.product,
-                    product_title=cart_item.product.title,
-                    product_sku=cart_item.product.sku or '',
-                    quantity=cart_item.quantity,
-                    unit_price=cart_item.unit_price,
-                    total_price=cart_item.total_price,
+        # Server-side validation
+        errors = []
+        required_fields = ['first_name', 'last_name', 'email', 'phone', 
+                          'shipping_address_1', 'shipping_city', 'shipping_state', 'shipping_postal_code']
+        
+        for field in required_fields:
+            if not request.POST.get(field, '').strip():
+                errors.append(f'{field.replace("_", " ").title()} is required')
+        
+        # Validate email format
+        email = request.POST.get('email', '').strip()
+        if email and '@' not in email:
+            errors.append('Please enter a valid email address')
+        
+        if errors:
+            for error in errors:
+                messages.error(request, error)
+        else:
+            try:
+                # Create order from cart
+                order = Order.objects.create(
+                    email=email,
+                    first_name=request.POST.get('first_name', '').strip(),
+                    last_name=request.POST.get('last_name', '').strip(),
+                    company_name=request.POST.get('company_name', '').strip(),
+                    phone=request.POST.get('phone', '').strip(),
+                    shipping_address_1=request.POST.get('shipping_address_1', '').strip(),
+                    shipping_address_2=request.POST.get('shipping_address_2', '').strip(),
+                    shipping_city=request.POST.get('shipping_city', '').strip(),
+                    shipping_state=request.POST.get('shipping_state', '').strip(),
+                    shipping_postal_code=request.POST.get('shipping_postal_code', '').strip().upper(),
+                    shipping_country=request.POST.get('shipping_country', 'Canada').strip(),
+                    customer_notes=request.POST.get('customer_notes', '').strip(),
+                    subtotal=cart.subtotal,
+                    total=cart.total,
                 )
                 
-                # Update stock if tracking
-                if cart_item.product.track_inventory:
-                    cart_item.product.stock_quantity -= cart_item.quantity
-                    cart_item.product.save()
-            
-            # Send order confirmation email
-            send_order_confirmation_email(order)
-            
-            # Send notification to admin
-            send_order_notification_email(order)
-            
-            # Clear cart
-            cart.items.all().delete()
-            
-            messages.success(request, f'Order {order.order_number} placed successfully!')
-            return redirect('core:order_confirmation', order_number=order.order_number)
-            
-        except Exception as e:
-            logger.error(f'Checkout error: {str(e)}')
-            messages.error(request, 'An error occurred during checkout. Please try again.')
+                # Create order items from cart items
+                for cart_item in cart.items.select_related('product').all():
+                    OrderItem.objects.create(
+                        order=order,
+                        product=cart_item.product,
+                        product_title=cart_item.product.title,
+                        product_sku=cart_item.product.sku or '',
+                        quantity=cart_item.quantity,
+                        unit_price=cart_item.unit_price,
+                        total_price=cart_item.total_price,
+                    )
+                    
+                    # Update stock if tracking
+                    if cart_item.product.track_inventory:
+                        cart_item.product.stock_quantity -= cart_item.quantity
+                        cart_item.product.save()
+                
+                # Send order confirmation email
+                send_order_confirmation_email(order)
+                
+                # Send notification to admin
+                send_order_notification_email(order)
+                
+                # Clear cart
+                cart.items.all().delete()
+                
+                return redirect('core:order_confirmation', order_number=order.order_number)
+                
+            except Exception as e:
+                logger.error(f'Checkout error: {str(e)}')
+                messages.error(request, 'An error occurred during checkout. Please try again.')
     
     context = {
         'cart': cart,
@@ -592,14 +621,23 @@ def order_confirmation(request, order_number):
 def send_order_confirmation_email(order):
     """Send order confirmation to customer"""
     try:
-        subject = f'Order Confirmation - {order.order_number}'
+        subject = f'Order Confirmation - {order.order_number} | PackAxis'
+        
+        items_html = ''.join([
+            f'<tr><td style="padding: 10px; border-bottom: 1px solid #eee;">{item.product_title}</td>'
+            f'<td style="padding: 10px; border-bottom: 1px solid #eee; text-align: center;">{item.quantity}</td>'
+            f'<td style="padding: 10px; border-bottom: 1px solid #eee; text-align: right;">${item.unit_price}</td>'
+            f'<td style="padding: 10px; border-bottom: 1px solid #eee; text-align: right;">${item.total_price}</td></tr>'
+            for item in order.items.all()
+        ])
         
         items_text = '\n'.join([
             f"  - {item.product_title} x {item.quantity} @ ${item.unit_price} = ${item.total_price}"
             for item in order.items.all()
         ])
         
-        message = f"""
+        # Plain text version
+        text_message = f"""
 Thank you for your order!
 
 Order Number: {order.order_number}
@@ -609,34 +647,115 @@ Order Details:
 {items_text}
 
 Subtotal: ${order.subtotal}
-Shipping: ${order.shipping_cost}
-Tax: ${order.tax}
 Total: ${order.total}
 
 Shipping Address:
 {order.full_name}
 {order.shipping_address}
 
-We'll notify you when your order ships.
+What's Next?
+- Our team will review your order within 24 hours
+- We'll contact you to confirm payment details
+- You'll receive tracking info when your order ships
 
 Thank you for shopping with PackAxis!
+
+Questions? Reply to this email or call us at (416) 400-4747
         """
         
-        send_mail(
-            subject,
-            message,
-            settings.DEFAULT_FROM_EMAIL,
-            [order.email],
-            fail_silently=True,
+        # HTML version
+        html_message = f'''
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background: #f5f5f5;">
+    <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+        <div style="background: #2d7a4e; padding: 30px; text-align: center; border-radius: 12px 12px 0 0;">
+            <h1 style="color: white; margin: 0; font-size: 24px;">Thank You for Your Order!</h1>
+        </div>
+        
+        <div style="background: white; padding: 30px; border-radius: 0 0 12px 12px;">
+            <p style="color: #333; font-size: 16px; margin-bottom: 20px;">
+                Hi {order.first_name},<br><br>
+                Your order has been received and is being processed.
+            </p>
+            
+            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 25px;">
+                <p style="margin: 0; color: #666; font-size: 14px;">Order Number</p>
+                <p style="margin: 5px 0 0; color: #2d7a4e; font-size: 20px; font-weight: bold;">{order.order_number}</p>
+            </div>
+            
+            <h3 style="color: #333; border-bottom: 2px solid #eee; padding-bottom: 10px;">Order Details</h3>
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                <tr style="background: #f8f9fa;">
+                    <th style="padding: 10px; text-align: left; font-size: 14px; color: #666;">Item</th>
+                    <th style="padding: 10px; text-align: center; font-size: 14px; color: #666;">Qty</th>
+                    <th style="padding: 10px; text-align: right; font-size: 14px; color: #666;">Price</th>
+                    <th style="padding: 10px; text-align: right; font-size: 14px; color: #666;">Total</th>
+                </tr>
+                {items_html}
+            </table>
+            
+            <div style="text-align: right; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                <p style="margin: 5px 0; color: #666;">Subtotal: <strong style="color: #333;">${order.subtotal}</strong></p>
+                <p style="margin: 5px 0; color: #666;">Shipping: <strong style="color: #333;">TBD</strong></p>
+                <p style="margin: 5px 0; color: #666;">Tax: <strong style="color: #333;">TBD</strong></p>
+                <p style="margin: 10px 0 0; font-size: 18px; color: #2d7a4e;"><strong>Estimated Total: ${order.total}</strong></p>
+            </div>
+            
+            <h3 style="color: #333; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 25px;">Shipping Address</h3>
+            <p style="color: #555; line-height: 1.6;">
+                {order.full_name}<br>
+                {order.shipping_address.replace(chr(10), '<br>')}
+            </p>
+            
+            <div style="background: #e8f5e9; padding: 20px; border-radius: 8px; margin-top: 25px;">
+                <h4 style="color: #2d7a4e; margin: 0 0 10px;">What's Next?</h4>
+                <ul style="color: #555; margin: 0; padding-left: 20px; line-height: 1.8;">
+                    <li>Our team will review your order within 24 hours</li>
+                    <li>We'll contact you to confirm payment details</li>
+                    <li>You'll receive tracking info when your order ships</li>
+                </ul>
+            </div>
+            
+            <p style="color: #888; font-size: 14px; margin-top: 30px; text-align: center;">
+                Questions? Reply to this email or call us at <a href="tel:+14164004747" style="color: #2d7a4e;">(416) 400-4747</a>
+            </p>
+        </div>
+        
+        <p style="text-align: center; color: #999; font-size: 12px; margin-top: 20px;">
+            © {order.created_at.year} PackAxis Packaging. All rights reserved.<br>
+            <a href="https://packaxis.ca" style="color: #2d7a4e;">packaxis.ca</a>
+        </p>
+    </div>
+</body>
+</html>
+        '''
+        
+        from django.core.mail import EmailMultiAlternatives
+        
+        email = EmailMultiAlternatives(
+            subject=subject,
+            body=text_message,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to=[order.email],
         )
+        email.attach_alternative(html_message, "text/html")
+        email.send(fail_silently=False)
+        
+        logger.info(f'Order confirmation email sent to {order.email} for order {order.order_number}')
+        
     except Exception as e:
-        logger.error(f'Failed to send order confirmation email: {str(e)}')
+        logger.error(f'Failed to send order confirmation email to {order.email}: {str(e)}')
 
 
 def send_order_notification_email(order):
     """Send new order notification to admin"""
     try:
-        subject = f'New Order Received - {order.order_number}'
+        subject = f'🛒 New Order #{order.order_number} - ${order.total}'
         
         items_text = '\n'.join([
             f"  - {item.product_title} x {item.quantity} @ ${item.unit_price} = ${item.total_price}"
@@ -644,30 +763,33 @@ def send_order_notification_email(order):
         ])
         
         message = f"""
-New Order Received!
+NEW ORDER RECEIVED!
 
 Order Number: {order.order_number}
 Order Date: {order.created_at.strftime('%B %d, %Y at %I:%M %p')}
 
-Customer Information:
+CUSTOMER:
 - Name: {order.full_name}
 - Email: {order.email}
 - Phone: {order.phone}
 - Company: {order.company_name or 'N/A'}
 
-Order Details:
+ORDER ITEMS:
 {items_text}
 
-Subtotal: ${order.subtotal}
-Shipping: ${order.shipping_cost}
-Tax: ${order.tax}
-Total: ${order.total}
+TOTALS:
+- Subtotal: ${order.subtotal}
+- Total: ${order.total}
 
-Shipping Address:
+SHIPPING ADDRESS:
 {order.shipping_address}
 
-Customer Notes:
+CUSTOMER NOTES:
 {order.customer_notes or 'None'}
+
+---
+Manage this order in the admin panel:
+https://packaxis.ca/admin/core/order/
         """
         
         send_mail(
@@ -675,7 +797,10 @@ Customer Notes:
             message,
             settings.DEFAULT_FROM_EMAIL,
             [settings.QUOTE_EMAIL],
-            fail_silently=True,
+            fail_silently=False,
         )
+        
+        logger.info(f'Order notification email sent to admin for order {order.order_number}')
+        
     except Exception as e:
         logger.error(f'Failed to send order notification email: {str(e)}')
