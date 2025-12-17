@@ -82,6 +82,10 @@
     color: rgba(255, 255, 255, 0.7) !important;
 }
 
+.brand-text{
+    display: none !important;
+}
+
 /* ========================
    SIDEBAR STYLING
    ======================== */
@@ -157,9 +161,14 @@
 /* ========================
    BUTTONS - Sandstone Style
    ======================== */
+
+.btn {
+color:#ffffff !important;
+}   
 .btn-primary {
     background-color: var(--sandstone-primary) !important;
     border-color: var(--sandstone-primary) !important;
+    
 }
 
 .btn-primary:hover,
