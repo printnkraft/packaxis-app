@@ -1,0 +1,2633 @@
+[
+  {
+    "model": "admin.logentry",
+    "pk": 77,
+    "fields": {
+      "action_time": "2025-12-30 19:59:16.853576+00:00",
+      "user": 2,
+      "content_type": 19,
+      "object_id": "17",
+      "object_repr": "Order PA-20251230-5378",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Status\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 76,
+    "fields": {
+      "action_time": "2025-12-30 19:58:48.413886+00:00",
+      "user": 2,
+      "content_type": 19,
+      "object_id": "13",
+      "object_repr": "Order PA-20251229-5735",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Status\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 75,
+    "fields": {
+      "action_time": "2025-12-30 19:58:13.787861+00:00",
+      "user": 2,
+      "content_type": 19,
+      "object_id": "17",
+      "object_repr": "Order PA-20251230-5378",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Status\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 74,
+    "fields": {
+      "action_time": "2025-12-30 19:57:59.910473+00:00",
+      "user": 2,
+      "content_type": 19,
+      "object_id": "17",
+      "object_repr": "Order PA-20251230-5378",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Status\", \"Payment status\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 73,
+    "fields": {
+      "action_time": "2025-12-30 00:24:18.749047+00:00",
+      "user": 2,
+      "content_type": 8,
+      "object_id": "2",
+      "object_repr": "Services",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Url\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 72,
+    "fields": {
+      "action_time": "2025-12-30 00:23:45.637477+00:00",
+      "user": 2,
+      "content_type": 8,
+      "object_id": "12",
+      "object_repr": "Industries",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Url\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 71,
+    "fields": {
+      "action_time": "2025-12-30 00:22:09.810996+00:00",
+      "user": 2,
+      "content_type": 8,
+      "object_id": "1",
+      "object_repr": "Products",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Url\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 70,
+    "fields": {
+      "action_time": "2025-12-29 18:47:25.542468+00:00",
+      "user": 2,
+      "content_type": 15,
+      "object_id": "5",
+      "object_repr": "Paper Straws",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 69,
+    "fields": {
+      "action_time": "2025-12-29 18:47:13.817940+00:00",
+      "user": 2,
+      "content_type": 19,
+      "object_id": "1",
+      "object_repr": "Order PA-20251215-2367",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 68,
+    "fields": {
+      "action_time": "2025-12-29 18:47:13.817890+00:00",
+      "user": 2,
+      "content_type": 19,
+      "object_id": "2",
+      "object_repr": "Order PA-20251216-3027",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 67,
+    "fields": {
+      "action_time": "2025-12-29 18:47:13.817838+00:00",
+      "user": 2,
+      "content_type": 19,
+      "object_id": "3",
+      "object_repr": "Order PA-20251226-2890",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 66,
+    "fields": {
+      "action_time": "2025-12-29 18:47:13.817796+00:00",
+      "user": 2,
+      "content_type": 19,
+      "object_id": "4",
+      "object_repr": "Order PA-20251226-0539",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 65,
+    "fields": {
+      "action_time": "2025-12-29 18:47:13.817754+00:00",
+      "user": 2,
+      "content_type": 19,
+      "object_id": "5",
+      "object_repr": "Order PA-20251227-0397",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 64,
+    "fields": {
+      "action_time": "2025-12-29 18:47:13.817707+00:00",
+      "user": 2,
+      "content_type": 19,
+      "object_id": "6",
+      "object_repr": "Order PA-20251227-6822",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 63,
+    "fields": {
+      "action_time": "2025-12-29 18:47:13.817653+00:00",
+      "user": 2,
+      "content_type": 19,
+      "object_id": "7",
+      "object_repr": "Order PA-20251227-6143",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 62,
+    "fields": {
+      "action_time": "2025-12-29 18:47:13.817603+00:00",
+      "user": 2,
+      "content_type": 19,
+      "object_id": "8",
+      "object_repr": "Order PA-20251227-5176",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 61,
+    "fields": {
+      "action_time": "2025-12-29 18:47:13.817555+00:00",
+      "user": 2,
+      "content_type": 19,
+      "object_id": "9",
+      "object_repr": "Order PA-20251227-4654",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 60,
+    "fields": {
+      "action_time": "2025-12-29 18:47:13.817496+00:00",
+      "user": 2,
+      "content_type": 19,
+      "object_id": "10",
+      "object_repr": "Order PA-20251227-9063",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 59,
+    "fields": {
+      "action_time": "2025-12-29 18:47:13.817437+00:00",
+      "user": 2,
+      "content_type": 19,
+      "object_id": "11",
+      "object_repr": "Order PA-20251227-6866",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 58,
+    "fields": {
+      "action_time": "2025-12-29 18:47:13.816662+00:00",
+      "user": 2,
+      "content_type": 19,
+      "object_id": "12",
+      "object_repr": "Order PA-20251229-5357",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 57,
+    "fields": {
+      "action_time": "2025-12-26 22:37:46.312280+00:00",
+      "user": 2,
+      "content_type": 34,
+      "object_id": "1",
+      "object_repr": "Site Settings",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Online payments enabled\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 56,
+    "fields": {
+      "action_time": "2025-12-26 22:37:28.156141+00:00",
+      "user": 2,
+      "content_type": 34,
+      "object_id": "1",
+      "object_repr": "Site Settings",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Online payments enabled\", \"Store name\", \"Store phone\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 55,
+    "fields": {
+      "action_time": "2025-12-26 22:36:34.414449+00:00",
+      "user": 2,
+      "content_type": 10,
+      "object_id": "1",
+      "object_repr": "Quote from Pujan - No Product",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 54,
+    "fields": {
+      "action_time": "2025-12-26 22:36:21.705939+00:00",
+      "user": 2,
+      "content_type": 18,
+      "object_id": "1",
+      "object_repr": "Cart 1 - 80f3rei0o0m8m7y5c7ge...",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 53,
+    "fields": {
+      "action_time": "2025-12-26 22:36:21.705925+00:00",
+      "user": 2,
+      "content_type": 18,
+      "object_id": "2",
+      "object_repr": "Cart 2 - 5qy2bu3ho9qkx9avrl8r...",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 52,
+    "fields": {
+      "action_time": "2025-12-26 22:36:21.705910+00:00",
+      "user": 2,
+      "content_type": 18,
+      "object_id": "3",
+      "object_repr": "Cart 3 - c0i61a5xjpgvvc1vpja0...",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 51,
+    "fields": {
+      "action_time": "2025-12-26 22:36:21.705895+00:00",
+      "user": 2,
+      "content_type": 18,
+      "object_id": "4",
+      "object_repr": "Cart 4 - g60z3zgg8hopj9rp50kb...",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 50,
+    "fields": {
+      "action_time": "2025-12-26 22:36:21.705880+00:00",
+      "user": 2,
+      "content_type": 18,
+      "object_id": "5",
+      "object_repr": "Cart 5 - pq7vok80wmi8mae6rbo3...",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 49,
+    "fields": {
+      "action_time": "2025-12-26 22:36:21.705864+00:00",
+      "user": 2,
+      "content_type": 18,
+      "object_id": "6",
+      "object_repr": "Cart 6 - jhil2xrcalk5e785h0gk...",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 48,
+    "fields": {
+      "action_time": "2025-12-26 22:36:21.705848+00:00",
+      "user": 2,
+      "content_type": 18,
+      "object_id": "7",
+      "object_repr": "Cart 7 - hc4cbk79788w0jg0746l...",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 47,
+    "fields": {
+      "action_time": "2025-12-26 22:36:21.705832+00:00",
+      "user": 2,
+      "content_type": 18,
+      "object_id": "8",
+      "object_repr": "Cart 8 - 74qklfkt54wa6pmn72zg...",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 46,
+    "fields": {
+      "action_time": "2025-12-26 22:36:21.705818+00:00",
+      "user": 2,
+      "content_type": 18,
+      "object_id": "9",
+      "object_repr": "Cart 9 - x4qr86dq00o90zdy67yw...",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 45,
+    "fields": {
+      "action_time": "2025-12-26 22:36:21.705803+00:00",
+      "user": 2,
+      "content_type": 18,
+      "object_id": "10",
+      "object_repr": "Cart 10 - ml9mkvl70nnt2w4pymcz...",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 44,
+    "fields": {
+      "action_time": "2025-12-26 22:36:21.705789+00:00",
+      "user": 2,
+      "content_type": 18,
+      "object_id": "11",
+      "object_repr": "Cart 11 - 4moew3d4o0xuoov2tp9s...",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 43,
+    "fields": {
+      "action_time": "2025-12-26 22:36:21.705772+00:00",
+      "user": 2,
+      "content_type": 18,
+      "object_id": "12",
+      "object_repr": "Cart 12 - w7dn81fropohcbjtvrk7...",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 42,
+    "fields": {
+      "action_time": "2025-12-26 22:36:21.705754+00:00",
+      "user": 2,
+      "content_type": 18,
+      "object_id": "13",
+      "object_repr": "Cart 13 - 2kmv0b2uujq5u2x16a6n...",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 41,
+    "fields": {
+      "action_time": "2025-12-26 22:36:21.705735+00:00",
+      "user": 2,
+      "content_type": 18,
+      "object_id": "14",
+      "object_repr": "Cart 14 - uv9ukpzfutbkju51dtgc...",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 40,
+    "fields": {
+      "action_time": "2025-12-26 22:36:21.705717+00:00",
+      "user": 2,
+      "content_type": 18,
+      "object_id": "15",
+      "object_repr": "Cart 15 - 8wp9j32jva9reyar3cpd...",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 39,
+    "fields": {
+      "action_time": "2025-12-26 22:36:21.705695+00:00",
+      "user": 2,
+      "content_type": 18,
+      "object_id": "16",
+      "object_repr": "Cart 16 - igxhw0oge4o4v56x6tj2...",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 38,
+    "fields": {
+      "action_time": "2025-12-26 22:36:21.705642+00:00",
+      "user": 2,
+      "content_type": 18,
+      "object_id": "17",
+      "object_repr": "Cart 17 - xtivhte4quntkrmxpjtx...",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 37,
+    "fields": {
+      "action_time": "2025-12-26 00:01:45.660106+00:00",
+      "user": 2,
+      "content_type": 16,
+      "object_id": "1",
+      "object_repr": "Brown Kraft Bags - 13x7x13 inch Brown Kraft Paper Bags with Twisted Handles",
+      "action_flag": 2,
+      "change_message": "[{\"deleted\": {\"name\": \"Product Variant\", \"object\": \"13x7x13 inch Brown Kraft Paper Bags with Twisted Handles - Size: a\"}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 36,
+    "fields": {
+      "action_time": "2025-12-26 00:00:34.661845+00:00",
+      "user": 2,
+      "content_type": 16,
+      "object_id": "1",
+      "object_repr": "Brown Kraft Bags - 13x7x13 inch Brown Kraft Paper Bags with Twisted Handles",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"name\": \"Tiered Pricing\", \"object\": \"13x7x13 inch Brown Kraft Paper Bags with Twisted Handles: 101+ units @ $50.00\", \"fields\": [\"Max quantity\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 35,
+    "fields": {
+      "action_time": "2025-12-25 21:57:58.213382+00:00",
+      "user": 2,
+      "content_type": 16,
+      "object_id": "1",
+      "object_repr": "Brown Kraft Bags - 13x7x13 inch Brown Kraft Paper Bags with Twisted Handles",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Sku\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 34,
+    "fields": {
+      "action_time": "2025-12-25 21:56:37.913085+00:00",
+      "user": 2,
+      "content_type": 16,
+      "object_id": "1",
+      "object_repr": "Brown Kraft Bags - 13x7x13 inch Brown Kraft Paper Bags with Twisted Handles",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Track inventory\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 33,
+    "fields": {
+      "action_time": "2025-12-25 21:38:11.007528+00:00",
+      "user": 2,
+      "content_type": 16,
+      "object_id": "1",
+      "object_repr": "Brown Kraft Bags - 13x7x13 inch Brown Kraft Paper Bags with Twisted Handles",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Price\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 32,
+    "fields": {
+      "action_time": "2025-12-25 21:37:33.008857+00:00",
+      "user": 2,
+      "content_type": 16,
+      "object_id": "1",
+      "object_repr": "Brown Kraft Bags - 13x7x13 inch Brown Kraft Paper Bags with Twisted Handles",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"name\": \"Tiered Pricing\", \"object\": \"13x7x13 inch Brown Kraft Paper Bags with Twisted Handles: 1-30 units @ $80\", \"fields\": [\"Max quantity\", \"Price per unit\"]}}, {\"changed\": {\"name\": \"Tiered Pricing\", \"object\": \"13x7x13 inch Brown Kraft Paper Bags with Twisted Handles: 31-100 units @ $70\", \"fields\": [\"Min quantity\", \"Max quantity\", \"Price per unit\"]}}, {\"changed\": {\"name\": \"Tiered Pricing\", \"object\": \"13x7x13 inch Brown Kraft Paper Bags with Twisted Handles: 101-200 units @ $50\", \"fields\": [\"Min quantity\", \"Max quantity\", \"Price per unit\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 31,
+    "fields": {
+      "action_time": "2025-12-25 21:33:59.633029+00:00",
+      "user": 2,
+      "content_type": 16,
+      "object_id": "1",
+      "object_repr": "Brown Kraft Bags - 13x7x13 inch Brown Kraft Paper Bags with Twisted Handles",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"name\": \"Tiered Pricing\", \"object\": \"13x7x13 inch Brown Kraft Paper Bags with Twisted Handles: 1-10 units @ $2.00\", \"fields\": [\"Max quantity\"]}}, {\"changed\": {\"name\": \"Tiered Pricing\", \"object\": \"13x7x13 inch Brown Kraft Paper Bags with Twisted Handles: 11-50 units @ $1.00\", \"fields\": [\"Min quantity\", \"Max quantity\"]}}, {\"changed\": {\"name\": \"Tiered Pricing\", \"object\": \"13x7x13 inch Brown Kraft Paper Bags with Twisted Handles: 51-100 units @ $0.50\", \"fields\": [\"Min quantity\", \"Max quantity\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 30,
+    "fields": {
+      "action_time": "2025-12-25 21:33:17.371708+00:00",
+      "user": 2,
+      "content_type": 16,
+      "object_id": "1",
+      "object_repr": "Brown Kraft Bags - 13x7x13 inch Brown Kraft Paper Bags with Twisted Handles",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Stock quantity\", \"Case quantity\", \"Minimum order\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 29,
+    "fields": {
+      "action_time": "2025-12-25 21:27:24.457438+00:00",
+      "user": 2,
+      "content_type": 16,
+      "object_id": "1",
+      "object_repr": "Brown Kraft Bags - 13x7x13 inch Brown Kraft Paper Bags with Twisted Handles",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"name\": \"Product Industry\", \"object\": \"13x7x13 inch Brown Kraft Paper Bags with Twisted Handles - Restaurant & Takeout\", \"fields\": [\"Industry\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 28,
+    "fields": {
+      "action_time": "2025-12-25 21:23:03.542761+00:00",
+      "user": 2,
+      "content_type": 16,
+      "object_id": "1",
+      "object_repr": "Brown Kraft Bags - 13x7x13 inch Brown Kraft Paper Bags with Twisted Handles",
+      "action_flag": 2,
+      "change_message": "[{\"added\": {\"name\": \"Product Industry\", \"object\": \"13x7x13 inch Brown Kraft Paper Bags with Twisted Handles - Restaurant Takeout\"}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 27,
+    "fields": {
+      "action_time": "2025-12-25 21:18:36.722422+00:00",
+      "user": 2,
+      "content_type": 16,
+      "object_id": "1",
+      "object_repr": "Brown Kraft Bags - 13x7x13 inch Brown Kraft Paper Bags with Twisted Handles",
+      "action_flag": 2,
+      "change_message": "[{\"added\": {\"name\": \"Tiered Pricing\", \"object\": \"13x7x13 inch Brown Kraft Paper Bags with Twisted Handles: 1-1000 units @ $2\"}}, {\"added\": {\"name\": \"Tiered Pricing\", \"object\": \"13x7x13 inch Brown Kraft Paper Bags with Twisted Handles: 1001-10000 units @ $1\"}}, {\"added\": {\"name\": \"Tiered Pricing\", \"object\": \"13x7x13 inch Brown Kraft Paper Bags with Twisted Handles: 10001-50000 units @ $0.5\"}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 26,
+    "fields": {
+      "action_time": "2025-12-25 21:17:15.206545+00:00",
+      "user": 2,
+      "content_type": 16,
+      "object_id": "1",
+      "object_repr": "Brown Kraft Bags - 13x7x13 inch Brown Kraft Paper Bags with Twisted Handles",
+      "action_flag": 2,
+      "change_message": "[{\"added\": {\"name\": \"Product Image\", \"object\": \"13x7x13 inch Brown Kraft Paper Bags with Twisted Handles - Image 0\"}}, {\"added\": {\"name\": \"Product Variant\", \"object\": \"13x7x13 inch Brown Kraft Paper Bags with Twisted Handles - Size: a\"}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 25,
+    "fields": {
+      "action_time": "2025-12-25 19:11:57.971049+00:00",
+      "user": 2,
+      "content_type": 16,
+      "object_id": "1",
+      "object_repr": "Brown Kraft Bags - 13x7x13 inch Brown Kraft Paper Bags with Twisted Handles",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Track inventory\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 24,
+    "fields": {
+      "action_time": "2025-12-25 18:53:33.012988+00:00",
+      "user": 2,
+      "content_type": 16,
+      "object_id": "1",
+      "object_repr": "Brown Kraft Bags - 13x7x13 inch Brown Kraft Paper Bags with Twisted Handles",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Is active\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 23,
+    "fields": {
+      "action_time": "2025-12-25 18:53:22.708792+00:00",
+      "user": 2,
+      "content_type": 16,
+      "object_id": "1",
+      "object_repr": "Brown Kraft Bags - 13x7x13 inch Brown Kraft Paper Bags with Twisted Handles",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Is active\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 22,
+    "fields": {
+      "action_time": "2025-12-25 18:49:53.140055+00:00",
+      "user": 2,
+      "content_type": 16,
+      "object_id": "1",
+      "object_repr": "Brown Kraft Bags - 13x7x13 inch Brown Kraft Paper Bags with Twisted Handles",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Track inventory\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 21,
+    "fields": {
+      "action_time": "2025-12-21 01:55:39.443927+00:00",
+      "user": 2,
+      "content_type": 15,
+      "object_id": "4",
+      "object_repr": "White Paper Bags",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 20,
+    "fields": {
+      "action_time": "2025-12-21 01:55:27.694521+00:00",
+      "user": 2,
+      "content_type": 15,
+      "object_id": "3",
+      "object_repr": "Custom Branded Bags",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 19,
+    "fields": {
+      "action_time": "2025-12-21 01:55:12.414287+00:00",
+      "user": 2,
+      "content_type": 15,
+      "object_id": "2",
+      "object_repr": "Shopping Paper Bags",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 18,
+    "fields": {
+      "action_time": "2025-12-21 01:54:58.259913+00:00",
+      "user": 2,
+      "content_type": 15,
+      "object_id": "1",
+      "object_repr": "Brown Kraft Bags",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 17,
+    "fields": {
+      "action_time": "2025-12-21 01:14:26.643691+00:00",
+      "user": 2,
+      "content_type": 15,
+      "object_id": "1",
+      "object_repr": "Brown Kraft Bags",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 16,
+    "fields": {
+      "action_time": "2025-12-16 23:01:34.386970+00:00",
+      "user": 2,
+      "content_type": 27,
+      "object_id": "1",
+      "object_repr": "Google",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 15,
+    "fields": {
+      "action_time": "2025-12-16 22:59:38.639392+00:00",
+      "user": 2,
+      "content_type": 23,
+      "object_id": "1",
+      "object_repr": "127.0.0.1:8000",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Domain name\", \"Display name\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 14,
+    "fields": {
+      "action_time": "2025-12-16 21:40:42.792188+00:00",
+      "user": 2,
+      "content_type": 16,
+      "object_id": "1",
+      "object_repr": "Brown Kraft Bags - 13x7x13 inch Brown Kraft Paper Bags with Twisted Handles",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Is featured\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 13,
+    "fields": {
+      "action_time": "2025-12-16 21:39:53.804594+00:00",
+      "user": 2,
+      "content_type": 16,
+      "object_id": "1",
+      "object_repr": "Brown Kraft Bags - 13x7x13 inch Brown Kraft Paper Bags with Twisted Handles",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Stock quantity\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 12,
+    "fields": {
+      "action_time": "2025-12-16 21:37:49.071640+00:00",
+      "user": 2,
+      "content_type": 16,
+      "object_id": "1",
+      "object_repr": "Brown Kraft Bags - 13x7x13 inch Brown Kraft Paper Bags with Twisted Handles",
+      "action_flag": 2,
+      "change_message": "[]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 11,
+    "fields": {
+      "action_time": "2025-12-15 22:34:10.494813+00:00",
+      "user": 2,
+      "content_type": 8,
+      "object_id": "18",
+      "object_repr": "Industries",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 10,
+    "fields": {
+      "action_time": "2025-12-15 21:57:56.965179+00:00",
+      "user": 2,
+      "content_type": 16,
+      "object_id": "1",
+      "object_repr": "Brown Kraft Bags - 13x7x13 inch Brown Kraft Paper Bags with Twisted Handles",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Stock quantity\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 9,
+    "fields": {
+      "action_time": "2025-12-15 21:57:31.084664+00:00",
+      "user": 2,
+      "content_type": 16,
+      "object_id": "1",
+      "object_repr": "Brown Kraft Bags - 13x7x13 inch Brown Kraft Paper Bags with Twisted Handles",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Price range\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 8,
+    "fields": {
+      "action_time": "2025-12-15 21:57:11.492472+00:00",
+      "user": 2,
+      "content_type": 16,
+      "object_id": "1",
+      "object_repr": "Brown Kraft Bags - 13x7x13 inch Brown Kraft Paper Bags with Twisted Handles",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Price\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 7,
+    "fields": {
+      "action_time": "2025-12-14 21:21:15.197181+00:00",
+      "user": 2,
+      "content_type": 16,
+      "object_id": "1",
+      "object_repr": "Brown Kraft Bags - 13x7x13 inch Brown Kraft Paper Bags with Twisted Handles",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 6,
+    "fields": {
+      "action_time": "2025-12-14 20:48:30.975582+00:00",
+      "user": 2,
+      "content_type": 8,
+      "object_id": "11",
+      "object_repr": "Industries",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 5,
+    "fields": {
+      "action_time": "2025-12-14 20:47:50.992097+00:00",
+      "user": 2,
+      "content_type": 8,
+      "object_id": "10",
+      "object_repr": "Industries",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 4,
+    "fields": {
+      "action_time": "2025-12-14 20:35:40.982942+00:00",
+      "user": 2,
+      "content_type": 15,
+      "object_id": "1",
+      "object_repr": "Brown Kraft Bags",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Description\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 3,
+    "fields": {
+      "action_time": "2025-12-14 20:07:37.244826+00:00",
+      "user": 2,
+      "content_type": 15,
+      "object_id": "1",
+      "object_repr": "Brown Kraft Bags",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 2,
+    "fields": {
+      "action_time": "2025-12-14 00:56:31.440807+00:00",
+      "user": 2,
+      "content_type": 15,
+      "object_id": "5",
+      "object_repr": "Paper Straws",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Is active\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 1,
+    "fields": {
+      "action_time": "2025-12-14 00:08:21.202001+00:00",
+      "user": 2,
+      "content_type": 14,
+      "object_id": "6",
+      "object_repr": "Restaurant Takeout",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$AQEIpiWoUr6Im8m7VuCFGw$hV2f2O27dFu7Gs8EmUn9HdwToxAlA84MOoM1amzAl6M=",
+      "last_login": "2025-11-23 20:39:31.592177+00:00",
+      "is_superuser": true,
+      "username": "tl00",
+      "first_name": "",
+      "last_name": "",
+      "email": "pujan.amin1@gmail.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2025-11-23 17:41:04.923085+00:00",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$euGRKwt3n3BfN5wXdnB7sj$DeZ5moDBhF44LsJwqw85wD9LWR01A5M8tmToWEu3k3o=",
+      "last_login": "2025-12-30 18:34:13.884871+00:00",
+      "is_superuser": true,
+      "username": "pujanamin",
+      "first_name": "",
+      "last_name": "",
+      "email": "pujan@packaxis.ca",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2025-12-14 00:06:44.489012+00:00",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+      "password": "!F1QJy3Pg8g0TErgSFx8Hz8WpnHOccH07SFTGH07U",
+      "last_login": "2025-12-30 04:33:52.677000+00:00",
+      "is_superuser": false,
+      "username": "pujan",
+      "first_name": "Pujan",
+      "last_name": "Amin",
+      "email": "pujanmin007@gmail.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-12-16 23:02:19.613353+00:00",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "3xtilpted5iy5une6h2qfs7pdilqvi3d",
+    "fields": {
+      "session_data": ".eJxVjDEOgzAMAP_iuYpiCA5h7M4bIsdOG9oKJAJT1b9XSAztene6N0TetxL3mtc4KQyAcPllieWZ50Pog-f7YmSZt3VK5kjMaasZF82v69n-DQrXAgNICIq27QIJW-fRMdmbECKi59D0vnVEElybkxJ2qERJ1DEF623fJPh8AbSgNqw:1vNE7c:qiV3_GsKQFi7gjhfzXbCqnP48SiYVLd-HUwOm5SgkQA",
+      "expire_date": "2025-12-07 17:43:36.309807+00:00"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "vtwbchj9jmz799qotjhe35dgi0q79qxt",
+    "fields": {
+      "session_data": ".eJxVjDEOgzAMAP_iuYpiCA5h7M4bIsdOG9oKJAJT1b9XSAztene6N0TetxL3mtc4KQyAcPllieWZ50Pog-f7YmSZt3VK5kjMaasZF82v69n-DQrXAgNICIq27QIJW-fRMdmbECKi59D0vnVEElybkxJ2qERJ1DEF623fJPh8AbSgNqw:1vNGrr:aWILG2j3R8QbA1CQHH90zoj7f_yjxVK_CkHLQEgrKo4",
+      "expire_date": "2025-12-07 20:39:31.612083+00:00"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "5qy2bu3ho9qkx9avrl8rcbcldds7d5qv",
+    "fields": {
+      "session_data": "e30:1vVGzk:WQXcvi4ch03y8NmpKlp8JX0xp0CI_IWd_sI3q_CktOA",
+      "expire_date": "2025-12-29 22:24:44.831055+00:00"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "c0i61a5xjpgvvc1vpja0b8lfzjul6rrs",
+    "fields": {
+      "session_data": "e30:1vVH09:vipKF3txE8ELXh3aRdUy0i3KCZmL-2xdo2wTukLykfk",
+      "expire_date": "2025-12-29 22:25:09.306372+00:00"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "g60z3zgg8hopj9rp50kbbfypfnqdyft3",
+    "fields": {
+      "session_data": "e30:1vVH0j:UIarXxDIUGi9o128iH7DmlD8X2S8kORSpf-Cc1fqMkg",
+      "expire_date": "2025-12-29 22:25:45.165428+00:00"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "pq7vok80wmi8mae6rbo31gxt4zwvlj0x",
+    "fields": {
+      "session_data": "e30:1vVH0y:QvhMxYUV2iH8W8jJDU0Ctt6CoIS86sX-apRnE4w4Bl4",
+      "expire_date": "2025-12-29 22:26:00.604537+00:00"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "jhil2xrcalk5e785h0gkomg5md7csb44",
+    "fields": {
+      "session_data": "e30:1vVbNw:1jtvXdprXKmEKY4kv1l0VYRyB-Po0fY1mkwSPzKd0c0",
+      "expire_date": "2025-12-30 20:11:04.086809+00:00"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "hc4cbk79788w0jg0746lvx1946qqvpap",
+    "fields": {
+      "session_data": "e30:1vVd8S:0xeCEb_OD3gbY7q_5zwjZ1uCO6JllTYBjR5uf-JlWc4",
+      "expire_date": "2025-12-30 22:03:12.571094+00:00"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "740199ygmdxqx9xjhstwdzizr5kfj2at",
+    "fields": {
+      "session_data": ".eJxVj8FuhSAQRf9l1sYwIojs2t9oGoMwPEl50gi-jfHfG61N425y7p07dzbIyQYTjbVpncuQiymUQW97BX_sRUvwgdxATxMi6HmN8V81a5loLsGaEtI8PKlMyWXQHxv8zqDvN6ACU0BjJ0XfSOR9LRUXjMsKvpf0Co4W0PBI6REJKljDkYCsUS1TnWqRY4OtFIJL2D8rOAsMa6ZlOJ0cbmw09ovmQzAxHri-atSn55Jz_XZ74_3aukVNJk-gwZFVqLxgOBKisI3gjrdKmQ7JI_ekRjLSK-V8Q94K6RkbLaOu7Zmwo4P9B_LjfJE:1vW0Fm:Pwm68PL3EPR-6S1FHdWcn8aPcmZOr9Yp2u_2P3U-DeQ",
+      "expire_date": "2025-12-31 22:44:18.617560+00:00"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "ml9mkvl70nnt2w4pymcztdo9htf8w6j5",
+    "fields": {
+      "session_data": "e30:1vX73l:IBvS9Z0seH8M8ASL2P9bT0b27MSiHtXHI7PXaN9ZMZ8",
+      "expire_date": "2026-01-04 00:12:29.424381+00:00"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "4moew3d4o0xuoov2tp9sla9h2lne2j56",
+    "fields": {
+      "session_data": ".eJxVjEEOwiAQAP-yZ0OgFLb06N03kKW72KqBpLQn499Nkx70OjOZN0TatznuTda4MIzQweWXJZqeUg7BDyr3qqZatnVJ6kjUaZu6VZbX9Wz_BjO1GUawTgbsPIvJuaeU0PSCZLvMRqNY7Z34gGw9Y5isGRL6MBjHWQfK7Bg-X-P_N-w:1vYrgD:ZwsKyM6y_qjz_2PppFAw300foF_9lvXilH392tthZ-Y",
+      "expire_date": "2026-01-08 20:11:25.802198+00:00"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "2kmv0b2uujq5u2x16a6nn4agx910jzqa",
+    "fields": {
+      "session_data": "e30:1vYtFa:8yCOK8KQgqHr9lGDd7UqOpvo-g9w0TEFolY5g3p2fsU",
+      "expire_date": "2026-01-08 21:52:02.594591+00:00"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "uv9ukpzfutbkju51dtgcfjo6g9iybvwm",
+    "fields": {
+      "session_data": "e30:1vYvp4:yXMDQCzctCMwSFSBdr-j12NdZ8uQcfx71CWdO1gMDTI",
+      "expire_date": "2026-01-09 00:36:50.253052+00:00"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "8wp9j32jva9reyar3cpddung4rcs5s89",
+    "fields": {
+      "session_data": "e30:1vZD4x:_XJugYRDsHAQxy48O12vITH_YkKVla8WMrjOWa6Bowk",
+      "expire_date": "2026-01-09 19:02:23.618771+00:00"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "nrzn3l4l151tmey1v8hvz1rg4e6ug08e",
+    "fields": {
+      "session_data": ".eJxVjDEOwjAMAP_iGUVOVBLSkZ03VLEdkwJKpKadEH9HlTrAene6N0xpW8u09bxMs8AIDk6_jBI_c92FPFK9N8OtrstMZk_MYbu5Ncmv69H-DUrqBUYY2ImLdEHV4PnMqhySJ3Rio1Jgb60KZesxe1QdxCtHwYwYkIkIPl8O5DlF:1vaMyy:dFnLkGaN0JMVjKD8elsOV9Prhnw5yBXQssL1XX2jSeo",
+      "expire_date": "2026-01-12 23:49:00.188639+00:00"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "fskpwxu4eor5ez39sgsgpad83gjre286",
+    "fields": {
+      "session_data": ".eJxVjE0LgkAUAP_LO5u83XJXvdU96B4h-77SCoXVTtF_j8BDXWeGeUGXnkvfPWfN3SDQgofil1Hiu45fIbc0XqeSp3HJA5XfpFztXB4n0cdhbf8GfZp7aGHHXnxDNZrFwBWbcUyB0ItrjCIH50xIXUANaLaTYNwIKmJEJiIoICvruHRTFs0ztGc47TcefeX8FjfVNtZweX8ALL1Dqw:1vag8x:30b1_YC4czkkx6RWPYAo78gNQp1aAs1cKm8IHWmBItc",
+      "expire_date": "2026-01-13 20:16:35.128452+00:00"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "vpmx37d7snem9ypu9lmd0gcdd0h20cg0",
+    "fields": {
+      "session_data": "e30:1vafjx:72ey0JZviYZe_X4KyLOowHa6xvFTlEwD1arn-6K0NnM",
+      "expire_date": "2026-01-13 19:50:45.330758+00:00"
+    }
+  },
+  {
+    "model": "sites.site",
+    "pk": 1,
+    "fields": {
+      "domain": "127.0.0.1:8000",
+      "name": "PackAxis"
+    }
+  },
+  {
+    "model": "account.emailaddress",
+    "pk": 1,
+    "fields": {
+      "user": 3,
+      "email": "pujanmin007@gmail.com",
+      "verified": true,
+      "primary": true
+    }
+  },
+  {
+    "model": "socialaccount.socialapp",
+    "pk": 1,
+    "fields": {
+      "provider": "google",
+      "provider_id": "",
+      "name": "Google",
+      "client_id": "79562700672-ho7gfhnpr4cmd6tdjafsu9vn2b3v66gm.apps.googleusercontent.com",
+      "secret": "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",
+      "key": "",
+      "settings": {},
+      "sites": [
+        1
+      ]
+    }
+  },
+  {
+    "model": "socialaccount.socialaccount",
+    "pk": 1,
+    "fields": {
+      "user": 3,
+      "provider": "google",
+      "uid": "102840878413121465536",
+      "last_login": "2025-12-30 04:33:52.658078+00:00",
+      "date_joined": "2025-12-16 23:02:19.648653+00:00",
+      "extra_data": {
+        "iss": "https://accounts.google.com",
+        "azp": "79562700672-ho7gfhnpr4cmd6tdjafsu9vn2b3v66gm.apps.googleusercontent.com",
+        "aud": "79562700672-ho7gfhnpr4cmd6tdjafsu9vn2b3v66gm.apps.googleusercontent.com",
+        "sub": "102840878413121465536",
+        "email": "pujanmin007@gmail.com",
+        "email_verified": true,
+        "at_hash": "XcdaJD7fUygI5MUSKF6yGg",
+        "name": "Pujan Amin",
+        "picture": "https://lh3.googleusercontent.com/a/ACg8ocKhveFfYavzRURlQC-hwK5F5ygQ_4aYZpzuM3Aeh_R3TTaR0A=s96-c",
+        "given_name": "Pujan",
+        "family_name": "Amin",
+        "iat": 1767069232,
+        "exp": 1767072832
+      }
+    }
+  },
+  {
+    "model": "axes.accesslog",
+    "pk": 1,
+    "fields": {
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:146.0) Gecko/20100101 Firefox/146.0",
+      "ip_address": "127.0.0.1",
+      "username": "pujanamin",
+      "http_accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+      "path_info": "/superusers/login/",
+      "attempt_time": "2025-12-30 00:56:44.647385+00:00",
+      "logout_time": "2025-12-30 02:55:03.010808+00:00",
+      "session_hash": "a9477686e8f1f93fe9496cc600e2b6e071c0ec972948ce7e4ee5958c72562050"
+    }
+  },
+  {
+    "model": "axes.accesslog",
+    "pk": 2,
+    "fields": {
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:146.0) Gecko/20100101 Firefox/146.0",
+      "ip_address": "127.0.0.1",
+      "username": "pujan",
+      "http_accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+      "path_info": "/accounts/google/login/callback/",
+      "attempt_time": "2025-12-30 02:56:38.964874+00:00",
+      "logout_time": "2025-12-30 03:44:17.922554+00:00",
+      "session_hash": "444cbd96afc15b51298d521de1ef4cbb27cfabbb9c9ee72a133e19f9572d98ec"
+    }
+  },
+  {
+    "model": "axes.accesslog",
+    "pk": 3,
+    "fields": {
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:146.0) Gecko/20100101 Firefox/146.0",
+      "ip_address": "127.0.0.1",
+      "username": "pujan",
+      "http_accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+      "path_info": "/accounts/google/login/callback/",
+      "attempt_time": "2025-12-30 04:33:52.672070+00:00",
+      "logout_time": null,
+      "session_hash": "9d14035e85cc6e1fe7eade5ee361266c300ee7b25994787f92a11e8615a0e7e1"
+    }
+  },
+  {
+    "model": "axes.accesslog",
+    "pk": 4,
+    "fields": {
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:146.0) Gecko/20100101 Firefox/146.0",
+      "ip_address": "127.0.0.1",
+      "username": "pujanamin",
+      "http_accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+      "path_info": "/superusers/login/",
+      "attempt_time": "2025-12-30 18:34:13.878187+00:00",
+      "logout_time": null,
+      "session_hash": "e0e30b5a3e2f84b9d18e95035022aab481f929a8e532b0f960a2ebe49c91b294"
+    }
+  },
+  {
+    "model": "core.menuitem",
+    "pk": 13,
+    "fields": {
+      "title": "Restaurant & Takeout",
+      "url": "/restaurant-paper-bags/",
+      "parent": 12,
+      "order": 1,
+      "is_active": true,
+      "open_in_new_tab": false
+    }
+  },
+  {
+    "model": "core.menuitem",
+    "pk": 5,
+    "fields": {
+      "title": "Shopping Paper Bags",
+      "url": "/product/shopping-paper-bags/",
+      "parent": 1,
+      "order": 1,
+      "is_active": true,
+      "open_in_new_tab": false
+    }
+  },
+  {
+    "model": "core.menuitem",
+    "pk": 6,
+    "fields": {
+      "title": "Brown Kraft Bags",
+      "url": "/product/brown-kraft-bags/",
+      "parent": 1,
+      "order": 2,
+      "is_active": true,
+      "open_in_new_tab": false
+    }
+  },
+  {
+    "model": "core.menuitem",
+    "pk": 1,
+    "fields": {
+      "title": "Products",
+      "url": "/products",
+      "parent": null,
+      "order": 2,
+      "is_active": true,
+      "open_in_new_tab": false
+    }
+  },
+  {
+    "model": "core.menuitem",
+    "pk": 14,
+    "fields": {
+      "title": "Retail Stores",
+      "url": "/retail-paper-bags/",
+      "parent": 12,
+      "order": 2,
+      "is_active": true,
+      "open_in_new_tab": false
+    }
+  },
+  {
+    "model": "core.menuitem",
+    "pk": 15,
+    "fields": {
+      "title": "Boutique & Fashion",
+      "url": "/boutique-packaging/",
+      "parent": 12,
+      "order": 3,
+      "is_active": true,
+      "open_in_new_tab": false
+    }
+  },
+  {
+    "model": "core.menuitem",
+    "pk": 12,
+    "fields": {
+      "title": "Industries",
+      "url": "/industries/",
+      "parent": null,
+      "order": 3,
+      "is_active": true,
+      "open_in_new_tab": false
+    }
+  },
+  {
+    "model": "core.menuitem",
+    "pk": 7,
+    "fields": {
+      "title": "White Paper Bags",
+      "url": "/product/white-paper-bags/",
+      "parent": 1,
+      "order": 3,
+      "is_active": true,
+      "open_in_new_tab": false
+    }
+  },
+  {
+    "model": "core.menuitem",
+    "pk": 8,
+    "fields": {
+      "title": "Custom Branded Bags",
+      "url": "/product/custom-branded-bags/",
+      "parent": 1,
+      "order": 4,
+      "is_active": true,
+      "open_in_new_tab": false
+    }
+  },
+  {
+    "model": "core.menuitem",
+    "pk": 16,
+    "fields": {
+      "title": "Grocery & Supermarket",
+      "url": "/grocery-paper-bags/",
+      "parent": 12,
+      "order": 4,
+      "is_active": true,
+      "open_in_new_tab": false
+    }
+  },
+  {
+    "model": "core.menuitem",
+    "pk": 2,
+    "fields": {
+      "title": "Services",
+      "url": "/services",
+      "parent": null,
+      "order": 4,
+      "is_active": true,
+      "open_in_new_tab": false
+    }
+  },
+  {
+    "model": "core.menuitem",
+    "pk": 3,
+    "fields": {
+      "title": "About",
+      "url": "/#about",
+      "parent": null,
+      "order": 5,
+      "is_active": true,
+      "open_in_new_tab": false
+    }
+  },
+  {
+    "model": "core.menuitem",
+    "pk": 17,
+    "fields": {
+      "title": "Bakery & Cafe",
+      "url": "/bakery-paper-bags/",
+      "parent": 12,
+      "order": 5,
+      "is_active": true,
+      "open_in_new_tab": false
+    }
+  },
+  {
+    "model": "core.menuitem",
+    "pk": 9,
+    "fields": {
+      "title": "Paper Straws",
+      "url": "/product/paper-straws/",
+      "parent": 1,
+      "order": 5,
+      "is_active": true,
+      "open_in_new_tab": false
+    }
+  },
+  {
+    "model": "core.menuitem",
+    "pk": 4,
+    "fields": {
+      "title": "Contact",
+      "url": "/#contact",
+      "parent": null,
+      "order": 6,
+      "is_active": true,
+      "open_in_new_tab": false
+    }
+  },
+  {
+    "model": "core.productcategory",
+    "pk": 1,
+    "fields": {
+      "title": "Brown Kraft Bags",
+      "description": "",
+      "image": "product-categories/Brown_Paper_Bag.png",
+      "slug": "brown-kraft-bags",
+      "order": 1,
+      "is_active": true,
+      "material": "Natural Brown Kraft Paper",
+      "gsm_range": "80-250 GSM",
+      "handle_type": "Flat Paper Handles",
+      "customization": "FDA Approved - Food Safe",
+      "feature_1": "Food-safe and hygienic",
+      "feature_2": "Natural unbleached paper",
+      "feature_3": "Eco-friendly and sustainable",
+      "feature_4": "Perfect for groceries and food",
+      "feature_5": "Cost-effective bulk pricing",
+      "feature_6": "Custom printing available",
+      "created_at": "2025-12-14 00:32:51.478725+00:00",
+      "updated_at": "2025-12-21 01:54:58.249778+00:00"
+    }
+  },
+  {
+    "model": "core.productcategory",
+    "pk": 2,
+    "fields": {
+      "title": "Shopping Paper Bags",
+      "description": "Retail Packaging",
+      "image": "product-categories/Shopping_Paper_Bags.png",
+      "slug": "shopping-paper-bags",
+      "order": 2,
+      "is_active": true,
+      "material": "Premium Kraft Paper",
+      "gsm_range": "100-300 GSM",
+      "handle_type": "Twisted/Flat Paper Handles",
+      "customization": "Multiple sizes available",
+      "feature_1": "Customizable with your logo and branding",
+      "feature_2": "100% Recyclable and biodegradable",
+      "feature_3": "Strong reinforced handles",
+      "feature_4": "Ideal for retail and shopping",
+      "feature_5": "Available in bulk quantities",
+      "feature_6": "Fast turnaround time",
+      "created_at": "2025-12-14 00:32:51.489104+00:00",
+      "updated_at": "2025-12-21 01:55:12.407571+00:00"
+    }
+  },
+  {
+    "model": "core.productcategory",
+    "pk": 3,
+    "fields": {
+      "title": "Custom Branded Bags",
+      "description": "Luxury Custom Packaging",
+      "image": "product-categories/Printed_bags.png",
+      "slug": "custom-branded-bags",
+      "order": 3,
+      "is_active": true,
+      "material": "Choice of Kraft or Coated Paper",
+      "gsm_range": "Full Color CMYK Printing",
+      "handle_type": "Rope, Ribbon, or Paper Handles",
+      "customization": "Complete Design Freedom",
+      "feature_1": "Full custom design and branding",
+      "feature_2": "High-quality printing",
+      "feature_3": "Premium materials available",
+      "feature_4": "Perfect for events and gifting",
+      "feature_5": "Low minimum order quantities",
+      "feature_6": "Professional design support",
+      "created_at": "2025-12-14 00:32:51.501204+00:00",
+      "updated_at": "2025-12-21 01:55:27.690091+00:00"
+    }
+  },
+  {
+    "model": "core.productcategory",
+    "pk": 4,
+    "fields": {
+      "title": "White Paper Bags",
+      "description": "Premium Retail Packaging",
+      "image": "product-categories/White_Paper_Bag.png",
+      "slug": "white-paper-bags",
+      "order": 4,
+      "is_active": true,
+      "material": "Bleached White Kraft Paper",
+      "gsm_range": "100-300 GSM",
+      "handle_type": "Flat/Twisted Paper Handles",
+      "customization": "Smooth White Finish",
+      "feature_1": "Premium white appearance",
+      "feature_2": "Perfect for bakeries and cafes",
+      "feature_3": "Excellent print quality for logos",
+      "feature_4": "Food-grade certified",
+      "feature_5": "Professional and elegant",
+      "feature_6": "Multiple size options",
+      "created_at": "2025-12-14 00:32:51.519293+00:00",
+      "updated_at": "2025-12-21 01:55:39.434254+00:00"
+    }
+  },
+  {
+    "model": "core.product",
+    "pk": 1,
+    "fields": {
+      "category": 1,
+      "title": "13x7x13 inch Brown Kraft Paper Bags with Twisted Handles",
+      "description": "Premium kraft paper bags perfect for restaurants, retail stores, and takeout services. Made from durable kraft paper with comfortable twisted handles. Eco-friendly and recyclable.",
+      "image": "products/paper-bag-restaurant.jpg",
+      "slug": "13x7x13-brown-kraft-twisted-handles",
+      "price": "80.00",
+      "compare_at_price": null,
+      "price_per": "piece",
+      "sku": "PACKBKPTH13713",
+      "stock_quantity": 10000,
+      "track_inventory": false,
+      "allow_backorder": false,
+      "size": "13 x 7 x 13 inches",
+      "gsm": "120 GSM",
+      "color": "Natural Brown",
+      "handle_type": "Twisted Paper Handles",
+      "weight": null,
+      "price_range": "",
+      "minimum_order": 5,
+      "case_quantity": 250,
+      "feature_1": "100% Recyclable and biodegradable kraft paper",
+      "feature_2": "Strong twisted handles for comfortable carrying",
+      "feature_3": "Perfect for restaurants, takeout, and retail",
+      "feature_4": "Food-safe and FDA approved material",
+      "feature_5": "",
+      "feature_6": "",
+      "meta_title": "",
+      "meta_description": "",
+      "canonical_url": "",
+      "search_keywords": "",
+      "schema_type": "Product",
+      "order": 1,
+      "is_active": true,
+      "is_featured": false,
+      "created_at": "2025-12-14 21:18:53.163202+00:00",
+      "updated_at": "2025-12-26 00:01:45.654502+00:00"
+    }
+  },
+  {
+    "model": "core.productimage",
+    "pk": 1,
+    "fields": {
+      "product": 1,
+      "image": "product-images/black.jpeg",
+      "alt_text": "",
+      "order": 0,
+      "is_active": true,
+      "created_at": "2025-12-25 21:17:15.196757+00:00"
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 1,
+    "fields": {
+      "title": "Customized Packaging Solutions",
+      "description": "Tailored paper bags with your brand logo, colors, and unique designs. From concept to delivery, we bring your vision to life.",
+      "icon": "📦",
+      "order": 1,
+      "is_active": true,
+      "created_at": "2025-11-23 17:59:02.206611+00:00",
+      "updated_at": "2025-11-23 17:59:02.206640+00:00"
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 2,
+    "fields": {
+      "title": "Outstanding Customer Support",
+      "description": "Dedicated team ready to assist with product selection, customization, and order tracking. We're here for you every step of the way.",
+      "icon": "🤝",
+      "order": 2,
+      "is_active": true,
+      "created_at": "2025-11-23 17:59:02.214728+00:00",
+      "updated_at": "2025-11-23 17:59:02.214756+00:00"
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 3,
+    "fields": {
+      "title": "Visual Copy of Packaging",
+      "description": "Get digital mockups and samples before production. See exactly how your custom bags will look before placing bulk orders.",
+      "icon": "🖥️",
+      "order": 3,
+      "is_active": true,
+      "created_at": "2025-11-23 17:59:02.223856+00:00",
+      "updated_at": "2025-11-23 17:59:02.223882+00:00"
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 4,
+    "fields": {
+      "title": "Quality Packaging Solutions",
+      "description": "Premium kraft, bleached, coated and uncoated papers. Every bag undergoes strict quality control for durability and excellence.",
+      "icon": "⭐",
+      "order": 4,
+      "is_active": true,
+      "created_at": "2025-11-23 17:59:02.231656+00:00",
+      "updated_at": "2025-11-23 17:59:02.231685+00:00"
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 5,
+    "fields": {
+      "title": "Timely Delivery",
+      "description": "Fast turnaround times and reliable Canada-wide shipping. Get your bulk orders delivered on time, every time.",
+      "icon": "🚚",
+      "order": 5,
+      "is_active": true,
+      "created_at": "2025-11-23 17:59:02.241190+00:00",
+      "updated_at": "2025-11-23 17:59:02.241218+00:00"
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 6,
+    "fields": {
+      "title": "Eco-Friendly Materials",
+      "description": "100% recyclable and biodegradable paper bags. Help your business go green with sustainable packaging options.",
+      "icon": "🌱",
+      "order": 6,
+      "is_active": true,
+      "created_at": "2025-11-23 17:59:02.249599+00:00",
+      "updated_at": "2025-11-23 17:59:02.249629+00:00"
+    }
+  },
+  {
+    "model": "core.industry",
+    "pk": 6,
+    "fields": {
+      "title": "Restaurant Takeout",
+      "image": "industries/paper-bag-restaurant.jpg",
+      "url": "/restaurant-paper-bags/",
+      "order": 0,
+      "is_active": true,
+      "created_at": "2025-12-14 00:08:21.198935+00:00",
+      "updated_at": "2025-12-14 00:08:21.198973+00:00"
+    }
+  },
+  {
+    "model": "core.industry",
+    "pk": 1,
+    "fields": {
+      "title": "Restaurant & Takeout",
+      "image": "",
+      "url": "/restaurant-paper-bags/",
+      "order": 1,
+      "is_active": true,
+      "created_at": "2025-12-13 23:35:16.248468+00:00",
+      "updated_at": "2025-12-13 23:35:16.248524+00:00"
+    }
+  },
+  {
+    "model": "core.industry",
+    "pk": 2,
+    "fields": {
+      "title": "Retail Stores",
+      "image": "",
+      "url": "/retail-paper-bags/",
+      "order": 2,
+      "is_active": true,
+      "created_at": "2025-12-13 23:35:16.257078+00:00",
+      "updated_at": "2025-12-13 23:35:16.257100+00:00"
+    }
+  },
+  {
+    "model": "core.industry",
+    "pk": 3,
+    "fields": {
+      "title": "Boutique & Fashion",
+      "image": "",
+      "url": "/boutique-packaging/",
+      "order": 3,
+      "is_active": true,
+      "created_at": "2025-12-13 23:35:16.261972+00:00",
+      "updated_at": "2025-12-13 23:35:16.261996+00:00"
+    }
+  },
+  {
+    "model": "core.industry",
+    "pk": 4,
+    "fields": {
+      "title": "Grocery & Supermarket",
+      "image": "",
+      "url": "/grocery-paper-bags/",
+      "order": 4,
+      "is_active": true,
+      "created_at": "2025-12-13 23:35:16.267585+00:00",
+      "updated_at": "2025-12-13 23:35:16.267611+00:00"
+    }
+  },
+  {
+    "model": "core.industry",
+    "pk": 5,
+    "fields": {
+      "title": "Bakery & Cafe",
+      "image": "",
+      "url": "/bakery-paper-bags/",
+      "order": 5,
+      "is_active": true,
+      "created_at": "2025-12-13 23:35:16.276362+00:00",
+      "updated_at": "2025-12-13 23:35:16.276394+00:00"
+    }
+  },
+  {
+    "model": "core.faq",
+    "pk": 1,
+    "fields": {
+      "question": "What's your minimum order quantity?",
+      "answer": "<p>Our minimum order quantity is <strong>10,000 pieces</strong>. This allows us to offer competitive pricing while maintaining the high quality standards our customers expect. Bulk ordering also provides the best value per unit and ensures you have adequate inventory for your business needs.</p>",
+      "order": 1,
+      "category": "Ordering",
+      "is_active": true,
+      "created_at": "2025-12-04 23:06:05.288738+00:00",
+      "updated_at": "2025-12-04 23:06:05.288777+00:00"
+    }
+  },
+  {
+    "model": "core.faq",
+    "pk": 2,
+    "fields": {
+      "question": "Do you ship across Canada?",
+      "answer": "<p><strong>Yes!</strong> We provide shipping services across all of Canada. Whether you're in Toronto, Vancouver, Montreal, Calgary, or any other city, we can deliver your custom paper bags to your location. Shipping costs and delivery times vary by destination and order size. Contact us for a detailed shipping quote for your specific location.</p>",
+      "order": 2,
+      "category": "Shipping",
+      "is_active": true,
+      "created_at": "2025-12-04 23:06:05.302236+00:00",
+      "updated_at": "2025-12-04 23:06:05.302257+00:00"
+    }
+  },
+  {
+    "model": "core.faq",
+    "pk": 3,
+    "fields": {
+      "question": "How long does custom printing take?",
+      "answer": "<p>Custom printing typically takes <strong>10-12 business days</strong> from the time your artwork is approved and your order is confirmed. This timeline includes:</p><ul><li>Artwork review and approval (1-2 days)</li><li>Production and printing (7-9 days)</li><li>Quality control and packaging (1 day)</li></ul><p>Rush orders may be available for an additional fee. Please contact us to discuss expedited options if you have a tight deadline.</p>",
+      "order": 3,
+      "category": "Customization",
+      "is_active": true,
+      "created_at": "2025-12-04 23:06:05.314182+00:00",
+      "updated_at": "2025-12-04 23:06:05.314206+00:00"
+    }
+  },
+  {
+    "model": "core.faq",
+    "pk": 4,
+    "fields": {
+      "question": "What paper GSM should I choose?",
+      "answer": "<p>The right GSM (grams per square meter) depends on your intended use:</p><ul><li><strong>60-80 GSM:</strong> Lightweight and economical. Best for light items like clothing, gift wrapping, and promotional events. Can hold up to 2 kg comfortably.</li><li><strong>90-100 GSM:</strong> Our most popular option. Balances durability and cost. Suitable for most retail applications and can hold 5-8 kg.</li><li><strong>120+ GSM:</strong> Premium, heavy-duty bags with excellent strength. Ideal for heavier items, luxury retail, and customers who want a premium feel. Can hold 10+ kg.</li></ul><p>We're happy to provide samples so you can test different GSM options with your actual products before placing a bulk order.</p>",
+      "order": 4,
+      "category": "Product Specifications",
+      "is_active": true,
+      "created_at": "2025-12-04 23:06:05.326647+00:00",
+      "updated_at": "2025-12-04 23:06:05.326674+00:00"
+    }
+  },
+  {
+    "model": "core.faq",
+    "pk": 5,
+    "fields": {
+      "question": "Are your bags biodegradable?",
+      "answer": "<p><strong>Yes!</strong> All our paper bags are 100% biodegradable and environmentally friendly. Made from kraft paper, they naturally decompose within 2-6 weeks when exposed to the elements, unlike plastic bags which can take hundreds of years.</p><p>Our bags are also:</p><ul><li><strong>Recyclable:</strong> Can be recycled 5-7 times through standard paper recycling programs</li><li><strong>Compostable:</strong> Safe for composting facilities</li><li><strong>Sustainable:</strong> Made from renewable resources with FSC certification options available</li><li><strong>Chemical-free:</strong> No harmful additives or coatings</li></ul><p>By choosing our paper bags, you're making an environmentally responsible choice that aligns with Canada's plastic reduction initiatives.</p>",
+      "order": 5,
+      "category": "Sustainability",
+      "is_active": true,
+      "created_at": "2025-12-04 23:06:05.340698+00:00",
+      "updated_at": "2025-12-04 23:06:05.340833+00:00"
+    }
+  },
+  {
+    "model": "core.faq",
+    "pk": 6,
+    "fields": {
+      "question": "Can I see samples before ordering?",
+      "answer": "<p>Absolutely! We encourage customers to request samples before placing large orders. We can provide:</p><ul><li><strong>Blank samples:</strong> Unprinted bags in various sizes and GSM weights (free)</li><li><strong>Printed samples:</strong> Previous work examples to show print quality</li><li><strong>Custom sample run:</strong> A small batch with your design (additional cost)</li></ul><p>Contact us to request samples, and we'll ship them to you so you can evaluate quality, size, and weight capacity with your actual products.</p>",
+      "order": 6,
+      "category": "Ordering",
+      "is_active": true,
+      "created_at": "2025-12-04 23:06:05.355695+00:00",
+      "updated_at": "2025-12-04 23:06:05.355723+00:00"
+    }
+  },
+  {
+    "model": "core.faq",
+    "pk": 7,
+    "fields": {
+      "question": "What customization options are available?",
+      "answer": "<p>We offer extensive customization options:</p><p><strong>Sizes:</strong> 13 standard sizes from 5\" to 18\" width, or custom dimensions</p><p><strong>Printing:</strong></p><ul><li>1-4 color flexographic printing</li><li>Full-color digital printing</li><li>Hot stamping and foil printing</li><li>Inside and outside printing</li></ul><p><strong>Handle Options:</strong></p><ul><li>Twisted paper handles (standard)</li><li>Flat paper handles (reinforced)</li><li>Cotton rope handles (premium)</li><li>Ribbon handles (luxury)</li></ul><p><strong>Paper Options:</strong> Natural kraft, white kraft, colored paper, recycled content</p><p><strong>Finishes:</strong> Matte, gloss, or textured finishes available</p>",
+      "order": 7,
+      "category": "Customization",
+      "is_active": true,
+      "created_at": "2025-12-04 23:06:05.371504+00:00",
+      "updated_at": "2025-12-04 23:06:05.371565+00:00"
+    }
+  },
+  {
+    "model": "core.faq",
+    "pk": 8,
+    "fields": {
+      "question": "What file format do you need for artwork?",
+      "answer": "<p>For best printing results, please provide:</p><ul><li><strong>Vector files:</strong> AI, EPS, or PDF (preferred)</li><li><strong>Raster files:</strong> High-resolution PNG or JPG (300 DPI minimum)</li><li><strong>Color mode:</strong> CMYK (not RGB)</li><li><strong>Bleed:</strong> Include 3mm bleed on all edges</li><li><strong>Fonts:</strong> Convert all text to outlines/curves</li></ul><p>Don't have print-ready artwork? No problem! Our design team can help optimize your files or create designs from scratch. We provide free design consultation and digital proofs before production.</p>",
+      "order": 8,
+      "category": "Customization",
+      "is_active": true,
+      "created_at": "2025-12-04 23:06:05.384942+00:00",
+      "updated_at": "2025-12-04 23:06:05.384968+00:00"
+    }
+  },
+  {
+    "model": "core.faq",
+    "pk": 9,
+    "fields": {
+      "question": "Do you offer rush production?",
+      "answer": "<p>Yes, rush production is available depending on our current production schedule and order complexity. Rush orders typically add 3-5 business days to standard production, but we can accommodate faster turnarounds when possible.</p><p>Rush production incurs an additional fee based on order size and timeline requirements. Contact us as soon as possible with your deadline, and we'll do our best to accommodate your needs.</p><p>For the fastest service, consider:</p><ul><li>Using standard sizes (eliminates custom die-cutting)</li><li>Limiting colors (1-2 colors print faster than full color)</li><li>Having print-ready artwork approved quickly</li></ul>",
+      "order": 9,
+      "category": "Production",
+      "is_active": true,
+      "created_at": "2025-12-04 23:06:05.398140+00:00",
+      "updated_at": "2025-12-04 23:06:05.398168+00:00"
+    }
+  },
+  {
+    "model": "core.faq",
+    "pk": 10,
+    "fields": {
+      "question": "What payment methods do you accept?",
+      "answer": "<p>We accept multiple payment methods for your convenience:</p><ul><li><strong>Bank Transfer/Wire Transfer:</strong> For large orders (preferred)</li><li><strong>Credit Cards:</strong> Visa, Mastercard, American Express</li><li><strong>Company Check:</strong> For established business accounts</li><li><strong>Payment Terms:</strong> Net 30 available for approved accounts</li></ul><p>A 50% deposit is typically required before production begins, with the balance due before shipping. We can discuss alternative payment arrangements for large or recurring orders.</p>",
+      "order": 10,
+      "category": "Ordering",
+      "is_active": true,
+      "created_at": "2025-12-04 23:06:05.409800+00:00",
+      "updated_at": "2025-12-04 23:06:05.409827+00:00"
+    }
+  },
+  {
+    "model": "core.cart",
+    "pk": 18,
+    "fields": {
+      "session_key": "xtivhte4quntkrmxpjtxd68rod0r73xu",
+      "created_at": "2025-12-26 22:42:16.425758+00:00",
+      "updated_at": "2025-12-26 22:42:16.425775+00:00"
+    }
+  },
+  {
+    "model": "core.cart",
+    "pk": 19,
+    "fields": {
+      "session_key": "nrzn3l4l151tmey1v8hvz1rg4e6ug08e",
+      "created_at": "2025-12-28 03:04:31.072468+00:00",
+      "updated_at": "2025-12-28 03:04:31.072549+00:00"
+    }
+  },
+  {
+    "model": "core.cart",
+    "pk": 20,
+    "fields": {
+      "session_key": "ibwlrdmfh9sqa1l1lwyed14urb49rwq8",
+      "created_at": "2025-12-30 00:14:24.339871+00:00",
+      "updated_at": "2025-12-30 00:14:24.339932+00:00"
+    }
+  },
+  {
+    "model": "core.cart",
+    "pk": 21,
+    "fields": {
+      "session_key": "o15fnif2yf3pge1q88km4feoysb5cg5g",
+      "created_at": "2025-12-30 00:19:49.626980+00:00",
+      "updated_at": "2025-12-30 00:19:49.627011+00:00"
+    }
+  },
+  {
+    "model": "core.cart",
+    "pk": 22,
+    "fields": {
+      "session_key": "q6i17tzxc9youl17evyd00gtjxlvyo6y",
+      "created_at": "2025-12-30 01:02:21.319582+00:00",
+      "updated_at": "2025-12-30 01:02:21.319605+00:00"
+    }
+  },
+  {
+    "model": "core.cart",
+    "pk": 23,
+    "fields": {
+      "session_key": "tlz88oo4uc4i5wfd8n7mnm872azjwfpe",
+      "created_at": "2025-12-30 02:55:57.396823+00:00",
+      "updated_at": "2025-12-30 02:55:57.396853+00:00"
+    }
+  },
+  {
+    "model": "core.cart",
+    "pk": 24,
+    "fields": {
+      "session_key": "oggn28z1nti7j8yp7nmuaxjh14kn6lix",
+      "created_at": "2025-12-30 02:58:47.753456+00:00",
+      "updated_at": "2025-12-30 02:58:47.753480+00:00"
+    }
+  },
+  {
+    "model": "core.cart",
+    "pk": 25,
+    "fields": {
+      "session_key": "vqly42b90gc8o9rqsppm68oflo3lbnw9",
+      "created_at": "2025-12-30 03:44:26.451398+00:00",
+      "updated_at": "2025-12-30 03:44:26.451423+00:00"
+    }
+  },
+  {
+    "model": "core.cart",
+    "pk": 26,
+    "fields": {
+      "session_key": "lmmyw7r59d18ucu9erht5kzlqw2vgngo",
+      "created_at": "2025-12-30 04:34:04.941408+00:00",
+      "updated_at": "2025-12-30 04:34:04.941451+00:00"
+    }
+  },
+  {
+    "model": "core.cart",
+    "pk": 27,
+    "fields": {
+      "session_key": "fskpwxu4eor5ez39sgsgpad83gjre286",
+      "created_at": "2025-12-30 18:35:30.633489+00:00",
+      "updated_at": "2025-12-30 18:35:30.633575+00:00"
+    }
+  },
+  {
+    "model": "core.cart",
+    "pk": 28,
+    "fields": {
+      "session_key": "vpmx37d7snem9ypu9lmd0gcdd0h20cg0",
+      "created_at": "2025-12-30 19:50:45.195711+00:00",
+      "updated_at": "2025-12-30 19:50:45.195741+00:00"
+    }
+  },
+  {
+    "model": "core.cartitem",
+    "pk": 33,
+    "fields": {
+      "cart": 19,
+      "product": 1,
+      "quantity": 5,
+      "added_at": "2025-12-29 20:26:15.875130+00:00"
+    }
+  },
+  {
+    "model": "core.cartitem",
+    "pk": 35,
+    "fields": {
+      "cart": 21,
+      "product": 1,
+      "quantity": 14,
+      "added_at": "2025-12-30 00:19:49.631727+00:00"
+    }
+  },
+  {
+    "model": "core.cartitem",
+    "pk": 36,
+    "fields": {
+      "cart": 22,
+      "product": 1,
+      "quantity": 103,
+      "added_at": "2025-12-30 01:02:21.323892+00:00"
+    }
+  },
+  {
+    "model": "core.cartitem",
+    "pk": 37,
+    "fields": {
+      "cart": 23,
+      "product": 1,
+      "quantity": 5,
+      "added_at": "2025-12-30 02:55:57.402646+00:00"
+    }
+  },
+  {
+    "model": "core.cartitem",
+    "pk": 38,
+    "fields": {
+      "cart": 24,
+      "product": 1,
+      "quantity": 101,
+      "added_at": "2025-12-30 02:58:47.757815+00:00"
+    }
+  },
+  {
+    "model": "core.cartitem",
+    "pk": 41,
+    "fields": {
+      "cart": 26,
+      "product": 1,
+      "quantity": 5,
+      "added_at": "2025-12-30 18:33:27.643970+00:00"
+    }
+  },
+  {
+    "model": "core.cartitem",
+    "pk": 43,
+    "fields": {
+      "cart": 27,
+      "product": 1,
+      "quantity": 122,
+      "added_at": "2025-12-30 19:24:39.858585+00:00"
+    }
+  },
+  {
+    "model": "core.order",
+    "pk": 17,
+    "fields": {
+      "order_number": "PA-20251230-5378",
+      "user": 2,
+      "email": "pujanmin007@gmail.com",
+      "first_name": "Pujan",
+      "last_name": "AMin",
+      "company_name": "Printed",
+      "phone": "(249) 989-2496",
+      "shipping_address_1": "72 Michael Cres",
+      "shipping_address_2": "",
+      "shipping_city": "Barrie",
+      "shipping_state": "ON",
+      "shipping_postal_code": "L4M 0L4",
+      "shipping_country": "Canada",
+      "shipping_method": "Express Shipping",
+      "shipping_eta": "2–3 business days",
+      "billing_same_as_shipping": true,
+      "billing_address_1": "",
+      "billing_address_2": "",
+      "billing_city": "",
+      "billing_state": "",
+      "billing_postal_code": "",
+      "billing_country": "",
+      "subtotal": "1200.00",
+      "shipping_cost": "12.00",
+      "tax": "156.00",
+      "discount": "0.00",
+      "promo_code": "",
+      "total": "1368.00",
+      "status": "shipped",
+      "payment_status": "paid",
+      "payment_method": "",
+      "payment_id": "",
+      "customer_notes": "",
+      "admin_notes": "",
+      "tracking_number": "",
+      "tracking_url": "",
+      "tracking_step": 1,
+      "created_at": "2025-12-30 19:10:34.155150+00:00",
+      "updated_at": "2025-12-30 19:59:16.847257+00:00",
+      "shipped_at": null,
+      "delivered_at": null
+    }
+  },
+  {
+    "model": "core.order",
+    "pk": 16,
+    "fields": {
+      "order_number": "PA-20251230-2521",
+      "user": 3,
+      "email": "pujanmin007@gmail.com",
+      "first_name": "Pujan",
+      "last_name": "Amin",
+      "company_name": "Printed",
+      "phone": "(249) 989-2496",
+      "shipping_address_1": "72 Michael Cres",
+      "shipping_address_2": "",
+      "shipping_city": "Barrie",
+      "shipping_state": "ON",
+      "shipping_postal_code": "L4M 6Z2",
+      "shipping_country": "Canada",
+      "shipping_method": "Express Shipping",
+      "shipping_eta": "2–3 business days",
+      "billing_same_as_shipping": true,
+      "billing_address_1": "",
+      "billing_address_2": "",
+      "billing_city": "",
+      "billing_state": "",
+      "billing_postal_code": "",
+      "billing_country": "",
+      "subtotal": "400.00",
+      "shipping_cost": "12.00",
+      "tax": "52.00",
+      "discount": "0.00",
+      "promo_code": "",
+      "total": "464.00",
+      "status": "pending",
+      "payment_status": "pending",
+      "payment_method": "",
+      "payment_id": "",
+      "customer_notes": "",
+      "admin_notes": "",
+      "tracking_number": "",
+      "tracking_url": "",
+      "tracking_step": 1,
+      "created_at": "2025-12-30 18:04:58.296601+00:00",
+      "updated_at": "2025-12-30 18:04:58.296694+00:00",
+      "shipped_at": null,
+      "delivered_at": null
+    }
+  },
+  {
+    "model": "core.order",
+    "pk": 15,
+    "fields": {
+      "order_number": "PA-20251229-3910",
+      "user": null,
+      "email": "pujanamin007@gmail.com",
+      "first_name": "Pujan",
+      "last_name": "amin",
+      "company_name": "LLFDF",
+      "phone": "(124) 998-9249",
+      "shipping_address_1": "72 MICHAEL CRES",
+      "shipping_address_2": "6080",
+      "shipping_city": "BARRIE",
+      "shipping_state": "ON",
+      "shipping_postal_code": "L4M 0L5",
+      "shipping_country": "Canada",
+      "shipping_method": "Express Shipping",
+      "shipping_eta": "2–3 business days",
+      "billing_same_as_shipping": true,
+      "billing_address_1": "",
+      "billing_address_2": "",
+      "billing_city": "",
+      "billing_state": "",
+      "billing_postal_code": "",
+      "billing_country": "",
+      "subtotal": "5100.00",
+      "shipping_cost": "12.00",
+      "tax": "663.00",
+      "discount": "0.00",
+      "promo_code": "",
+      "total": "5775.00",
+      "status": "pending",
+      "payment_status": "pending",
+      "payment_method": "",
+      "payment_id": "",
+      "customer_notes": "",
+      "admin_notes": "",
+      "tracking_number": "",
+      "tracking_url": "",
+      "tracking_step": 1,
+      "created_at": "2025-12-30 04:33:07.618485+00:00",
+      "updated_at": "2025-12-30 04:33:07.618506+00:00",
+      "shipped_at": null,
+      "delivered_at": null
+    }
+  },
+  {
+    "model": "core.order",
+    "pk": 14,
+    "fields": {
+      "order_number": "PA-20251229-0148",
+      "user": null,
+      "email": "pujanamin007@gmail.com",
+      "first_name": "Pujan",
+      "last_name": "amin",
+      "company_name": "LLFDF",
+      "phone": "(124) 998-9249",
+      "shipping_address_1": "72 MICHAEL CRES",
+      "shipping_address_2": "6080",
+      "shipping_city": "BARRIE",
+      "shipping_state": "ON",
+      "shipping_postal_code": "L4M 0L5",
+      "shipping_country": "Canada",
+      "shipping_method": "",
+      "shipping_eta": "",
+      "billing_same_as_shipping": true,
+      "billing_address_1": "",
+      "billing_address_2": "",
+      "billing_city": "",
+      "billing_state": "",
+      "billing_postal_code": "",
+      "billing_country": "",
+      "subtotal": "400.00",
+      "shipping_cost": "0.00",
+      "tax": "0.00",
+      "discount": "0.00",
+      "promo_code": "",
+      "total": "400.00",
+      "status": "pending",
+      "payment_status": "pending",
+      "payment_method": "",
+      "payment_id": "",
+      "customer_notes": "",
+      "admin_notes": "",
+      "tracking_number": "",
+      "tracking_url": "",
+      "tracking_step": 1,
+      "created_at": "2025-12-30 00:14:48.994825+00:00",
+      "updated_at": "2025-12-30 00:14:48.994855+00:00",
+      "shipped_at": null,
+      "delivered_at": null
+    }
+  },
+  {
+    "model": "core.order",
+    "pk": 13,
+    "fields": {
+      "order_number": "PA-20251229-5735",
+      "user": null,
+      "email": "pujanamin007@gmail.com",
+      "first_name": "Pujan",
+      "last_name": "amin",
+      "company_name": "LLFDF",
+      "phone": "(124) 998-9249",
+      "shipping_address_1": "72 MICHAEL CRES",
+      "shipping_address_2": "6080",
+      "shipping_city": "BARRIE",
+      "shipping_state": "ON",
+      "shipping_postal_code": "L4M 0L5",
+      "shipping_country": "Canada",
+      "shipping_method": "",
+      "shipping_eta": "",
+      "billing_same_as_shipping": true,
+      "billing_address_1": "",
+      "billing_address_2": "",
+      "billing_city": "",
+      "billing_state": "",
+      "billing_postal_code": "",
+      "billing_country": "",
+      "subtotal": "800.00",
+      "shipping_cost": "0.00",
+      "tax": "0.00",
+      "discount": "0.00",
+      "promo_code": "",
+      "total": "800.00",
+      "status": "processing",
+      "payment_status": "pending",
+      "payment_method": "",
+      "payment_id": "",
+      "customer_notes": "",
+      "admin_notes": "",
+      "tracking_number": "",
+      "tracking_url": "",
+      "tracking_step": 1,
+      "created_at": "2025-12-29 19:39:12.614983+00:00",
+      "updated_at": "2025-12-30 19:58:48.405747+00:00",
+      "shipped_at": null,
+      "delivered_at": null
+    }
+  },
+  {
+    "model": "core.orderitem",
+    "pk": 13,
+    "fields": {
+      "order": 13,
+      "product": 1,
+      "product_title": "13x7x13 inch Brown Kraft Paper Bags with Twisted Handles",
+      "product_sku": "PACKBKPTH13713",
+      "quantity": 10,
+      "unit_price": "80.00",
+      "total_price": "800.00"
+    }
+  },
+  {
+    "model": "core.orderitem",
+    "pk": 14,
+    "fields": {
+      "order": 14,
+      "product": 1,
+      "product_title": "13x7x13 inch Brown Kraft Paper Bags with Twisted Handles",
+      "product_sku": "PACKBKPTH13713",
+      "quantity": 5,
+      "unit_price": "80.00",
+      "total_price": "400.00"
+    }
+  },
+  {
+    "model": "core.orderitem",
+    "pk": 15,
+    "fields": {
+      "order": 15,
+      "product": 1,
+      "product_title": "13x7x13 inch Brown Kraft Paper Bags with Twisted Handles",
+      "product_sku": "PACKBKPTH13713",
+      "quantity": 102,
+      "unit_price": "50.00",
+      "total_price": "5100.00"
+    }
+  },
+  {
+    "model": "core.orderitem",
+    "pk": 16,
+    "fields": {
+      "order": 16,
+      "product": 1,
+      "product_title": "13x7x13 inch Brown Kraft Paper Bags with Twisted Handles",
+      "product_sku": "PACKBKPTH13713",
+      "quantity": 5,
+      "unit_price": "80.00",
+      "total_price": "400.00"
+    }
+  },
+  {
+    "model": "core.orderitem",
+    "pk": 17,
+    "fields": {
+      "order": 17,
+      "product": 1,
+      "product_title": "13x7x13 inch Brown Kraft Paper Bags with Twisted Handles",
+      "product_sku": "PACKBKPTH13713",
+      "quantity": 15,
+      "unit_price": "80.00",
+      "total_price": "1200.00"
+    }
+  },
+  {
+    "model": "core.tieredpricing",
+    "pk": 1,
+    "fields": {
+      "product": 1,
+      "min_quantity": 1,
+      "max_quantity": 30,
+      "price_per_unit": "80.00",
+      "label": ""
+    }
+  },
+  {
+    "model": "core.tieredpricing",
+    "pk": 2,
+    "fields": {
+      "product": 1,
+      "min_quantity": 31,
+      "max_quantity": 100,
+      "price_per_unit": "70.00",
+      "label": ""
+    }
+  },
+  {
+    "model": "core.tieredpricing",
+    "pk": 3,
+    "fields": {
+      "product": 1,
+      "min_quantity": 101,
+      "max_quantity": null,
+      "price_per_unit": "50.00",
+      "label": ""
+    }
+  },
+  {
+    "model": "core.productindustry",
+    "pk": 1,
+    "fields": {
+      "product": 1,
+      "industry": 1
+    }
+  },
+  {
+    "model": "core.sitesettings",
+    "pk": 1,
+    "fields": {
+      "online_payments_enabled": false,
+      "store_name": "Packaxis Packaging Canada",
+      "store_email": "hello@packaxis.ca",
+      "store_phone": "(249) 989-2496",
+      "store_address": "Toronto, Ontario, Canada",
+      "tax_rate": "13.00",
+      "minimum_order_amount": "0.00",
+      "free_shipping_threshold": "500.00",
+      "updated_at": "2025-12-26 22:37:46.308294+00:00"
+    }
+  },
+  {
+    "model": "blog.category",
+    "pk": 3,
+    "fields": {
+      "name": "Business Tips",
+      "slug": "business-tips",
+      "description": ""
+    }
+  },
+  {
+    "model": "blog.category",
+    "pk": 5,
+    "fields": {
+      "name": "Industry Insights",
+      "slug": "industry-insights",
+      "description": ""
+    }
+  },
+  {
+    "model": "blog.category",
+    "pk": 4,
+    "fields": {
+      "name": "Industry News",
+      "slug": "industry-news",
+      "description": ""
+    }
+  },
+  {
+    "model": "blog.category",
+    "pk": 2,
+    "fields": {
+      "name": "Printing & Design",
+      "slug": "printing-design",
+      "description": ""
+    }
+  },
+  {
+    "model": "blog.category",
+    "pk": 1,
+    "fields": {
+      "name": "Sustainability",
+      "slug": "sustainability",
+      "description": ""
+    }
+  },
+  {
+    "model": "blog.post",
+    "pk": 5,
+    "fields": {
+      "title": "Paper Bags Wholesale Canada: Complete Guide for Toronto Restaurants & Retailers 2025",
+      "slug": "paper-bags-wholesale-canada-toronto-guide",
+      "excerpt": "Complete guide to sourcing paper bags wholesale Canada, custom paper bags Toronto, and eco-friendly packaging. Learn about kraft paper bags bulk pricing, customization options, and why Canadian restaurants and retailers choose recyclable paper bags.",
+      "content": "<p>Looking for <strong>paper bags wholesale Canada</strong> or <strong>custom paper bags Toronto</strong>? This comprehensive guide covers everything Canadian restaurants and retailers need to know about sourcing <strong>eco-friendly packaging Canada</strong>, including wholesale pricing, customization options, and sustainability benefits.</p>\n\n<h2>Why Canadian Businesses Choose Paper Bags Wholesale</h2>\n\n<p>The shift to <strong>recyclable paper bags</strong> isn't just a trend—it's a business necessity. With Canada's single-use plastics ban fully implemented in 2025, restaurants, retailers, and food service businesses across Toronto and nationwide need reliable suppliers of sustainable packaging solutions.</p>\n\n<p>Ordering <strong>kraft paper bags bulk</strong> offers several advantages:</p>\n\n<ul>\n<li><strong>Cost Savings:</strong> Wholesale pricing reduces per-unit costs significantly</li>\n<li><strong>Brand Consistency:</strong> Large orders ensure uniform quality across all locations</li>\n<li><strong>Environmental Compliance:</strong> Meet federal plastic ban regulations</li>\n<li><strong>Customer Preference:</strong> 78% of Canadian consumers prefer eco-friendly packaging</li>\n<li><strong>Marketing Value:</strong> Custom branded shopping bags increase brand visibility</li>\n</ul>\n\n<h2>Custom Paper Bags Toronto: Branding Options</h2>\n\n<p>As a <strong>restaurant paper bags supplier</strong> serving Toronto and all of Canada, we offer extensive customization for <strong>branded shopping bags</strong>:</p>\n\n<h3>Printing Options</h3>\n<ul>\n<li><strong>Flexographic Printing:</strong> Cost-effective for large volume orders (10,000+ units)</li>\n<li><strong>Digital Printing:</strong> Perfect for smaller runs with complex designs</li>\n<li><strong>Hot Stamping:</strong> Premium metallic finishes for luxury brands</li>\n<li><strong>Custom Colors:</strong> Match your exact brand Pantone colors</li>\n</ul>\n\n<h3>Popular Customization Choices</h3>\n<ul>\n<li>Logo placement on both sides</li>\n<li>Full-color restaurant menus or product information</li>\n<li>QR codes linking to digital menus or loyalty programs</li>\n<li>Seasonal designs and promotional messages</li>\n<li>Social media handles and contact information</li>\n</ul>\n\n<h2>Kraft Paper Bags Bulk: Types and Specifications</h2>\n\n<p>Understanding paper bag specifications helps you choose the right <strong>eco-friendly packaging Canada</strong> solution:</p>\n\n<h3>Paper Types</h3>\n<ul>\n<li><strong>Brown Kraft Paper (70-120 GSM):</strong> Natural, rustic look for organic/artisan brands</li>\n<li><strong>White Kraft Paper (80-150 GSM):</strong> Clean, professional appearance for retail</li>\n<li><strong>Colored Kraft Paper (90-120 GSM):</strong> Stand out with vibrant custom colors</li>\n<li><strong>Recycled Paper (80-100 GSM):</strong> Maximum sustainability credentials</li>\n</ul>\n\n<h3>Handle Options</h3>\n<ul>\n<li><strong>Twisted Paper Handles:</strong> Durable and comfortable for heavier items</li>\n<li><strong>Flat Paper Handles:</strong> Economic choice for lighter products</li>\n<li><strong>Die-Cut Handles:</strong> Integrated design without additional materials</li>\n<li><strong>Rope Handles:</strong> Premium look for boutique retailers</li>\n</ul>\n\n<h3>Common Sizes for Canadian Businesses</h3>\n<ul>\n<li><strong>Small (8\" x 4.75\" x 10\"):</strong> Boutiques, pharmacies, small purchases</li>\n<li><strong>Medium (10\" x 5\" x 13\"):</strong> Clothing stores, restaurants, general retail</li>\n<li><strong>Large (12\" x 6\" x 16\"):</strong> Grocery stores, bulk purchases, takeout orders</li>\n<li><strong>Extra Large (16\" x 6\" x 19\"):</strong> Catering, large orders, department stores</li>\n</ul>\n\n<h2>Restaurant Paper Bags Supplier: Food Service Specifications</h2>\n\n<p>Restaurants and food service businesses have unique requirements for <strong>recyclable paper bags</strong>:</p>\n\n<h3>Food-Safe Requirements</h3>\n<ul>\n<li>FDA-approved materials for direct food contact</li>\n<li>Grease-resistant coatings for hot or oily foods</li>\n<li>Strong construction to handle takeout containers</li>\n<li>Reinforced bottoms for stability</li>\n<li>Moisture-resistant options for beverages</li>\n</ul>\n\n<h3>Popular Restaurant Applications</h3>\n<ul>\n<li><strong>Quick Service Restaurants:</strong> Burger bags, sandwich bags, combo meal bags</li>\n<li><strong>Fine Dining Takeout:</strong> Premium branded bags with rope handles</li>\n<li><strong>Bakeries & Cafes:</strong> Pastry bags, coffee carrier bags</li>\n<li><strong>Grocery Delivery:</strong> Large capacity bags with reinforced handles</li>\n</ul>\n\n<h2>Eco-Friendly Packaging Canada: Sustainability Benefits</h2>\n\n<p>Choosing <strong>paper bags wholesale Canada</strong> supports environmental goals:</p>\n\n<ul>\n<li><strong>100% Biodegradable:</strong> Decomposes in 2-6 weeks in composting conditions</li>\n<li><strong>Recyclable:</strong> Can be recycled up to 7 times</li>\n<li><strong>Renewable Materials:</strong> Made from sustainably managed forests</li>\n<li><strong>Lower Carbon Footprint:</strong> 70% less CO2 emissions vs. plastic bags</li>\n<li><strong>No Microplastics:</strong> Doesn't contribute to ocean pollution</li>\n</ul>\n\n<h2>Wholesale Pricing: What to Expect</h2>\n\n<p>When ordering <strong>kraft paper bags bulk</strong> in Canada, pricing depends on:</p>\n\n<ul>\n<li><strong>Order Quantity:</strong> Minimum 10,000 units for custom printing</li>\n<li><strong>Customization Level:</strong> 1-color vs. full-color printing affects cost</li>\n<li><strong>Paper GSM:</strong> Heavier paper costs more but offers better durability</li>\n<li><strong>Handle Type:</strong> Twisted handles cost slightly more than flat handles</li>\n<li><strong>Size:</strong> Larger bags require more material</li>\n</ul>\n\n<h3>Typical Wholesale Pricing Ranges</h3>\n<ul>\n<li><strong>10,000 units:</strong> $0.25-$0.45 per bag</li>\n<li><strong>25,000 units:</strong> $0.20-$0.35 per bag</li>\n<li><strong>50,000+ units:</strong> $0.15-$0.28 per bag</li>\n</ul>\n\n<p><em>Note: Prices vary based on specifications. Contact us for accurate quotes.</em></p>\n\n<h2>How to Order Custom Paper Bags Toronto</h2>\n\n<p>Our streamlined ordering process for <strong>branded shopping bags</strong>:</p>\n\n<ol>\n<li><strong>Request a Quote:</strong> Share your requirements (quantity, size, customization)</li>\n<li><strong>Review Samples:</strong> We send physical samples for approval</li>\n<li><strong>Approve Design:</strong> We create digital mockups of your custom design</li>\n<li><strong>Production:</strong> 10-12 business days for manufacturing</li>\n<li><strong>Quality Check:</strong> Every batch undergoes inspection</li>\n<li><strong>Delivery:</strong> Nationwide shipping across Canada</li>\n</ol>\n\n<h2>Frequently Asked Questions</h2>\n\n<h3>What's the minimum order for custom paper bags?</h3>\n<p>Our minimum order quantity is 10,000 units for custom printed <strong>paper bags wholesale Canada</strong>. We also offer generic bags in smaller quantities.</p>\n\n<h3>How long does production take?</h3>\n<p>Standard production time is 10-12 business days after design approval. Rush orders (6-8 days) are available for an additional fee.</p>\n\n<h3>Can I order samples before placing a bulk order?</h3>\n<p>Yes! We provide physical samples of paper stock, sizes, and handle types. Custom printed samples are available for a nominal fee.</p>\n\n<h3>Do you ship across all of Canada?</h3>\n<p>Absolutely. We ship <strong>eco-friendly packaging Canada</strong> to all provinces and territories, with warehousing in Toronto for faster GTA delivery.</p>\n\n<h3>Are your paper bags food-safe?</h3>\n<p>Yes, all our <strong>restaurant paper bags supplier</strong> products meet FDA food safety standards and Canadian regulations.</p>\n\n<h2>Ready to Order Paper Bags Wholesale Canada?</h2>\n\n<p>Whether you need <strong>custom paper bags Toronto</strong>, <strong>kraft paper bags bulk</strong> for your restaurant, or <strong>branded shopping bags</strong> for your retail business, PackAxis is your trusted supplier of <strong>recyclable paper bags</strong> and <strong>eco-friendly packaging Canada</strong>.</p>\n\n<p><a href=\"/quote/\">Contact us today</a> for wholesale pricing, samples, and expert guidance on choosing the perfect paper bags for your Canadian business. Join thousands of restaurants and retailers across Toronto and Canada who trust PackAxis for quality, sustainability, and service.</p>\n\n<p><strong>Related Products:</strong></p>\n<ul>\n<li><a href=\"/products/\">Browse our complete paper bag collection</a></li>\n<li><a href=\"/faq/\">Frequently Asked Questions</a></li>\n<li><a href=\"/blog/\">More packaging industry insights</a></li>\n</ul>",
+      "featured_image": "",
+      "meta_description": "Paper bags wholesale Canada guide 2025: Custom paper bags Toronto, kraft paper bags bulk, branded shopping bags, and eco-friendly packaging for restaurants and retailers. Get wholesale pricing.",
+      "meta_keywords": "paper bags wholesale Canada, custom paper bags Toronto, eco-friendly packaging Canada, kraft paper bags bulk, restaurant paper bags supplier, branded shopping bags, recyclable paper bags",
+      "category": 5,
+      "author": "PackAxis Team",
+      "created_at": "2025-12-07 17:42:20.188503+00:00",
+      "updated_at": "2025-12-07 17:42:20.188541+00:00",
+      "publish_date": "2025-12-07 17:42:20.185303+00:00",
+      "status": "published",
+      "view_count": 0
+    }
+  },
+  {
+    "model": "blog.post",
+    "pk": 4,
+    "fields": {
+      "title": "Canada's Plastic Ban: What It Means for Your Business in 2025",
+      "slug": "canada-plastic-ban-2025",
+      "excerpt": "Understanding Canada's single-use plastic regulations and how they impact retailers. Learn compliance requirements and transition strategies for sustainable packaging.",
+      "content": "\n<h2>Overview of Canada's Plastic Regulations</h2>\n<p>In December 2022, Canada began phasing in bans on several single-use plastics as part of the Single-use Plastics Prohibition Regulations. This landmark environmental policy continues to affect retailers across the country throughout 2025.</p>\n\n<h2>What's Banned and When</h2>\n\n<h3>Current Prohibitions (As of December 2024)</h3>\n<ul>\n<li><strong>Manufacture and import ban:</strong> Fully in effect for checkout bags, cutlery, foodservice ware, stir sticks, and straws (with exceptions)</li>\n<li><strong>Sale ban:</strong> Active for all the above items</li>\n<li><strong>Export ban:</strong> Implemented to prevent dumping banned items internationally</li>\n</ul>\n\n<h3>Checkout Bag Specifics</h3>\n<p>The regulations specifically target conventional plastic checkout bags that are:</p>\n<ul>\n<li>Less than 50 microns thick</li>\n<li>Made of plastic without recycled content requirements</li>\n<li>Provided at point of sale for carrying purchased goods</li>\n</ul>\n\n<h2>Provincial and Municipal Variations</h2>\n\n<h3>Additional Local Bans</h3>\n<p>Many Canadian cities have implemented stricter regulations than federal requirements:</p>\n\n<h4>British Columbia</h4>\n<p>Vancouver, Victoria, and other municipalities have banned all plastic bags, including thicker variants. Some cities require minimum fees for paper bags.</p>\n\n<h4>Ontario</h4>\n<p>Toronto encourages reusable bags through fee structures. Several GTA municipalities have complete plastic bag bans.</p>\n\n<h4>Quebec</h4>\n<p>Montreal implemented one of Canada's first plastic bag bans. Provincial discussions ongoing about province-wide restrictions.</p>\n\n<h2>Exemptions and Exceptions</h2>\n\n<h3>Medical and Health Products</h3>\n<p>Plastic packaging for prescription medications, medical devices, and health products remains exempt to ensure safety and sterility.</p>\n\n<h3>Primary Product Packaging</h3>\n<p>Plastic packaging that's part of a product's original sealed packaging (before retail sale) is not covered by checkout bag bans.</p>\n\n<h3>Specialty Applications</h3>\n<p>Certain industries have temporary exemptions while developing alternatives:</p>\n<ul>\n<li>Pet waste bags (though compostable alternatives encouraged)</li>\n<li>Bags for bulk foods and produce (being phased out gradually)</li>\n<li>Garbage and recycling bags (household use)</li>\n</ul>\n\n<h2>Impact on Different Business Types</h2>\n\n<h3>Retail Stores</h3>\n<p><strong>What you need to do:</strong></p>\n<ul>\n<li>Transition completely to paper bags, reusable bags, or other compliant alternatives</li>\n<li>Update supplier contracts to ensure compliance</li>\n<li>Train staff on regulations and customer communication</li>\n<li>Consider implementing bag fee programs</li>\n</ul>\n\n<h3>Restaurants and Food Service</h3>\n<p><strong>Requirements:</strong></p>\n<ul>\n<li>Replace plastic takeout bags with paper alternatives</li>\n<li>Switch to compliant food containers and cutlery</li>\n<li>Communicate changes to delivery platforms</li>\n</ul>\n\n<h3>E-commerce and Delivery</h3>\n<p><strong>Considerations:</strong></p>\n<ul>\n<li>Shipping packaging has different rules than checkout bags</li>\n<li>Focus on recyclable, compostable alternatives</li>\n<li>Communicate sustainability efforts in marketing</li>\n</ul>\n\n<h2>Compliance and Enforcement</h2>\n\n<h3>Penalties for Non-Compliance</h3>\n<p>Violations can result in:</p>\n<ul>\n<li>Fines up to $500,000 for corporations</li>\n<li>Criminal charges for serious or repeated violations</li>\n<li>Reputational damage and customer backlash</li>\n</ul>\n\n<h3>Verification Requirements</h3>\n<p>Retailers must:</p>\n<ul>\n<li>Maintain records of bag suppliers and compliance certifications</li>\n<li>Be able to demonstrate bag materials meet regulations</li>\n<li>Ensure imported bags comply with Canadian standards</li>\n</ul>\n\n<h2>Transitioning Your Business</h2>\n\n<h3>Step 1: Audit Current Packaging</h3>\n<p>Review all plastic items you currently use:</p>\n<ul>\n<li>Checkout bags (all sizes)</li>\n<li>Product packaging</li>\n<li>Food service items if applicable</li>\n<li>Promotional materials</li>\n</ul>\n\n<h3>Step 2: Source Compliant Alternatives</h3>\n<p>Consider these paper bag options:</p>\n<ul>\n<li><strong>Kraft paper bags:</strong> Economical, recyclable, various strengths</li>\n<li><strong>Recycled content bags:</strong> Enhanced sustainability credentials</li>\n<li><strong>Custom printed bags:</strong> Maintain brand visibility</li>\n<li><strong>Premium bags:</strong> Upscale retail experience</li>\n</ul>\n\n<h3>Step 3: Calculate Costs and Pricing</h3>\n<p>Paper bags cost more than plastic, but:</p>\n<ul>\n<li>Bulk ordering significantly reduces per-unit costs</li>\n<li>Many customers accept small bag fees</li>\n<li>Marketing value offsets some cost difference</li>\n<li>Regulatory compliance avoids penalties</li>\n</ul>\n\n<h3>Step 4: Customer Communication</h3>\n<p>Transparency builds goodwill:</p>\n<ul>\n<li>Explain the regulatory reason for changes</li>\n<li>Highlight environmental benefits</li>\n<li>Promote your sustainability commitment</li>\n<li>Encourage customers to bring reusable bags</li>\n</ul>\n\n<h2>Business Advantages of Early Transition</h2>\n\n<h3>Marketing Opportunities</h3>\n<p>Being ahead of regulations positions you as an environmental leader. Use this in marketing materials and social media.</p>\n\n<h3>Customer Loyalty</h3>\n<p>Studies show consumers increasingly prefer environmentally responsible businesses. 73% of Canadian consumers consider sustainability in purchase decisions.</p>\n\n<h3>Risk Mitigation</h3>\n<p>Early transition prevents last-minute scrambling, supply chain issues, and potential non-compliance during rushed changeovers.</p>\n\n<h2>Looking Ahead: Future Regulations</h2>\n\n<h3>Potential Expansions</h3>\n<p>Watch for upcoming regulations on:</p>\n<ul>\n<li>Expanded packaging requirements</li>\n<li>Extended producer responsibility programs</li>\n<li>Circular economy initiatives</li>\n<li>Compostability standards</li>\n</ul>\n\n<h2>Get Compliant Today</h2>\n<p>At PackAxis, we specialize in helping Canadian businesses navigate plastic bag regulations. We offer:</p>\n<ul>\n<li>Compliant paper bag solutions in all sizes</li>\n<li>Free consultation on regulatory requirements</li>\n<li>Bulk pricing for cost-effective transitions</li>\n<li>Custom printing for brand continuity</li>\n<li>Fast Canada-wide delivery</li>\n</ul>\n\n<p><strong>Don't wait until the last minute.</strong> Contact us today for a free compliance consultation and quote. We'll help you transition smoothly while staying within budget.</p>\n",
+      "featured_image": "",
+      "meta_description": "Complete guide to Canada's plastic bag ban regulations for 2025. Learn compliance requirements, exemptions, and transition strategies for Canadian businesses.",
+      "meta_keywords": "Canada plastic ban 2025, plastic bag regulations, single-use plastic ban, sustainable packaging compliance, retail plastic ban Canada",
+      "category": 4,
+      "author": "PackAxis Regulatory Team",
+      "created_at": "2025-12-04 03:11:54.854228+00:00",
+      "updated_at": "2025-12-04 03:11:54.854249+00:00",
+      "publish_date": "2025-12-04 03:11:54.852932+00:00",
+      "status": "published",
+      "view_count": 0
+    }
+  },
+  {
+    "model": "blog.post",
+    "pk": 3,
+    "fields": {
+      "title": "How to Choose the Right Paper Bag Size for Your Products",
+      "slug": "choose-right-paper-bag-size",
+      "excerpt": "Complete guide to selecting optimal paper bag dimensions for different products. Learn about bag sizes, weight capacity, and cost-effective packaging choices.",
+      "content": "\n<h2>Why Bag Size Matters</h2>\n<p>Choosing the correct bag size is crucial for three reasons: cost efficiency, customer experience, and brand perception. An oversized bag wastes money and materials, while an undersized bag frustrates customers and risks product damage.</p>\n\n<h2>Understanding Paper Bag Measurements</h2>\n\n<h3>Three Key Dimensions</h3>\n<p>Paper bags are measured in:</p>\n<ul>\n<li><strong>Width:</strong> Opening width at the top</li>\n<li><strong>Height:</strong> Total bag height including any fold-over</li>\n<li><strong>Gusset (Depth):</strong> Bottom depth that expands to accommodate items</li>\n</ul>\n\n<p>For example, a \"10 x 13 x 5\" bag means 10\" wide, 13\" tall, and 5\" deep when fully expanded.</p>\n\n<h2>Standard Paper Bag Sizes Guide</h2>\n\n<h3>Small Bags (5-8\" width)</h3>\n<p><strong>Best for:</strong> Jewelry, cosmetics, accessories, small gift items</p>\n<p><strong>Common sizes:</strong></p>\n<ul>\n<li>5 No: 5\" x 7\" x 3\" - Perfect for rings, small jewelry boxes</li>\n<li>7 No: 7\" x 9\" x 4\" - Ideal for makeup products, small accessories</li>\n</ul>\n\n<h3>Medium Bags (8-12\" width)</h3>\n<p><strong>Best for:</strong> Clothing items, books, gift sets, takeout containers</p>\n<p><strong>Common sizes:</strong></p>\n<ul>\n<li>10 No: 10\" x 13\" x 5\" - Standard retail shopping bag</li>\n<li>12 No: 12\" x 15\" x 5.5\" - Comfortable for folded clothing, multiple items</li>\n</ul>\n\n<h3>Large Bags (12-18\" width)</h3>\n<p><strong>Best for:</strong> Bulky items, multiple purchases, large gifts</p>\n<p><strong>Common sizes:</strong></p>\n<ul>\n<li>14 No: 14\" x 17\" x 6\" - Popular for apparel stores, gift shops</li>\n<li>16 No: 16\" x 19\" x 6\" - Large shopping trips, wholesale items</li>\n<li>18 No: 18\" x 20\" x 7\" - Maximum size for heavy-duty shopping</li>\n</ul>\n\n<h2>Industry-Specific Sizing Recommendations</h2>\n\n<h3>Fashion Retail</h3>\n<p>Most clothing stores need 2-3 sizes:</p>\n<ul>\n<li><strong>Small (7-8\"):</strong> Accessories, undergarments</li>\n<li><strong>Medium (10-12\"):</strong> Single item purchases</li>\n<li><strong>Large (14-16\"):</strong> Multiple items or coats/jackets</li>\n</ul>\n\n<h3>Restaurants & Bakeries</h3>\n<ul>\n<li><strong>7-8\":</strong> Individual pastries, sandwiches</li>\n<li><strong>10\":</strong> Standard takeout meals</li>\n<li><strong>12\":</strong> Family-size orders, pizza boxes</li>\n</ul>\n\n<h3>Gift Shops</h3>\n<ul>\n<li><strong>8-10\":</strong> Most gift items, decorative pieces</li>\n<li><strong>12-14\":</strong> Larger gifts, multiple items</li>\n</ul>\n\n<h3>Pharmacies & Health Stores</h3>\n<ul>\n<li><strong>7-8\":</strong> Prescriptions, supplement bottles</li>\n<li><strong>10\":</strong> Standard shopping trips</li>\n</ul>\n\n<h2>Weight Capacity Considerations</h2>\n\n<h3>GSM (Paper Weight) vs. Load Capacity</h3>\n<p>Paper thickness (GSM - grams per square meter) determines weight capacity:</p>\n<ul>\n<li><strong>60-70 GSM:</strong> Up to 2 kg - Light items, gift wrapping</li>\n<li><strong>80-90 GSM:</strong> Up to 5 kg - Standard retail use</li>\n<li><strong>100-120 GSM:</strong> Up to 10 kg - Heavy items, canned goods</li>\n</ul>\n\n<h3>Handle Strength</h3>\n<p>Handle type affects carrying capacity:</p>\n<ul>\n<li><strong>Twisted paper handles:</strong> 3-5 kg comfortably</li>\n<li><strong>Flat paper handles:</strong> 5-8 kg with reinforcement</li>\n<li><strong>Cotton/ribbon handles:</strong> 8-12 kg, premium feel</li>\n</ul>\n\n<h2>Cost Optimization Tips</h2>\n\n<h3>1. Standardize Your Sizes</h3>\n<p>Instead of ordering 5 different sizes, choose 2-3 that cover 90% of your needs. This increases volume per size, reducing per-unit costs.</p>\n\n<h3>2. Right-Size, Don't Oversize</h3>\n<p>While generous packaging seems customer-friendly, you pay for every inch of material. A properly fitted bag provides better product protection than excessive space.</p>\n\n<h3>3. Consider Multi-Use Bags</h3>\n<p>A 12\" bag can accommodate many of the same items as both a 10\" and 14\" bag. Strategic sizing can eliminate middle options.</p>\n\n<h2>Measuring Your Products</h2>\n\n<h3>Step-by-Step Sizing Process</h3>\n<ol>\n<li>Measure your most common products (include packaging)</li>\n<li>Add 1-2\" to width and height for comfortable fit</li>\n<li>Choose gusset depth based on product thickness</li>\n<li>Test with sample bags before bulk ordering</li>\n<li>Request samples from your supplier (we provide free samples!)</li>\n</ol>\n\n<h3>Pro Tip: The \"Loose Fit\" Rule</h3>\n<p>Products should fit comfortably with minimal forcing. Bags that are too tight:</p>\n<ul>\n<li>Risk tearing during loading</li>\n<li>Create poor customer experience</li>\n<li>Can damage products</li>\n<li>Make handles uncomfortable to carry</li>\n</ul>\n\n<h2>Special Considerations</h2>\n\n<h3>Seasonal Variations</h3>\n<p>Winter coats and bulky items may require larger bags than summer clothing. Consider seasonal size inventory if you have storage capacity.</p>\n\n<h3>Multiple Items</h3>\n<p>If customers frequently purchase multiple items, size up one level to accommodate bundled purchases comfortably.</p>\n\n<h3>Brand Perception</h3>\n<p>Luxury brands often choose slightly oversized bags for a premium feel, while value retailers optimize for efficiency.</p>\n\n<h2>Sample Before You Order</h2>\n<p>At PackAxis, we always recommend ordering samples before committing to large quantities. We provide free samples of our standard sizes so you can physically test fit with your products.</p>\n\n<p><strong>Need help choosing?</strong> Contact our team for a free sizing consultation. We'll review your products and recommend the most cost-effective bag sizes for your business.</p>\n",
+      "featured_image": "",
+      "meta_description": "Choose the perfect paper bag size for your products with our comprehensive guide. Expert tips on dimensions, capacity, and sizing for retail packaging.",
+      "meta_keywords": "paper bag sizes, shopping bag dimensions, retail packaging size guide, bag size chart, custom bag sizing Canada",
+      "category": 3,
+      "author": "PackAxis Team",
+      "created_at": "2025-12-04 03:11:54.830824+00:00",
+      "updated_at": "2025-12-04 03:11:54.830875+00:00",
+      "publish_date": "2025-12-04 03:11:54.825092+00:00",
+      "status": "published",
+      "view_count": 0
+    }
+  },
+  {
+    "model": "blog.post",
+    "pk": 2,
+    "fields": {
+      "title": "Custom Paper Bag Printing Guide: Tips for Eye-Catching Designs",
+      "slug": "custom-paper-bag-printing-guide",
+      "excerpt": "Learn professional tips for designing custom printed paper bags that grab attention and promote your brand. From color selection to logo placement strategies.",
+      "content": "\n<h2>Why Custom Printed Paper Bags Matter</h2>\n<p>Your paper bag is more than packaging—it's a mobile advertisement. Every customer who carries your branded bag becomes a walking billboard, exposing your brand to hundreds of potential customers.</p>\n\n<h2>Design Fundamentals for Paper Bags</h2>\n\n<h3>1. Keep It Simple</h3>\n<p>The most effective designs follow the \"less is more\" principle. A clean logo with one or two brand colors creates higher impact than cluttered designs. Your bag will be seen from various distances, so simplicity ensures recognition.</p>\n\n<h3>2. Logo Placement Strategy</h3>\n<p>Strategic placement maximizes visibility:</p>\n<ul>\n<li><strong>Front Center:</strong> Primary visibility when carried by hand</li>\n<li><strong>Both Sides:</strong> Ensures visibility from any angle</li>\n<li><strong>Bottom Gusset:</strong> Additional branding opportunity</li>\n<li><strong>Inside Print:</strong> Creates a premium unboxing experience</li>\n</ul>\n\n<h3>3. Color Psychology in Packaging</h3>\n<p>Colors evoke emotions and influence purchasing decisions:</p>\n<ul>\n<li><strong>Blue:</strong> Trust, professionalism (banks, tech companies)</li>\n<li><strong>Green:</strong> Eco-friendly, health (organic stores, wellness brands)</li>\n<li><strong>Red:</strong> Energy, urgency (food, sales promotions)</li>\n<li><strong>Black:</strong> Luxury, sophistication (fashion, premium goods)</li>\n<li><strong>Earth Tones:</strong> Natural, sustainable (artisan brands, cafes)</li>\n</ul>\n\n<h2>Technical Considerations</h2>\n\n<h3>Printing Methods</h3>\n\n<h4>Flexographic Printing</h4>\n<p>Best for large runs (5,000+ units). Cost-effective with good quality. Ideal for logos and simple designs with 1-3 colors.</p>\n\n<h4>Digital Printing</h4>\n<p>Perfect for smaller quantities or complex, full-color designs. No setup costs make it economical for orders under 5,000 units.</p>\n\n<h4>Hot Stamping/Foil Printing</h4>\n<p>Creates premium metallic effects. Excellent for luxury brands wanting to stand out. Works beautifully on dark paper stocks.</p>\n\n<h3>Paper Stock Selection</h3>\n<p>Paper quality affects print results:</p>\n<ul>\n<li><strong>60-80 GSM:</strong> Lightweight, economical. Best for light items, promotional events</li>\n<li><strong>90-100 GSM:</strong> Standard retail weight. Balances durability and cost</li>\n<li><strong>120+ GSM:</strong> Premium feel, excellent print quality. Ideal for luxury retail</li>\n</ul>\n\n<h2>Design Best Practices</h2>\n\n<h3>Typography Tips</h3>\n<ul>\n<li>Use fonts larger than 12pt for readability</li>\n<li>Limit to 2-3 font families maximum</li>\n<li>Ensure high contrast between text and background</li>\n<li>Avoid overly decorative fonts for business names</li>\n</ul>\n\n<h3>File Preparation</h3>\n<p>For best printing results:</p>\n<ul>\n<li>Provide vector files (AI, EPS, or PDF) when possible</li>\n<li>Use CMYK color mode, not RGB</li>\n<li>Include 3mm bleed on all edges</li>\n<li>Minimum 300 DPI for raster images</li>\n<li>Convert all text to outlines/curves</li>\n</ul>\n\n<h2>Cost Optimization Strategies</h2>\n\n<h3>Reduce Colors</h3>\n<p>Each additional color increases setup costs. A well-designed 1-2 color print can be just as effective as full color while significantly reducing per-unit costs.</p>\n\n<h3>Standard Sizes</h3>\n<p>Using standard bag sizes eliminates custom die-cutting fees. We offer 13 standard sizes suitable for 90% of retail applications.</p>\n\n<h3>Bulk Ordering</h3>\n<p>Per-unit costs decrease dramatically with volume. Consider ordering a 6-12 month supply if you have storage capacity.</p>\n\n<h2>Common Design Mistakes to Avoid</h2>\n<ul>\n<li>Placing important elements too close to edges (allow 5mm safe zone)</li>\n<li>Using low-resolution images that pixelate when printed</li>\n<li>Choosing colors that don't work on kraft paper</li>\n<li>Overcrowding the design with too much information</li>\n<li>Forgetting to proof the actual bag size, not just the flat design</li>\n</ul>\n\n<h2>Get Professional Support</h2>\n<p>At PackAxis, our design team can help optimize your artwork for printing. We offer free design consultation and proofs before production, ensuring your bags turn out exactly as envisioned.</p>\n\n<p><strong>Ready to create stunning custom bags?</strong> Upload your design or schedule a consultation with our team today.</p>\n",
+      "featured_image": "blog/Custom Paper Bag Printing Guide.jpg",
+      "meta_description": "Master custom paper bag design with our expert printing guide. Tips on colors, logos, typography, and printing techniques for maximum brand impact.",
+      "meta_keywords": "custom paper bag printing, printed shopping bags, logo design bags, brand packaging, custom packaging design Canada",
+      "category": 2,
+      "author": "PackAxis Design Team",
+      "created_at": "2025-12-04 03:11:54.802656+00:00",
+      "updated_at": "2025-12-04 04:08:16.698369+00:00",
+      "publish_date": "2025-12-04 03:11:54.801476+00:00",
+      "status": "published",
+      "view_count": 0
+    }
+  },
+  {
+    "model": "blog.post",
+    "pk": 1,
+    "fields": {
+      "title": "Why Choose Paper Bags Over Plastic? Environmental Benefits Explained",
+      "slug": "why-choose-paper-bags-over-plastic",
+      "excerpt": "Discover the environmental advantages of switching from plastic to paper bags for your business. Learn about biodegradability, recyclability, and carbon footprint reduction.",
+      "content": "\n<h2>The Environmental Crisis of Plastic Bags</h2>\n<p>Every year, Canadians use billions of plastic bags, with most ending up in landfills or polluting our oceans. Unlike paper bags, plastic bags can take up to 1,000 years to decompose, releasing harmful microplastics into our environment throughout their breakdown process.</p>\n\n<h2>Key Environmental Benefits of Paper Bags</h2>\n\n<h3>1. Biodegradability</h3>\n<p>Paper bags decompose naturally within 2-6 weeks when exposed to the elements, compared to centuries for plastic bags. This rapid biodegradation significantly reduces long-term environmental impact and landfill waste.</p>\n\n<h3>2. Recyclability</h3>\n<p>Paper bags have an impressive recycling rate. In Canada, paper recycling infrastructure is well-established, and paper bags can be recycled 5-7 times before the fibers break down. This circular economy approach minimizes raw material consumption.</p>\n\n<h3>3. Renewable Resource</h3>\n<p>Paper comes from trees, a renewable resource when managed through sustainable forestry practices. Many paper bag manufacturers now use FSC-certified paper, ensuring responsible forest management.</p>\n\n<h3>4. Lower Carbon Footprint</h3>\n<p>While paper bag production requires energy, modern manufacturing processes have become increasingly efficient. When considering the entire lifecycle including disposal, paper bags have a lower carbon footprint than plastic bags.</p>\n\n<h2>Business Benefits Beyond Environmental Impact</h2>\n\n<h3>Brand Image Enhancement</h3>\n<p>Consumers increasingly prefer businesses that demonstrate environmental responsibility. Using paper bags signals your commitment to sustainability, improving brand perception and customer loyalty.</p>\n\n<h3>Customization Opportunities</h3>\n<p>Paper bags offer superior printing quality compared to plastic, allowing for vibrant, high-quality brand designs. This transforms your packaging into a marketing tool that customers actually want to reuse.</p>\n\n<h3>Regulatory Compliance</h3>\n<p>Many Canadian cities have implemented or are considering plastic bag bans. Switching to paper bags now ensures your business stays ahead of regulatory changes.</p>\n\n<h2>Common Myths About Paper Bags</h2>\n\n<h3>Myth: Paper Bags Are Less Durable</h3>\n<p>Modern paper bags use reinforced handles and high-GSM (grams per square meter) paper that can carry substantial weight. Our 100 GSM bags can hold 5-10 kg comfortably.</p>\n\n<h3>Myth: Paper Bags Cost More</h3>\n<p>While individual unit costs may be slightly higher, the marketing value and customer perception benefits often offset the difference. Bulk ordering also significantly reduces per-unit costs.</p>\n\n<h2>Making the Switch</h2>\n<p>Transitioning to paper bags is straightforward. At PackAxis, we offer various sizes and customization options to match your business needs. Our team can help you select the right bag specifications for your products while maintaining cost-effectiveness.</p>\n\n<p><strong>Ready to make the sustainable switch?</strong> Contact us today for a free consultation and discover how paper bags can enhance both your environmental impact and brand image.</p>\n",
+      "featured_image": "",
+      "meta_description": "Learn why paper bags are the eco-friendly choice for Canadian businesses. Explore environmental benefits, sustainability facts, and cost-effective packaging solutions.",
+      "meta_keywords": "paper bags environmental benefits, sustainable packaging, plastic vs paper bags, eco-friendly shopping bags, biodegradable bags Canada",
+      "category": 1,
+      "author": "PackAxis Team",
+      "created_at": "2025-12-04 03:11:54.782774+00:00",
+      "updated_at": "2025-12-04 03:11:54.782805+00:00",
+      "publish_date": "2025-12-04 03:11:54.780727+00:00",
+      "status": "published",
+      "view_count": 1
+    }
+  },
+  {
+    "model": "accounts.userprofile",
+    "pk": 1,
+    "fields": {
+      "user": 2,
+      "phone": "",
+      "company_name": "",
+      "address": "",
+      "city": "",
+      "province": "",
+      "postal_code": "",
+      "country": "Canada",
+      "newsletter_subscribed": true,
+      "created_at": "2025-12-16 22:33:11.092272+00:00",
+      "updated_at": "2025-12-16 22:33:11.092292+00:00",
+      "email_verified": false,
+      "email_verification_token": ""
+    }
+  },
+  {
+    "model": "accounts.userprofile",
+    "pk": 2,
+    "fields": {
+      "user": 3,
+      "phone": "",
+      "company_name": "",
+      "address": "",
+      "city": "",
+      "province": "",
+      "postal_code": "",
+      "country": "Canada",
+      "newsletter_subscribed": true,
+      "created_at": "2025-12-16 23:02:28.033023+00:00",
+      "updated_at": "2025-12-16 23:02:28.033044+00:00",
+      "email_verified": false,
+      "email_verification_token": ""
+    }
+  }
+]
