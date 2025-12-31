@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 from decouple import config, Csv
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,12 +23,37 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY', default='django-insecure-8se4&^il=u0ion0&s&q6-1xjd(#9%_$5!#*ern$b4hj=un^a4e')
+# In production, this MUST be set via environment variable
+SECRET_KEY = config('SECRET_KEY', default='django-insecure-dev-only-change-in-production')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=True, cast=bool)
+# Defaults to False for safety - must explicitly enable in .env for development
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=Csv())
+
+# =============================================================================
+# SENTRY ERROR MONITORING
+# =============================================================================
+# Sign up at https://sentry.io and get your DSN
+SENTRY_DSN = config('SENTRY_DSN', default='')
+
+if SENTRY_DSN:
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+        # Set traces_sample_rate to 1.0 to capture 100%
+        # of transactions for performance monitoring.
+        # Adjust this value in production.
+        traces_sample_rate=config('SENTRY_TRACES_SAMPLE_RATE', default=0.1, cast=float),
+        # Set profiles_sample_rate to 1.0 to profile 100%
+        # of sampled transactions.
+        profiles_sample_rate=config('SENTRY_PROFILES_SAMPLE_RATE', default=0.1, cast=float),
+        # Send user information to Sentry
+        send_default_pii=True,
+        # Environment tag
+        environment=config('SENTRY_ENVIRONMENT', default='development'),
+    )
 
 
 # Application definition
@@ -44,6 +71,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'axes',  # Brute force protection
+    'csp',   # Content Security Policy
     'core',
     'blog',
     'accounts',
@@ -53,6 +82,7 @@ SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Static files for production
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -60,9 +90,12 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'csp.middleware.CSPMiddleware',  # Content Security Policy
+    'axes.middleware.AxesMiddleware',  # Brute force protection (must be last)
 ]
 
 AUTHENTICATION_BACKENDS = [
+    'axes.backends.AxesStandaloneBackend',  # Brute force protection (must be first)
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
@@ -72,7 +105,7 @@ ROOT_URLCONF = 'packaxis_app.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'core' / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -93,17 +126,37 @@ WSGI_APPLICATION = 'packaxis_app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# Database configuration with production-ready MySQL/MariaDB defaults when used.
+DB_ENGINE = config('DB_ENGINE', default='django.db.backends.sqlite3')
+DB_NAME = config('DB_NAME', default=str(BASE_DIR / 'db.sqlite3'))
+DB_USER = config('DB_USER', default='')
+DB_PASSWORD = config('DB_PASSWORD', default='')
+DB_HOST = config('DB_HOST', default='')
+DB_PORT = config('DB_PORT', default='')
+
+# Connection tuning for production
+DB_CONN_MAX_AGE = config('DB_CONN_MAX_AGE', default=60, cast=int)
+DB_ATOMIC_REQUESTS = config('DB_ATOMIC_REQUESTS', default=True, cast=bool)
+
+DB_OPTIONS = {}
+if DB_ENGINE == 'django.db.backends.mysql':
+    DB_OPTIONS = {
+        'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        'charset': 'utf8mb4',
+        'use_unicode': True,
+    }
+
 DATABASES = {
     'default': {
-        'ENGINE': config('DB_ENGINE', default='django.db.backends.sqlite3'),
-        'NAME': config('DB_NAME', default=str(BASE_DIR / 'db.sqlite3')),
-        'USER': config('DB_USER', default=''),
-        'PASSWORD': config('DB_PASSWORD', default=''),
-        'HOST': config('DB_HOST', default=''),
-        'PORT': config('DB_PORT', default=''),
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        } if config('DB_ENGINE', default='django.db.backends.sqlite3') == 'django.db.backends.mysql' else {},
+        'ENGINE': DB_ENGINE,
+        'NAME': DB_NAME,
+        'USER': DB_USER,
+        'PASSWORD': DB_PASSWORD,
+        'HOST': DB_HOST,
+        'PORT': DB_PORT,
+        'OPTIONS': DB_OPTIONS,
+        'CONN_MAX_AGE': DB_CONN_MAX_AGE,
+        'ATOMIC_REQUESTS': DB_ATOMIC_REQUESTS,
     }
 }
 
@@ -132,7 +185,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Toronto'  # Changed to Canada Eastern Time
 
 USE_I18N = True
 
@@ -146,6 +199,27 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+# Whitenoise for production static file serving
+# Only use manifest storage in production to avoid issues during development/testing
+if DEBUG:
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        },
+    }
+else:
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        },
+    }
+
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
@@ -153,6 +227,48 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# =============================================================================
+# CACHING CONFIGURATION
+# =============================================================================
+# Use Redis for production, file-based cache for development
+REDIS_URL = config('REDIS_URL', default='')
+
+if REDIS_URL:
+    # Redis caching for production
+    CACHES = {
+        'default': {
+            'BACKEND': 'django_redis.cache.RedisCache',
+            'LOCATION': REDIS_URL,
+            'OPTIONS': {
+                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+                'IGNORE_EXCEPTIONS': True,  # Don't crash if Redis is down
+            },
+            'KEY_PREFIX': 'packaxis',
+            'TIMEOUT': 300,  # 5 minutes default
+        }
+    }
+    # Use Redis for sessions in production
+    SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+    SESSION_CACHE_ALIAS = 'default'
+else:
+    # File-based caching for development
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+            'LOCATION': BASE_DIR / 'cache',
+            'TIMEOUT': 300,
+            'OPTIONS': {
+                'MAX_ENTRIES': 1000
+            }
+        }
+    }
+
+# Cache timeouts for different content types
+CACHE_TIMEOUT_SHORT = 60  # 1 minute - for frequently changing data
+CACHE_TIMEOUT_MEDIUM = 300  # 5 minutes - for product lists
+CACHE_TIMEOUT_LONG = 3600  # 1 hour - for static content
+CACHE_TIMEOUT_DAY = 86400  # 24 hours - for rarely changing content
 
 # Jazzmin Settings
 JAZZMIN_SETTINGS = {
@@ -166,10 +282,10 @@ JAZZMIN_SETTINGS = {
     "site_brand": "PackAxis",
 
     # Logo to use for your site, must be present in static files, used for brand on top left
-    "site_logo": "images/assests/packaxis logo.png",
+    "site_logo": "images/assests/packaxis-logo-dark.png",
 
     # Logo to use for your site, must be present in static files, used for login form logo (defaults to site_logo)
-    "login_logo": "images/assests/packaxis logo.png",
+    "login_logo": "images/assests/packaxis-logo-dark.png",
 
     # CSS classes that are applied to the logo above
     "site_logo_classes": None,
@@ -322,43 +438,81 @@ JAZZMIN_UI_TWEAKS = {
 }
 
 # Email Configuration
-if DEBUG:
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-else:
-    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    EMAIL_HOST = config('EMAIL_HOST', default='smtp.hostinger.com')
-    EMAIL_PORT = config('EMAIL_PORT', default=465, cast=int)
-    EMAIL_USE_SSL = config('EMAIL_USE_SSL', default=True, cast=bool)
-    EMAIL_USE_TLS = False  # SSL uses port 465, TLS uses port 587
-    EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
-    EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+# Always use SMTP backend to actually send emails
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = config('EMAIL_HOST', default='smtp.hostinger.com')
+EMAIL_PORT = config('EMAIL_PORT', default=465, cast=int)
+EMAIL_USE_SSL = config('EMAIL_USE_SSL', default=True, cast=bool)
+EMAIL_USE_TLS = False  # SSL uses port 465, TLS uses port 587
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
 
-DEFAULT_FROM_EMAIL = 'hello@packaxis.ca'
-QUOTE_EMAIL = 'hello@packaxis.ca'  # Email where quote requests and contact forms will be sent
+DEFAULT_FROM_EMAIL = 'no-reply@packaxis.ca'
+QUOTE_EMAIL = 'sales@packaxis.ca'  # Email where quote requests and contact forms will be sent
 
-# Logging Configuration
+# Logging Configuration - Enterprise Grade
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {asctime} {message}',
+            'style': '{',
+        },
+    },
     'handlers': {
-        'file': {
+        'file_error': {
             'level': 'ERROR',
-            'class': 'logging.FileHandler',
-            'filename': BASE_DIR / 'logs' / 'django.log',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': BASE_DIR / 'logs' / 'error.log',
+            'maxBytes': 10485760,  # 10MB
+            'backupCount': 10,
+            'formatter': 'verbose',
+        },
+        'file_access': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': BASE_DIR / 'logs' / 'access.log',
+            'maxBytes': 10485760,  # 10MB
+            'backupCount': 10,
+            'formatter': 'simple',
+        },
+        'file_security': {
+            'level': 'WARNING',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': BASE_DIR / 'logs' / 'security.log',
+            'maxBytes': 10485760,  # 10MB
+            'backupCount': 10,
+            'formatter': 'verbose',
         },
         'console': {
             'level': 'INFO',
             'class': 'logging.StreamHandler',
+            'formatter': 'simple',
         },
     },
     'loggers': {
         'django': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console', 'file_access'],
             'level': 'INFO',
             'propagate': True,
         },
+        'django.request': {
+            'handlers': ['file_error'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        'django.security': {
+            'handlers': ['file_security'],
+            'level': 'WARNING',
+            'propagate': False,
+        },
         'core': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console', 'file_access', 'file_error'],
             'level': 'INFO',
             'propagate': False,
         },
@@ -379,9 +533,16 @@ ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_LOGIN_METHODS = {'email'}
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
-ACCOUNT_EMAIL_VERIFICATION = 'optional'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'  # Requires email verification before login
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True  # Auto-confirm when clicking link
 SOCIALACCOUNT_AUTO_SIGNUP = True
 SOCIALACCOUNT_LOGIN_ON_GET = True
+
+# Stripe Payment Settings
+STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY', default='pk_test_your_publishable_key')
+STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY', default='sk_test_your_secret_key')
+STRIPE_WEBHOOK_SECRET = config('STRIPE_WEBHOOK_SECRET', default='')
+STRIPE_CURRENCY = 'cad'  # Canadian Dollars
 
 # Google OAuth Provider Settings
 SOCIALACCOUNT_PROVIDERS = {
@@ -396,3 +557,139 @@ SOCIALACCOUNT_PROVIDERS = {
         'OAUTH_PKCE_ENABLED': True,
     }
 }
+
+# =============================================================================
+# PRODUCTION SECURITY SETTINGS
+# =============================================================================
+# These settings are controlled by environment variables for flexibility
+# Set PRODUCTION=True in your .env file to enable all security features
+
+PRODUCTION = config('PRODUCTION', default=False, cast=bool)
+
+if PRODUCTION:
+    # HTTPS/SSL Settings
+    SECURE_SSL_REDIRECT = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    
+    # HTTP Strict Transport Security (HSTS)
+    # Start with a lower value, then increase to 31536000 (1 year) after testing
+    SECURE_HSTS_SECONDS = config('SECURE_HSTS_SECONDS', default=31536000, cast=int)
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    
+    # Cookie Security
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_HTTPONLY = True
+    CSRF_COOKIE_HTTPONLY = True
+    
+    # Additional Security Headers
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_BROWSER_XSS_FILTER = True
+    X_FRAME_OPTIONS = 'DENY'
+    
+    # Referrer Policy
+    SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
+    
+    # Cross-Origin Opener Policy
+    SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin'
+else:
+    # Development settings - relaxed security for local testing
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+
+# Cookie Settings (both environments)
+SESSION_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_AGE = 1209600  # 2 weeks
+
+# =============================================================================
+# CONTENT SECURITY POLICY (django-csp 4.0+)
+# =============================================================================
+CONTENT_SECURITY_POLICY = {
+    'DIRECTIVES': {
+        'default-src': ("'self'",),
+        'script-src': (
+            "'self'",
+            "'unsafe-inline'",  # Required for inline scripts
+            "'unsafe-eval'",    # Required for some JS libraries
+            "https://js.stripe.com",
+            "https://cdnjs.cloudflare.com",
+            "https://cdn.jsdelivr.net",
+            "https://www.googletagmanager.com",
+            "https://www.google-analytics.com",
+        ),
+        'style-src': (
+            "'self'",
+            "'unsafe-inline'",  # Required for inline styles
+            "https://fonts.googleapis.com",
+            "https://cdnjs.cloudflare.com",
+            "https://cdn.jsdelivr.net",
+        ),
+        'font-src': (
+            "'self'",
+            "https://fonts.gstatic.com",
+            "https://cdnjs.cloudflare.com",
+            "https://cdn.jsdelivr.net",
+        ),
+        'img-src': ("'self'", "data:", "https:", "blob:"),
+        'frame-src': (
+            "'self'",
+            "https://js.stripe.com",
+            "https://hooks.stripe.com",
+            "https://www.google.com",  # reCAPTCHA
+        ),
+        'connect-src': (
+            "'self'",
+            "https://api.stripe.com",
+            "https://www.google-analytics.com",
+        ),
+        'media-src': ("'self'",),
+        'object-src': ("'none'",),  # Disallow plugins like Flash
+        'base-uri': ("'self'",),
+        'form-action': ("'self'",),
+        'frame-ancestors': ("'self'",),
+    }
+}
+
+# Report-only mode for testing CSP (uncomment to enable)
+# CONTENT_SECURITY_POLICY_REPORT_ONLY = True
+
+# =============================================================================
+# DJANGO-AXES BRUTE FORCE PROTECTION
+# =============================================================================
+AXES_FAILURE_LIMIT = config('AXES_FAILURE_LIMIT', default=5, cast=int)  # Lock after 5 failed attempts
+AXES_COOLOFF_TIME = config('AXES_COOLOFF_TIME', default=1, cast=int)    # 1 hour lockout
+AXES_LOCK_OUT_AT_FAILURE = True
+AXES_LOCKOUT_PARAMETERS = ['username', 'ip_address']  # Lock by both username and IP
+AXES_RESET_ON_SUCCESS = True  # Reset failure count on successful login
+AXES_ENABLE_ACCESS_FAILURE_LOG = True  # Log failed attempts
+AXES_VERBOSE = True  # Show lockout message to users
+
+# Use database backend for axes (can switch to cache for better performance)
+AXES_HANDLER = 'axes.handlers.database.AxesDatabaseHandler'
+
+# Lockout response
+AXES_LOCKOUT_CALLABLE = None  # Use default lockout view
+AXES_LOCKOUT_URL = None
+AXES_LOCKOUT_TEMPLATE = None  # Will use default message
+
+# Whitelist localhost for development
+if DEBUG:
+    AXES_IP_WHITELIST = ['127.0.0.1', 'localhost']
+
+# =============================================================================
+# RATE LIMITING (django-ratelimit)
+# =============================================================================
+# Rate limit configuration - use these decorators in views:
+# @ratelimit(key='ip', rate='10/m', method='POST', block=True)
+# @ratelimit(key='user_or_ip', rate='100/h', method='GET', block=True)
+
+# Default rate limits (used with decorators in views)
+RATELIMIT_ENABLE = True
+RATELIMIT_USE_CACHE = 'default'  # Use default cache backend
+RATELIMIT_VIEW = 'core.views.ratelimit_error'  # Custom error view (optional)
+
+# Permissions Policy
+# Recommended header: Permissions-Policy: geolocation=(), microphone=(), camera=()

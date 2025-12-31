@@ -49,9 +49,166 @@
             color: #666;
             margin: 0;
         }
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto 2.5rem auto;
+        }
+        .example-card {
+            padding: 2rem 1.5rem 1.5rem 1.5rem;
+            border-radius: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            background: rgba(255,255,255,0.25);
+            backdrop-filter: blur(12px);
+            border: 1.5px solid rgba(255,255,255,0.35);
+            min-height: 350px;
+        }
+        .example-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #0b0b0b;
+        }
+        .industry-demo-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .industry-demo-desc {
+            font-size: 0.97rem;
+            color: #444;
+            text-align: center;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.18);
+        }
+        .gradient-card {
+            background: linear-gradient(135deg, #c1ff72 0%, #96bfa6 100%);
+            color: #0b0b0b;
+            box-shadow: 0 8px 32px rgba(193, 255, 114, 0.18);
+        }
+        .border-shadow-card {
+            border: 2px solid #c1ff72;
+            box-shadow: 0 12px 40px rgba(193, 255, 114, 0.25);
+            background: #fff;
+        }
+        .animated-card {
+            background: #fff;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .accent-bar-card {
+            background: #fff;
+            position: relative;
+            overflow: visible;
+        }
+        .accent-icon {
+            position: absolute;
+            top: -2.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background: #c1ff72;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(193, 255, 114, 0.18);
+            font-size: 1.5rem;
+            color: #0b0b0b;
+        }
+        /* Add any additional custom styles here */
     </style>
 </head>
 <body>
+    <h1 style="margin-bottom:1.5rem;">Horizontal Industries Grid Example (Dribbble Style)</h1>
+    <div class="industries-horizontal-row" style="display:flex;gap:1.5rem;overflow-x:auto;padding-bottom:1.5rem;margin-bottom:2.5rem;">
+        <div class="industry-square-card" style="flex:0 0 160px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#fff;border-radius:1.1rem;box-shadow:0 4px 24px rgba(0,0,0,0.10);padding:1.5rem 1rem;transition:box-shadow 0.3s cubic-bezier(0.16,1,0.3,1),transform 0.3s cubic-bezier(0.16,1,0.3,1);">
+            <i class="fa-solid fa-bread-slice" style="font-size:2.5rem;color:#c1ff72;margin-bottom:0.7rem;"></i>
+            <div style="font-weight:700;font-size:1.05rem;color:#0b0b0b;">Bakery</div>
+            <div style="font-size:0.93rem;color:#888;">Fresh Baked</div>
+        </div>
+        <div class="industry-square-card" style="flex:0 0 160px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#fff;border-radius:1.1rem;box-shadow:0 4px 24px rgba(0,0,0,0.10);padding:1.5rem 1rem;">
+            <i class="fa-solid fa-store" style="font-size:2.5rem;color:#c1ff72;margin-bottom:0.7rem;"></i>
+            <div style="font-weight:700;font-size:1.05rem;color:#0b0b0b;">Retail</div>
+            <div style="font-size:0.93rem;color:#888;">Shops &amp; Stores</div>
+        </div>
+        <div class="industry-square-card" style="flex:0 0 160px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#fff;border-radius:1.1rem;box-shadow:0 4px 24px rgba(0,0,0,0.10);padding:1.5rem 1rem;">
+            <i class="fa-solid fa-utensils" style="font-size:2.5rem;color:#c1ff72;margin-bottom:0.7rem;"></i>
+            <div style="font-weight:700;font-size:1.05rem;color:#0b0b0b;">Restaurant</div>
+            <div style="font-size:0.93rem;color:#888;">Food Service</div>
+        </div>
+        <div class="industry-square-card" style="flex:0 0 160px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#fff;border-radius:1.1rem;box-shadow:0 4px 24px rgba(0,0,0,0.10);padding:1.5rem 1rem;">
+            <i class="fa-solid fa-apple-whole" style="font-size:2.5rem;color:#c1ff72;margin-bottom:0.7rem;"></i>
+            <div style="font-weight:700;font-size:1.05rem;color:#0b0b0b;">Grocery</div>
+            <div style="font-size:0.93rem;color:#888;">Markets</div>
+        </div>
+        <div class="industry-square-card" style="flex:0 0 160px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#fff;border-radius:1.1rem;box-shadow:0 4px 24px rgba(0,0,0,0.10);padding:1.5rem 1rem;">
+            <i class="fa-solid fa-mug-hot" style="font-size:2.5rem;color:#c1ff72;margin-bottom:0.7rem;"></i>
+            <div style="font-weight:700;font-size:1.05rem;color:#0b0b0b;">Cafe</div>
+            <div style="font-size:0.93rem;color:#888;">Coffee &amp; Tea</div>
+        </div>
+        <div class="industry-square-card" style="flex:0 0 160px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#fff;border-radius:1.1rem;box-shadow:0 4px 24px rgba(0,0,0,0.10);padding:1.5rem 1rem;">
+            <i class="fa-solid fa-gift" style="font-size:2.5rem;color:#c1ff72;margin-bottom:0.7rem;"></i>
+            <div style="font-weight:700;font-size:1.05rem;color:#0b0b0b;">Gift Shop</div>
+            <div style="font-size:0.93rem;color:#888;">Gifts &amp; More</div>
+        </div>
+    </div>
+
+    <h1>Industries Grid Card Style Examples</h1>
+    <div class="examples-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; max-width: 1200px; margin: 0 auto 2.5rem auto;">
+        <!-- 1. Glassmorphism -->
+        <div class="example-card glass-card" style="padding:2rem 1.5rem 1.5rem 1.5rem; border-radius:1.5rem; display:flex; flex-direction:column; align-items:center; box-shadow:0 4px 24px rgba(0,0,0,0.08); background:rgba(255,255,255,0.25); box-shadow:0 8px 32px rgba(31,38,135,0.18); backdrop-filter:blur(12px); border:1.5px solid rgba(255,255,255,0.35); min-height:350px;">
+            <div class="example-title" style="font-size:1.15rem;font-weight:700;margin-bottom:1.5rem;color:#0b0b0b;">1. Glassmorphism Card</div>
+            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=facearea&w=256&q=80" style="width:100px;height:100px;border-radius:50%;object-fit:cover;margin-bottom:1.25rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+            <div class="industry-demo-title" style="font-size:1.05rem;font-weight:600;margin-bottom:0.5rem;">Bakery</div>
+            <div class="industry-demo-desc" style="font-size:0.97rem;color:#444;text-align:center;">A frosted glass effect with soft blur and subtle border for a modern, premium look.</div>
+        </div>
+        <!-- 2. Gradient background -->
+        <div class="example-card gradient-card" style="padding:2rem 1.5rem 1.5rem 1.5rem; border-radius:1.5rem; display:flex; flex-direction:column; align-items:center; background:linear-gradient(135deg,#c1ff72 0%,#96bfa6 100%); color:#0b0b0b; box-shadow:0 8px 32px rgba(193,255,114,0.18); min-height:350px;">
+            <div class="example-title" style="font-size:1.15rem;font-weight:700;margin-bottom:1.5rem;color:#0b0b0b;">2. Gradient Background Card</div>
+            <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=facearea&w=256&q=80" style="width:100px;height:100px;border-radius:50%;object-fit:cover;margin-bottom:1.25rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+            <div class="industry-demo-title" style="font-size:1.05rem;font-weight:600;margin-bottom:0.5rem;">Retail</div>
+            <div class="industry-demo-desc" style="font-size:0.97rem;color:#444;text-align:center;">A vibrant gradient background with brand colors for a bold, eye-catching card.</div>
+        </div>
+        <!-- 3. Border + pronounced shadow -->
+        <div class="example-card border-shadow-card" style="padding:2rem 1.5rem 1.5rem 1.5rem; border-radius:1.5rem; display:flex; flex-direction:column; align-items:center; border:2px solid #c1ff72; box-shadow:0 12px 40px rgba(193,255,114,0.25); min-height:350px; background:#fff;">
+            <div class="example-title" style="font-size:1.15rem;font-weight:700;margin-bottom:1.5rem;color:#0b0b0b;">3. Border + Shadow Card</div>
+            <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=facearea&w=256&q=80" style="width:100px;height:100px;border-radius:50%;object-fit:cover;margin-bottom:1.25rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+            <div class="industry-demo-title" style="font-size:1.05rem;font-weight:600;margin-bottom:0.5rem;">Grocery</div>
+            <div class="industry-demo-desc" style="font-size:0.97rem;color:#444;text-align:center;">A clean border and strong shadow for a classic, elevated card appearance.</div>
+        </div>
+        <!-- 4. Animated rotation/scale on hover -->
+        <div class="example-card animated-card" style="padding:2rem 1.5rem 1.5rem 1.5rem; border-radius:1.5rem; display:flex; flex-direction:column; align-items:center; background:#fff; min-height:350px; transition:transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s cubic-bezier(0.16,1,0.3,1);">
+            <div class="example-title" style="font-size:1.15rem;font-weight:700;margin-bottom:1.5rem;color:#0b0b0b;">4. Animated Hover Card</div>
+            <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=facearea&w=256&q=80" style="width:100px;height:100px;border-radius:50%;object-fit:cover;margin-bottom:1.25rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+            <div class="industry-demo-title" style="font-size:1.05rem;font-weight:600;margin-bottom:0.5rem;">Restaurant</div>
+            <div class="industry-demo-desc" style="font-size:0.97rem;color:#444;text-align:center;">A playful card with scale and rotation animation on hover for interactivity.</div>
+        </div>
+        <!-- 5. Colored accent bar/icon overlay -->
+        <div class="example-card accent-bar-card" style="padding:3.5rem 1.5rem 1.5rem 1.5rem; border-radius:1.5rem; display:flex; flex-direction:column; align-items:center; background:#fff; min-height:350px; position:relative; overflow:visible;">
+            <div class="accent-icon" style="position:absolute;top:-2.5rem;left:50%;transform:translateX(-50%);width:40px;height:40px;background:#c1ff72;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(193,255,114,0.18);font-size:1.5rem;color:#0b0b0b;">🍞</div>
+            <div class="example-title" style="font-size:1.15rem;font-weight:700;margin-bottom:1.5rem;color:#0b0b0b;">5. Accent Bar/Icon Card</div>
+            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=facearea&w=256&q=80" style="width:100px;height:100px;border-radius:50%;object-fit:cover;margin-bottom:1.25rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+            <div class="industry-demo-title" style="font-size:1.05rem;font-weight:600;margin-bottom:0.5rem;">Bakery</div>
+            <div class="industry-demo-desc" style="font-size:0.97rem;color:#444;text-align:center;">A colored accent bar and icon overlay for extra branding and visual interest.</div>
+            <div style="content:'';position:absolute;top:-1.5rem;left:50%;transform:translateX(-50%);width:60px;height:8px;border-radius:4px;background:linear-gradient(90deg,#c1ff72 0%,#0b0b0b 100%);"></div>
+        </div>
+        <!-- 6. Square Card Example -->
+        <div class="example-card square-card" style="padding:1.5rem; border-radius:1.1rem; display:flex; flex-direction:column; align-items:center; background:#fff; min-height:320px; box-shadow:0 4px 24px rgba(0,0,0,0.10); width:220px; aspect-ratio:1/1; transition:box-shadow 0.3s cubic-bezier(0.16,1,0.3,1), transform 0.3s cubic-bezier(0.16,1,0.3,1);">
+            <div class="example-title" style="font-size:1.08rem;font-weight:700;margin-bottom:1.1rem;color:#0b0b0b;">6. Square Card</div>
+            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=facearea&w=256&q=80" style="width:72px;height:72px;border-radius:0.7rem;object-fit:cover;margin-bottom:1rem;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+            <div class="industry-demo-title" style="font-size:1.01rem;font-weight:600;margin-bottom:0.4rem;">Bakery</div>
+            <div class="industry-demo-desc" style="font-size:0.95rem;color:#444;text-align:center;">A modern square card with soft corners, shadow, and a smooth hover effect.</div>
+        </div>
+    </div>
+
     <h1>Font Awesome Icon Examples for Sustainability Section</h1>
 
     <!-- Style 1: Font Awesome Icons -->
@@ -203,302 +360,37 @@
         </div>
     </div>
 
-</body>
-</html>
-
-    <!-- Style 1: Outlined Circular Icons -->
-    <div class="style-section">
-        <h2>1. Outlined Circular Icons</h2>
-        <p style="color: #666; margin-bottom: 1.5rem;">Simple circles with minimal line art - clean and modern</p>
-        <div class="icons-row">
-            <div class="icon-item">
-                <div class="icon-container">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 8c0-2.5-2-4-5-4s-5 1.5-5 4 2 4 5 4 5-1.5 5-4z"/>
-                        <path d="M16 12v3c0 2.8-2.2 5-5 5s-5-2.2-5-5v-3"/>
-                        <path d="M11 15c-1.7 0-3-1.3-3-3V8c0-1.7 1.3-3 3-3"/>
-                    </svg>
-                </div>
-                <p>Sustainable Resources</p>
-            </div>
-            <div class="icon-item">
-                <div class="icon-container">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 22c.8 0 1.5-.3 2.1-.9L20 15.2c.6-.6.9-1.3.9-2.1V7c0-1.7-1.3-3-3-3h-6.1c-.8 0-1.5.3-2.1.9L4 10.8c-.6.6-.9 1.3-.9 2.1V19c0 1.7 1.3 3 3 3h5.9z"/>
-                        <path d="M12 8v8"/>
-                        <path d="M8 12h8"/>
-                    </svg>
-                </div>
-                <p>Compostable</p>
-            </div>
-            <div class="icon-item">
-                <div class="icon-container">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M4 7l8-4 8 4"/>
-                        <path d="M4 7v10l8 4 8-4V7"/>
-                        <path d="M4 7l8 4 8-4"/>
-                        <path d="M12 11v10"/>
-                    </svg>
-                </div>
-                <p>Recyclable</p>
-            </div>
-            <div class="icon-item">
-                <div class="icon-container">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="3" width="18" height="18" rx="2"/>
-                        <path d="M3 9h18"/>
-                        <path d="M9 3v18"/>
-                        <circle cx="15" cy="15" r="2"/>
-                    </svg>
-                </div>
-                <p>Quality Printing</p>
-            </div>
-            <div class="icon-item">
-                <div class="icon-container">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M2 12h4l3-9 4 18 3-9h4"/>
-                        <circle cx="12" cy="12" r="1"/>
-                    </svg>
-                </div>
-                <p>Custom Printing</p>
-            </div>
+    <h2 style="margin-top:3rem;margin-bottom:1.5rem;text-align:center;">Horizontal Industries Grid – Pastel Cards</h2>
+    <div class="industries-horizontal-row" style="display:flex;gap:1.5rem;overflow-x:auto;padding-bottom:2.5rem;">
+        <div class="industry-square-card" style="flex:0 0 160px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#eafcd7;border-radius:1.1rem;box-shadow:0 4px 24px rgba(0,0,0,0.10);padding:1.5rem 1rem;color:#0b0b0b;">
+            <i class="fa-solid fa-bread-slice" style="font-size:2.5rem;color:#8fcc47;margin-bottom:0.7rem;"></i>
+            <div style="font-weight:700;font-size:1.05rem;color:#0b0b0b;">Bakery</div>
+            <div style="font-size:0.93rem;color:#4a4a4a;opacity:0.85;">Fresh Baked</div>
         </div>
-    </div>
-
-    <!-- Style 2: Geometric Shapes -->
-    <div class="style-section">
-        <h2>2. Geometric Shapes</h2>
-        <p style="color: #666; margin-bottom: 1.5rem;">Abstract geometric representations - bold and contemporary</p>
-        <div class="icons-row">
-            <div class="icon-item">
-                <div class="icon-container">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <polygon points="12,2 22,12 12,22 2,12"/>
-                    </svg>
-                </div>
-                <p>Sustainable</p>
-            </div>
-            <div class="icon-item">
-                <div class="icon-container">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <polygon points="12,3 20,8 20,16 12,21 4,16 4,8"/>
-                    </svg>
-                </div>
-                <p>Compostable</p>
-            </div>
-            <div class="icon-item">
-                <div class="icon-container">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
-                    </svg>
-                </div>
-                <p>Recyclable</p>
-            </div>
-            <div class="icon-item">
-                <div class="icon-container">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="4" y="4" width="16" height="16" rx="2"/>
-                        <path d="M9 9l6 6"/>
-                        <path d="M15 9l-6 6"/>
-                    </svg>
-                </div>
-                <p>Quality</p>
-            </div>
-            <div class="icon-item">
-                <div class="icon-container">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <polygon points="12,2 19,7 19,17 12,22 5,17 5,7"/>
-                        <circle cx="12" cy="12" r="3"/>
-                    </svg>
-                </div>
-                <p>Custom</p>
-            </div>
+        <div class="industry-square-card" style="flex:0 0 160px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#d6f6ff;border-radius:1.1rem;box-shadow:0 4px 24px rgba(0,0,0,0.10);padding:1.5rem 1rem;color:#0b0b0b;">
+            <i class="fa-solid fa-store" style="font-size:2.5rem;color:#6bcfff;margin-bottom:0.7rem;"></i>
+            <div style="font-weight:700;font-size:1.05rem;color:#0b0b0b;">Retail</div>
+            <div style="font-size:0.93rem;color:#4a4a4a;opacity:0.85;">Shops &amp; Stores</div>
         </div>
-    </div>
-
-    <!-- Style 3: Feather-style Icons -->
-    <div class="style-section">
-        <h2>3. Feather-style Icons (Bold)</h2>
-        <p style="color: #666; margin-bottom: 1.5rem;">Bold stroke icons - elegant and sophisticated</p>
-        <div class="icons-row">
-            <div class="icon-item">
-                <div class="icon-container">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 2v20"/>
-                        <path d="M17 7l-5-5-5 5"/>
-                        <path d="M7 12h10"/>
-                        <path d="M7 17h10"/>
-                    </svg>
-                </div>
-                <p>Sustainable</p>
-            </div>
-            <div class="icon-item">
-                <div class="icon-container">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M3 12h18"/>
-                        <path d="M3 6h18"/>
-                        <path d="M3 18h18"/>
-                        <circle cx="12" cy="12" r="8"/>
-                    </svg>
-                </div>
-                <p>Compostable</p>
-            </div>
-            <div class="icon-item">
-                <div class="icon-container">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M23 12a11 11 0 1 1-11-11"/>
-                        <polyline points="23 3 23 12 14 12"/>
-                        <path d="M16 8l7 0"/>
-                    </svg>
-                </div>
-                <p>Recyclable</p>
-            </div>
-            <div class="icon-item">
-                <div class="icon-container">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="3" width="18" height="18" rx="2"/>
-                        <path d="M7 7h10v10H7z"/>
-                        <path d="M12 7v10"/>
-                        <path d="M7 12h10"/>
-                    </svg>
-                </div>
-                <p>Quality</p>
-            </div>
-            <div class="icon-item">
-                <div class="icon-container">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
-                        <line x1="7" y1="7" x2="7.01" y2="7"/>
-                    </svg>
-                </div>
-                <p>Custom</p>
-            </div>
+        <div class="industry-square-card" style="flex:0 0 160px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#ffe5e5;border-radius:1.1rem;box-shadow:0 4px 24px rgba(0,0,0,0.10);padding:1.5rem 1rem;color:#0b0b0b;">
+            <i class="fa-solid fa-utensils" style="font-size:2.5rem;color:#ff6b6b;margin-bottom:0.7rem;"></i>
+            <div style="font-weight:700;font-size:1.05rem;color:#0b0b0b;">Restaurant</div>
+            <div style="font-size:0.93rem;color:#4a4a4a;opacity:0.85;">Food Service</div>
         </div>
-    </div>
-
-    <!-- Style 4: Lucide/Heroicons Style -->
-    <div class="style-section">
-        <h2>4. Unique Modern Icons</h2>
-        <p style="color: #666; margin-bottom: 1.5rem;">Distinctive, uncommon icons for sustainability</p>
-        <div class="icons-row">
-            <div class="icon-item">
-                <div class="icon-container">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 8c0-2.5-2-4-5-4s-5 1.5-5 4 2 4 5 4 5-1.5 5-4z"/>
-                        <path d="M16 12v3c0 2.8-2.2 5-5 5s-5-2.2-5-5v-3"/>
-                        <path d="M11 15c-1.7 0-3-1.3-3-3V8c0-1.7 1.3-3 3-3"/>
-                    </svg>
-                </div>
-                <p>Sustainable Resources</p>
-            </div>
-            <div class="icon-item">
-                <div class="icon-container">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 22c.8 0 1.5-.3 2.1-.9L20 15.2c.6-.6.9-1.3.9-2.1V7c0-1.7-1.3-3-3-3h-6.1c-.8 0-1.5.3-2.1.9L4 10.8c-.6.6-.9 1.3-.9 2.1V19c0 1.7 1.3 3 3 3h5.9z"/>
-                        <path d="M12 8v8"/>
-                        <path d="M8 12h8"/>
-                    </svg>
-                </div>
-                <p>Compostable</p>
-            </div>
-            <div class="icon-item">
-                <div class="icon-container">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M4 7l8-4 8 4"/>
-                        <path d="M4 7v10l8 4 8-4V7"/>
-                        <path d="M4 7l8 4 8-4"/>
-                        <path d="M12 11v10"/>
-                    </svg>
-                </div>
-                <p>Recyclable</p>
-            </div>
-            <div class="icon-item">
-                <div class="icon-container">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="3" width="18" height="18" rx="2"/>
-                        <path d="M3 9h18"/>
-                        <path d="M9 3v18"/>
-                        <circle cx="15" cy="15" r="2"/>
-                    </svg>
-                </div>
-                <p>Quality Printing</p>
-            </div>
-            <div class="icon-item">
-                <div class="icon-container">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M2 12h4l3-9 4 18 3-9h4"/>
-                        <circle cx="12" cy="12" r="1"/>
-                    </svg>
-                </div>
-                <p>Custom Printing</p>
-            </div>
+        <div class="industry-square-card" style="flex:0 0 160px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#fff9e5;border-radius:1.1rem;box-shadow:0 4px 24px rgba(0,0,0,0.10);padding:1.5rem 1rem;color:#0b0b0b;">
+            <i class="fa-solid fa-apple-whole" style="font-size:2.5rem;color:#ffd93d;margin-bottom:0.7rem;"></i>
+            <div style="font-weight:700;font-size:1.05rem;color:#0b0b0b;">Grocery</div>
+            <div style="font-size:0.93rem;color:#4a4a4a;opacity:0.85;">Markets</div>
         </div>
-    </div>
-                        <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
-                    </svg>
-                </div>
-                <p>Custom</p>
-            </div>
+        <div class="industry-square-card" style="flex:0 0 160px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#e6f7e6;border-radius:1.1rem;box-shadow:0 4px 24px rgba(0,0,0,0.10);padding:1.5rem 1rem;color:#0b0b0b;">
+            <i class="fa-solid fa-mug-hot" style="font-size:2.5rem;color:#a8e65c;margin-bottom:0.7rem;"></i>
+            <div style="font-weight:700;font-size:1.05rem;color:#0b0b0b;">Cafe</div>
+            <div style="font-size:0.93rem;color:#4a4a4a;opacity:0.85;">Coffee &amp; Tea</div>
         </div>
-    </div>
-
-    <!-- Style 5: Custom Abstract Icons -->
-    <div class="style-section">
-        <h2>5. Custom Abstract Icons</h2>
-        <p style="color: #666; margin-bottom: 1.5rem;">Unique minimalist symbols - distinctive and memorable</p>
-        <div class="icons-row">
-            <div class="icon-item">
-                <div class="icon-container">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 3v18"/>
-                        <path d="M5 8c3-3 9-3 12 0"/>
-                        <path d="M5 16c3 3 9 3 12 0"/>
-                    </svg>
-                </div>
-                <p>Sustainable</p>
-            </div>
-            <div class="icon-item">
-                <div class="icon-container">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M4 12h16"/>
-                        <path d="M12 4v16"/>
-                        <circle cx="12" cy="12" r="3"/>
-                        <circle cx="12" cy="12" r="8"/>
-                    </svg>
-                </div>
-                <p>Compostable</p>
-            </div>
-            <div class="icon-item">
-                <div class="icon-container">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 12c0 5-4 9-9 9s-9-4-9-9 4-9 9-9"/>
-                        <path d="M16 8l5-5"/>
-                        <path d="M21 8v-5h-5"/>
-                    </svg>
-                </div>
-                <p>Recyclable</p>
-            </div>
-            <div class="icon-item">
-                <div class="icon-container">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"/>
-                        <path d="M12 6l-4 6h8z"/>
-                        <path d="M8 18l4-6 4 6z"/>
-                    </svg>
-                </div>
-                <p>Quality</p>
-            </div>
-            <div class="icon-item">
-                <div class="icon-container">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="3" width="7" height="7" rx="1"/>
-                        <rect x="14" y="3" width="7" height="7" rx="1"/>
-                        <rect x="14" y="14" width="7" height="7" rx="1"/>
-                        <rect x="3" y="14" width="7" height="7" rx="1"/>
-                    </svg>
-                </div>
-                <p>Custom</p>
-            </div>
+        <div class="industry-square-card" style="flex:0 0 160px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#f3eaff;border-radius:1.1rem;box-shadow:0 4px 24px rgba(0,0,0,0.10);padding:1.5rem 1rem;color:#0b0b0b;">
+            <i class="fa-solid fa-gift" style="font-size:2.5rem;color:#b48cff;margin-bottom:0.7rem;"></i>
+            <div style="font-weight:700;font-size:1.05rem;color:#0b0b0b;">Gift Shop</div>
+            <div style="font-size:0.93rem;color:#4a4a4a;opacity:0.85;">Gifts &amp; More</div>
         </div>
     </div>
 

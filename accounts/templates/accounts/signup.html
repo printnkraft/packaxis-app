@@ -1,17 +1,17 @@
-{% extends 'core/base.html' %}
+﻿{% extends 'core/base.html' %}
 {% load static %}
 
-{% block title %}Create Account - PackAxis{% endblock %}
+{% block title %}Create Account - Packaxis{% endblock %}
 
 {% block extra_css %}
 <style>
     .auth-page {
-        min-height: 80vh;
+        min-height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 4rem 1.5rem;
-        background: linear-gradient(135deg, #f8faf9 0%, #e8f5e9 100%);
+        background: linear-gradient(135deg, #f5f5f0 0%, #fafaf2 100%);
     }
     
     .auth-container {
@@ -21,8 +21,8 @@
     
     .auth-card {
         background: white;
-        border-radius: 20px;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        border-radius: 24px;
+        box-shadow: 0 15px 60px rgba(41, 40, 8, 0.1);
         padding: 2.5rem;
         position: relative;
         overflow: hidden;
@@ -35,7 +35,7 @@
         left: 0;
         right: 0;
         height: 4px;
-        background: linear-gradient(90deg, var(--primary-color), #4CAF50);
+        background: linear-gradient(90deg, #d4ff9e, #a8e65c);
     }
     
     .auth-header {
@@ -44,21 +44,22 @@
     }
     
     .auth-logo {
-        width: 60px;
-        height: 60px;
+        width: 64px;
+        height: 64px;
         margin: 0 auto 1.25rem;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: linear-gradient(135deg, var(--primary-color), #4CAF50);
-        border-radius: 16px;
-        color: white;
+        background: #292808;
+        border-radius: 18px;
+        color: #d4ff9e;
+        box-shadow: 0 8px 25px rgba(47, 46, 12, 0.15);
     }
     
     .auth-header h1 {
-        font-size: 1.625rem;
+        font-size: 1.75rem;
         font-weight: 700;
-        color: #1F1F1F;
+        color: #292808;
         margin-bottom: 0.5rem;
     }
     
@@ -94,24 +95,26 @@
     .form-label {
         font-size: 0.875rem;
         font-weight: 600;
-        color: #333;
+        color: #292808;
     }
     
     .form-input {
         width: 100%;
-        padding: 0.875rem 1rem;
-        border: 2px solid #d0d0d0;
-        border-radius: 50px;
+        padding: 0.9375rem 1rem;
+        border: 2px solid #e0e0e0;
+        border-radius: 12px;
         font-size: 0.9375rem;
-        transition: all 0.2s ease;
+        transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         background: #fafafa;
+        color: #292808;
     }
     
     .form-input:focus {
         outline: none;
-        border-color: var(--primary-color);
+        border-color: #292808;
         background: white;
-        box-shadow: 0 0 0 4px rgba(45, 122, 78, 0.1);
+        box-shadow: 0 0 0 5px rgba(47, 46, 12, 0.08);
+        transform: translateY(-2px);
     }
     
     .form-input::placeholder {
@@ -137,10 +140,11 @@
         color: #999;
         cursor: pointer;
         padding: 4px;
+        transition: color 0.2s;
     }
     
     .password-toggle:hover {
-        color: #666;
+        color: #292808;
     }
     
     .password-strength {
@@ -177,7 +181,7 @@
     .form-checkbox {
         width: 18px;
         height: 18px;
-        accent-color: var(--primary-color);
+        accent-color: #292808;
         cursor: pointer;
         flex-shrink: 0;
         margin-top: 2px;
@@ -190,26 +194,27 @@
     }
     
     .checkbox-label a {
-        color: var(--primary-color);
+        color: #292808;
         text-decoration: none;
-        font-weight: 500;
+        font-weight: 600;
+        transition: opacity 0.2s;
     }
     
     .checkbox-label a:hover {
-        text-decoration: underline;
+        opacity: 0.7;
     }
     
     .auth-btn {
         width: 100%;
         padding: 1rem;
-        background: linear-gradient(135deg, var(--primary-color), #1a5d38);
-        color: white;
+        background: #d4ff9e;
+        color: #292808;
         border: none;
         border-radius: 50px;
         font-size: 1rem;
-        font-weight: 600;
+        font-weight: 700;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -218,8 +223,15 @@
     }
     
     .auth-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(45, 122, 78, 0.35);
+        background: #292808;
+        color: #d4ff9e;
+        transform: translateY(-4px);
+        box-shadow: 0 15px 40px rgba(47, 46, 12, 0.25);
+    }
+    
+    .auth-btn:active {
+        transform: translateY(-1px);
+        transition-duration: 0.1s;
     }
     
     .auth-btn:disabled {
@@ -258,13 +270,14 @@
     }
     
     .auth-footer a {
-        color: var(--primary-color);
-        font-weight: 600;
+        color: #292808;
+        font-weight: 700;
         text-decoration: none;
+        transition: opacity 0.2s;
     }
     
     .auth-footer a:hover {
-        text-decoration: underline;
+        opacity: 0.7;
     }
     
     .form-error {
@@ -284,7 +297,7 @@
     
     .alert {
         padding: 1rem;
-        border-radius: 10px;
+        border-radius: 12px;
         margin-bottom: 1.5rem;
         font-size: 0.9rem;
         display: flex;
@@ -328,10 +341,10 @@
     
     .google-btn {
         width: 100%;
-        padding: 0.875rem 1rem;
+        padding: 0.9375rem 1rem;
         background: white;
-        color: #333;
-        border: 2px solid #d0d0d0;
+        color: #292808;
+        border: 2px solid #e0e0e0;
         border-radius: 50px;
         font-size: 0.9375rem;
         font-weight: 600;
@@ -345,8 +358,9 @@
     }
     
     .google-btn:hover {
-        background: #f8f8f8;
-        border-color: #bbb;
+        background: #fafafa;
+        border-color: #292808;
+        color: #292808;
     }
     
     .google-btn svg {
@@ -368,7 +382,7 @@
                     </svg>
                 </div>
                 <h1>Create Account</h1>
-                <p>Join PackAxis for faster checkout and order tracking</p>
+                <p>Join Packaxis for faster checkout and order tracking</p>
             </div>
             
             {% if form.non_field_errors %}

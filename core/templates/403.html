@@ -1,0 +1,209 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access Denied - PackAxis Canada</title>
+    <link rel="icon" type="image/png" href="{% static 'images/packaxis-fav.png' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #fafaf2 0%, #f5f5e8 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            color: #1F1F1F;
+        }
+        
+        .error-container {
+            text-align: center;
+            max-width: 600px;
+        }
+        
+        .error-icon {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 2rem;
+            background: linear-gradient(135deg, #fd7e14 0%, #e55a00 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 60px rgba(253, 126, 20, 0.2);
+        }
+        
+        .error-icon i {
+            font-size: 5rem;
+            color: white;
+        }
+        
+        .error-code {
+            font-size: 8rem;
+            font-weight: 700;
+            color: #292808;
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+        
+        .error-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #292808;
+            margin-bottom: 1rem;
+        }
+        
+        .error-message {
+            font-size: 1.125rem;
+            color: #666;
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+        
+        .error-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #292808 0%, #1f1e06 100%);
+            color: #d4ff9e;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(41, 40, 8, 0.3);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #292808;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .btn-secondary:hover {
+            border-color: #d4ff9e;
+            background: #fafaf2;
+        }
+        
+        .info-box {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(253, 126, 20, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(253, 126, 20, 0.2);
+        }
+        
+        .info-box p {
+            font-size: 0.9rem;
+            color: #666;
+            margin: 0;
+        }
+        
+        .info-box i {
+            color: #fd7e14;
+            margin-right: 0.5rem;
+        }
+        
+        .logo {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+        }
+        
+        .logo img {
+            height: 40px;
+        }
+        
+        @media (max-width: 640px) {
+            .error-code {
+                font-size: 5rem;
+            }
+            
+            .error-title {
+                font-size: 1.5rem;
+            }
+            
+            .error-icon {
+                width: 140px;
+                height: 140px;
+            }
+            
+            .error-icon i {
+                font-size: 3.5rem;
+            }
+            
+            .error-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="logo">
+        <img src="{% static 'images/assests/packaxis-logo-dark.png' %}" alt="PackAxis Canada">
+    </a>
+    
+    <div class="error-container">
+        <div class="error-icon">
+            <i class="fas fa-lock"></i>
+        </div>
+        
+        <div class="error-code">403</div>
+        <h1 class="error-title">Access Denied</h1>
+        <p class="error-message">
+            Sorry, you don't have permission to access this page. 
+            This might be a restricted area or your session may have expired.
+        </p>
+        
+        <div class="error-actions">
+            <a href="/" class="btn btn-primary">
+                <i class="fas fa-home"></i>
+                Back to Home
+            </a>
+            <a href="/accounts/login/" class="btn btn-secondary">
+                <i class="fas fa-sign-in-alt"></i>
+                Sign In
+            </a>
+        </div>
+        
+        <div class="info-box">
+            <p>
+                <i class="fas fa-info-circle"></i>
+                If you believe you should have access to this page, please 
+                <a href="/contact/" style="color: #292808; font-weight: 600;">contact our support team</a>.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

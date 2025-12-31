@@ -1,50 +1,869 @@
-{% extends 'core/base.html' %}
+﻿{% extends 'core/base.html' %}
 {% load static %}
+
+{% block title %}Professional Packaging Services | Custom Branded Bags & Eco-Friendly Solutions - Packaxis Canada{% endblock %}
+
+{% block meta_description %}Leading packaging services in Canada. Specializing in custom branded bags, eco-friendly paper packaging, bulk orders, and sustainable solutions for businesses across Toronto, Ontario & Canada.{% endblock %}
+
+{% block extra_css %}
+<style>
+    .services-hero {
+        background: linear-gradient(180deg, #292808 0%, #1f1e06 100%);
+        padding: 140px 0 100px;
+        color: white;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .services-hero::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(212, 255, 158, 0.06) 0%, transparent 50%);
+        animation: pulse 15s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+        0%, 100% { transform: scale(1) rotate(0deg); }
+        50% { transform: scale(1.1) rotate(10deg); }
+    }
+    
+    .services-hero .container {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .services-hero h1 {
+        font-size: 3.75rem;
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        color: #ffffff;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+    }
+    
+    .services-hero h1 span {
+        color: #d4ff9e;
+    }
+    
+    .services-hero p {
+        font-size: 1.25rem;
+        max-width: 720px;
+        margin: 0 auto 2.5rem;
+        color: rgba(255,255,255,0.85);
+        line-height: 1.75;
+    }
+    
+    .services-breadcrumb {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.9rem;
+        color: rgba(255,255,255,0.6);
+        margin-bottom: 2rem;
+    }
+    
+    .services-breadcrumb a {
+        color: #d4ff9e;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+    
+    .services-breadcrumb a:hover {
+        color: #ffffff;
+    }
+    
+    .hero-stats {
+        display: flex;
+        justify-content: center;
+        gap: 4rem;
+        margin-top: 3rem;
+        padding-top: 3rem;
+        border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .hero-stat {
+        text-align: center;
+    }
+    
+    .hero-stat-number {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: #d4ff9e;
+        line-height: 1;
+        margin-bottom: 0.5rem;
+    }
+    
+    .hero-stat-label {
+        font-size: 0.875rem;
+        color: rgba(255,255,255,0.7);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+    
+    .featured-service {
+        background: linear-gradient(180deg, #ffffff 0%, #fafaf2 100%);
+        padding: 100px 0;
+    }
+    
+    .featured-service-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+        align-items: center;
+    }
+    
+    .featured-service-content h2 {
+        font-size: 2.75rem;
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        color: #292808;
+        line-height: 1.2;
+    }
+    
+    .featured-service-content .highlight {
+        color: #d4ff9e;
+        background: #292808;
+        padding: 2px 12px;
+        border-radius: 6px;
+    }
+    
+    .service-benefits {
+        list-style: none;
+        padding: 0;
+        margin: 2rem 0;
+    }
+    
+    .service-benefits li {
+        padding: 14px 0;
+        padding-left: 40px;
+        position: relative;
+        font-size: 1.05rem;
+        color: #444;
+        line-height: 1.6;
+    }
+    
+    .service-benefits li:before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        top: 14px;
+        color: #d4ff9e;
+        background: #292808;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 14px;
+    }
+    
+    .featured-service-image {
+        position: relative;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 30px 80px rgba(0,0,0,0.12);
+    }
+    
+    .featured-service-image::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, transparent 60%, rgba(41, 40, 8, 0.4) 100%);
+        pointer-events: none;
+    }
+    
+    .featured-service-image img {
+        width: 100%;
+        height: 520px;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+    }
+    
+    .featured-service-image:hover img {
+        transform: scale(1.03);
+    }
+    
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+        padding: 100px 0;
+    }
+    
+    .service-card {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 40px 32px;
+        box-shadow: 0 4px 30px rgba(0,0,0,0.05);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .service-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #d4ff9e, #c2f488);
+        transform: scaleX(0);
+        transition: transform 0.4s ease;
+    }
+    
+    .service-card:hover::before {
+        transform: scaleX(1);
+    }
+    
+    .service-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 24px 60px rgba(41, 40, 8, 0.12);
+    }
+    
+    .service-card-icon {
+        width: 72px;
+        height: 72px;
+        background: linear-gradient(135deg, #fafaf2 0%, #f5f5f0 100%);
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 28px;
+        font-size: 2rem;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .service-card:hover .service-card-icon {
+        background: linear-gradient(135deg, #d4ff9e 0%, #c2f488 100%);
+        transform: scale(1.08) rotate(-3deg);
+    }
+    
+    .service-card-icon svg {
+        width: 32px;
+        height: 32px;
+        stroke: #292808;
+        stroke-width: 1.5;
+        fill: none;
+    }
+    
+    .service-card h3 {
+        font-size: 1.35rem;
+        font-weight: 700;
+        margin-bottom: 14px;
+        color: #292808;
+    }
+    
+    .service-card p {
+        color: #666;
+        line-height: 1.7;
+        margin-bottom: 20px;
+        font-size: 0.95rem;
+    }
+    
+    .service-card ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .service-card ul li {
+        padding: 10px 0;
+        color: #555;
+        font-size: 0.9rem;
+        position: relative;
+        padding-left: 24px;
+        transition: all 0.2s;
+    }
+    
+    .service-card ul li:before {
+        content: "→";
+        position: absolute;
+        left: 0;
+        color: #292808;
+        font-weight: bold;
+        transition: transform 0.2s;
+    }
+    
+    .service-card ul li:hover:before {
+        transform: translateX(4px);
+        color: #d4ff9e;
+    }
+    
+    .process-section {
+        background: linear-gradient(180deg, #292808 0%, #1f1e06 100%);
+        color: white;
+        padding: 100px 0;
+        position: relative;
+    }
+    
+    .process-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 100%;
+        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4ff9e' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    
+    .process-section .container {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .process-section h2 {
+        text-align: center;
+        font-size: 2.75rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+        color: #ffffff;
+    }
+    
+    .process-section .subtitle {
+        text-align: center;
+        color: rgba(255,255,255,0.7);
+        font-size: 1.125rem;
+        max-width: 600px;
+        margin: 0 auto 60px;
+    }
+    
+    .process-steps {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 40px;
+    }
+    
+    .process-step {
+        text-align: center;
+        position: relative;
+    }
+    
+    .process-step-number {
+        width: 60px;
+        height: 60px;
+        background: #d4ff9e;
+        color: #292808;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.75rem;
+        font-weight: 800;
+        margin: 0 auto 20px;
+    }
+    
+    .process-step h3 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 12px;
+        color: #d4ff9e;
+    }
+    
+    .process-step p {
+        color: rgba(255,255,255,0.8);
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+    
+    .industries-section {
+        padding: 100px 0;
+        background: linear-gradient(180deg, #ffffff 0%, #fafaf2 100%);
+    }
+    
+    .industries-section h2 {
+        text-align: center;
+        font-size: 2.75rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+        color: #292808;
+    }
+    
+    .industries-section .subtitle {
+        text-align: center;
+        font-size: 1.125rem;
+        color: #666;
+        margin-bottom: 60px;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .industries-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+    }
+    
+    .industry-card {
+        background: #ffffff;
+        padding: 32px 24px;
+        border-radius: 16px;
+        text-align: center;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+    
+    .industry-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 50px rgba(212, 255, 158, 0.2);
+        background: linear-gradient(135deg, #ffffff 0%, #fafff0 100%);
+    }
+    
+    .industry-card .icon {
+        font-size: 2.75rem;
+        margin-bottom: 18px;
+        display: block;
+        transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    
+    .industry-card:hover .icon {
+        transform: scale(1.2) rotate(-5deg);
+    }
+    
+    .industry-card h4 {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #292808;
+        margin: 0;
+    }
+    
+    .cta-section {
+        background: linear-gradient(135deg, #d4ff9e 0%, #b8f070 100%);
+        padding: 100px 0;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .cta-section::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -20%;
+        width: 60%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 60%);
+        pointer-events: none;
+    }
+    
+    .cta-section .container {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .cta-section h2 {
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+        color: #292808;
+    }
+    
+    .cta-section p {
+        font-size: 1.25rem;
+        color: #292808;
+        margin-bottom: 35px;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+        opacity: 0.85;
+    }
+    
+    .cta-buttons {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .btn-dark {
+        background: #292808;
+        color: white;
+        padding: 18px 44px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 1.05rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 20px rgba(41, 40, 8, 0.3);
+    }
+    
+    .btn-dark:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 30px rgba(41, 40, 8, 0.4);
+    }
+    
+    .btn-outline {
+        background: transparent;
+        color: #292808;
+        padding: 18px 44px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 1.05rem;
+        border: 2px solid #292808;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .btn-outline:hover {
+        background: #292808;
+        color: white;
+        transform: translateY(-3px);
+    }
+    
+    @media (max-width: 1024px) {
+        .featured-service-grid,
+        .services-grid,
+        .process-steps,
+        .industries-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .hero-stats {
+            gap: 2rem;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .services-hero h1 {
+            font-size: 2.25rem;
+        }
+        
+        .hero-stats {
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+        
+        .hero-stat {
+            flex: 1 1 40%;
+        }
+        
+        .featured-service-grid,
+        .services-grid,
+        .process-steps,
+        .industries-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .featured-service-content h2 {
+            font-size: 2rem;
+        }
+        
+        .cta-section h2 {
+            font-size: 2rem;
+        }
+    }
+</style>
+{% endblock %}
 
 {% block content %}
     <!-- Services Hero Section -->
-    <section class="hero" style="min-height: 60vh;">
+    <section class="services-hero">
         <div class="container">
-            <div class="section-header" style="text-align: center; max-width: 800px; margin: 0 auto;">
-                <span class="section-tag">Our Services</span>
-                <h1 class="section-title" style="font-size: 3rem;">What We Offer</h1>
-                <p class="section-description">From custom branded packaging to wholesale paper bags, PackAxis delivers sustainable solutions for Canadian businesses. We specialize in kraft paper bags available in bulk, branded shopping bags, and recyclable packaging for restaurants and retailers across Toronto and Canada.</p>
+            <div class="services-breadcrumb">
+                <a href="{% url 'core:index' %}">Home</a>
+                <span>/</span>
+                <span>Services</span>
+            </div>
+            <h1>Professional Packaging <span>Services</span> for Canadian Businesses</h1>
+            <p>From custom branded bags to bulk eco-friendly packaging solutions, Packaxis delivers premium quality products with unmatched service. We specialize in helping businesses across Canada elevate their brand with sustainable packaging.</p>
+            
+            <!-- Hero Stats -->
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="hero-stat-number">500+</div>
+                    <div class="hero-stat-label">Happy Clients</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number">10M+</div>
+                    <div class="hero-stat-label">Bags Delivered</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number">100%</div>
+                    <div class="hero-stat-label">Eco-Friendly</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number">24hr</div>
+                    <div class="hero-stat-label">Quote Response</div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Services Grid Section -->
-    <section class="features" style="padding: 5rem 0;">
+    <!-- Featured Service: Custom Branded Bags -->
+    <section class="featured-service">
         <div class="container">
-            <div class="features-grid">
-                {% for service in services %}
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="{{ service.icon }}"></i>
+            <div class="featured-service-grid">
+                <div class="featured-service-content">
+                    <h2>
+                        <span class="highlight">Custom Branded Bags</span><br>
+                        Your Brand, Your Way
+                    </h2>
+                    <p style="font-size: 1.125rem; color: #555; margin-bottom: 25px; line-height: 1.8;">
+                        Transform your packaging into a powerful marketing tool. Our custom branded bags service offers complete design freedom, premium printing quality, and eco-friendly materials that reflect your brand values.
+                    </p>
+                    <ul class="service-benefits">
+                        <li><strong>Full-Color Custom Printing</strong> - Your logo, colors, and design exactly as you envision</li>
+                        <li><strong>Multiple Size Options</strong> - From small boutique bags to large shopping totes</li>
+                        <li><strong>Premium Paper Quality</strong> - Choose from kraft, white, or specialty papers</li>
+                        <li><strong>Flexible Handle Options</strong> - Twisted, flat, or rope handles in various colors</li>
+                        <li><strong>Low Minimum Orders</strong> - Start with as few as 500 bags</li>
+                        <li><strong>Fast Turnaround</strong> - 2-3 weeks production time</li>
+                        <li><strong>Free Design Consultation</strong> - Our team helps bring your vision to life</li>
+                        <li><strong>100% Recyclable & Biodegradable</strong> - Sustainable without compromise</li>
+                    </ul>
+                    <div class="cta-buttons" style="justify-content: flex-start;">
+                        <a href="{% url 'core:quote_request' %}" class="btn-dark">Get Custom Quote</a>
+                        <a href="tel:+14162752227" class="btn-outline">Call Us: (416) 275-2227</a>
                     </div>
-                    <h3>{{ service.title }}</h3>
-                    <p>{{ service.description }}</p>
                 </div>
-                {% empty %}
-                <div class="feature-card">
-                    <p>No services available at the moment.</p>
+                <div class="featured-service-image">
+                    <img src="{% static 'images/assests/products/Custom Paper Bag.jpg' %}" alt="Custom Branded Bags - Packaxis Canada" loading="lazy">
                 </div>
-                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- All Services Grid -->
+    <section style="background: #ffffff;">
+        <div class="container">
+            <div class="section-header" style="text-align: center; padding-top: 100px; margin-bottom: 60px;">
+                <span style="display: inline-block; background: rgba(212, 255, 158, 0.3); color: #292808; font-size: 0.875rem; font-weight: 600; padding: 0.5rem 1.25rem; border-radius: 50px; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em;">Our Services</span>
+                <h2 class="section-title" style="font-size: 2.75rem; color: #292808; margin-bottom: 20px; font-weight: 800;">Comprehensive Packaging Services</h2>
+                <p class="section-description" style="max-width: 700px; margin: 0 auto; color: #666; font-size: 1.125rem; line-height: 1.7;">Everything you need for your packaging requirements, delivered with excellence</p>
+            </div>
+            
+            <div class="services-grid">
+                <!-- Service 1 -->
+                <div class="service-card">
+                    <div class="service-card-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+                    </div>
+                    <h3>Custom Design Services</h3>
+                    <p>Professional design team creates stunning packaging that represents your brand perfectly.</p>
+                    <ul>
+                        <li>Logo & artwork adaptation</li>
+                        <li>Color matching (Pantone)</li>
+                        <li>3D mockup previews</li>
+                        <li>Unlimited revisions</li>
+                    </ul>
+                </div>
+                
+                <!-- Service 2 -->
+                <div class="service-card">
+                    <div class="service-card-icon">
+                        <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                    </div>
+                    <h3>Bulk Wholesale Orders</h3>
+                    <p>Competitive pricing for large volume orders with consistent quality guaranteed.</p>
+                    <ul>
+                        <li>Volume discounts</li>
+                        <li>Inventory management</li>
+                        <li>Scheduled deliveries</li>
+                        <li>Dedicated account manager</li>
+                    </ul>
+                </div>
+                
+                <!-- Service 3 -->
+                <div class="service-card">
+                    <div class="service-card-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+                    </div>
+                    <h3>Eco-Friendly Solutions</h3>
+                    <p>Sustainable packaging options that reduce environmental impact without sacrificing quality.</p>
+                    <ul>
+                        <li>100% recyclable materials</li>
+                        <li>FSC certified papers</li>
+                        <li>Biodegradable options</li>
+                        <li>Carbon-neutral shipping</li>
+                    </ul>
+                </div>
+                
+                <!-- Service 4 -->
+                <div class="service-card">
+                    <div class="service-card-icon">
+                        <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    </div>
+                    <h3>Express Production</h3>
+                    <p>Need it fast? Our rush service delivers premium quality in accelerated timeframes.</p>
+                    <ul>
+                        <li>7-10 day rush available</li>
+                        <li>Priority manufacturing</li>
+                        <li>Express shipping options</li>
+                        <li>Real-time order tracking</li>
+                    </ul>
+                </div>
+                
+                <!-- Service 5 -->
+                <div class="service-card">
+                    <div class="service-card-icon">
+                        <svg viewBox="0 0 24 24"><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6"/><path d="M4 8h16a2 2 0 0 1 2 2v2H2v-2a2 2 0 0 1 2-2z"/><line x1="12" y1="12" x2="12" y2="20"/><path d="M12 8V4"/><path d="M8 4h8"/></svg>
+                    </div>
+                    <h3>Retail Packaging</h3>
+                    <p>Complete packaging solutions for retailers, boutiques, and specialty stores.</p>
+                    <ul>
+                        <li>Shopping bags (all sizes)</li>
+                        <li>Gift bags & wrapping</li>
+                        <li>Branded tissue paper</li>
+                        <li>Custom stickers & tags</li>
+                    </ul>
+                </div>
+                
+                <!-- Service 6 -->
+                <div class="service-card">
+                    <div class="service-card-icon">
+                        <svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+                    </div>
+                    <h3>Food Service Packaging</h3>
+                    <p>Food-safe packaging for restaurants, cafes, bakeries, and food delivery services.</p>
+                    <ul>
+                        <li>FDA approved materials</li>
+                        <li>Grease-resistant options</li>
+                        <li>Take-out bags & boxes</li>
+                        <li>Bakery packaging</li>
+                    </ul>
+                </div>
+                
+                <!-- Service 7 -->
+                <div class="service-card">
+                    <div class="service-card-icon">
+                        <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                    </div>
+                    <h3>Corporate Gifting</h3>
+                    <p>Premium packaging for corporate gifts, events, and client appreciation programs.</p>
+                    <ul>
+                        <li>Luxury gift bags</li>
+                        <li>Custom event packaging</li>
+                        <li>Conference swag bags</li>
+                        <li>VIP presentation boxes</li>
+                    </ul>
+                </div>
+                
+                <!-- Service 8 -->
+                <div class="service-card">
+                    <div class="service-card-icon">
+                        <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                    </div>
+                    <h3>E-Commerce Packaging</h3>
+                    <p>Shipping-ready packaging that protects products while enhancing unboxing experience.</p>
+                    <ul>
+                        <li>Mailer bags & boxes</li>
+                        <li>Branded shipping materials</li>
+                        <li>Protective inserts</li>
+                        <li>Return-friendly designs</li>
+                    </ul>
+                </div>
+                
+                <!-- Service 9 -->
+                <div class="service-card">
+                    <div class="service-card-icon">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/></svg>
+                    </div>
+                    <h3>Brand Consultation</h3>
+                    <p>Strategic packaging advice to maximize brand impact and customer engagement.</p>
+                    <ul>
+                        <li>Market trend analysis</li>
+                        <li>Competitor research</li>
+                        <li>Material recommendations</li>
+                        <li>ROI optimization</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process-section">
+        <div class="container">
+            <h2>Simple 4-Step Process</h2>
+            <p class="subtitle">From initial consultation to delivery, we make ordering custom packaging effortless</p>
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="process-step-number">1</div>
+                    <h3>Consult & Quote</h3>
+                    <p>Share your requirements and receive a detailed quote within 24 hours</p>
+                </div>
+                <div class="process-step">
+                    <div class="process-step-number">2</div>
+                    <h3>Design & Approve</h3>
+                    <p>Review 3D mockups and approve your custom design with unlimited revisions</p>
+                </div>
+                <div class="process-step">
+                    <div class="process-step-number">3</div>
+                    <h3>Production</h3>
+                    <p>Your order enters production with quality checks at every stage</p>
+                </div>
+                <div class="process-step">
+                    <div class="process-step-number">4</div>
+                    <h3>Delivery</h3>
+                    <p>Receive your premium packaging anywhere in Canada with tracking</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Industries Section -->
+    <section class="industries-section">
+        <div class="container">
+            <h2>Industries We Serve</h2>
+            <p class="subtitle">Trusted by businesses across Canada in various sectors</p>
+            <div class="industries-grid">
+                <div class="industry-card">
+                    <div class="icon">🛍️</div>
+                    <h4>Retail & Fashion</h4>
+                </div>
+                <div class="industry-card">
+                    <div class="icon">🍰</div>
+                    <h4>Bakeries & Cafes</h4>
+                </div>
+                <div class="industry-card">
+                    <div class="icon">🍔</div>
+                    <h4>Restaurants</h4>
+                </div>
+                <div class="industry-card">
+                    <div class="icon">🎁</div>
+                    <h4>Gift Shops</h4>
+                </div>
+                <div class="industry-card">
+                    <div class="icon">🏨</div>
+                    <h4>Hotels & Resorts</h4>
+                </div>
+                <div class="industry-card">
+                    <div class="icon">💼</div>
+                    <h4>Corporate Offices</h4>
+                </div>
+                <div class="industry-card">
+                    <div class="icon">📱</div>
+                    <h4>E-Commerce</h4>
+                </div>
+                <div class="industry-card">
+                    <div class="icon">🎪</div>
+                    <h4>Events & Trade Shows</h4>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- CTA Section -->
-    <section class="cta" style="padding: 5rem 0; background: linear-gradient(135deg, #FAFAFA 0%, #F0F4F2 100%);">
+    <section class="cta-section">
         <div class="container">
-            <div class="cta-content" style="text-align: center; max-width: 700px; margin: 0 auto;">
-                <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem; color: var(--text-dark);">Ready to Get Started?</h2>
-                <p style="font-size: 1.125rem; color: var(--text-light); margin-bottom: 2rem;">Contact us today for a free quote and discover how our eco-friendly packaging solutions can elevate your brand.</p>
-                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                    <a href="{% url 'core:quote_request' %}" class="btn btn-primary">Get a Quote</a>
-                    <a href="{% url 'core:index' %}#contact" class="btn btn-secondary">Contact Us</a>
-                </div>
+            <h2>Ready to Elevate Your Brand?</h2>
+            <p>Get a free quote today and discover why hundreds of Canadian businesses trust Packaxis for their packaging needs.</p>
+            <div class="cta-buttons">
+                <a href="{% url 'core:quote_request' %}" class="btn-dark">Request Free Quote</a>
+                <a href="{% url 'core:products' %}" class="btn-outline">Browse Products</a>
             </div>
+            <p style="margin-top: 30px; font-size: 1rem; color: #292808;">
+                📞 <strong>(416) 275-2227</strong> | 📧 <strong>hello@packaxis.ca</strong> | 📍 <strong>Serving All of Canada</strong>
+            </p>
         </div>
     </section>
 {% endblock %}

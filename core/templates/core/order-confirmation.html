@@ -1,18 +1,19 @@
-{% extends 'core/base.html' %}
+﻿{% extends 'core/base.html' %}
 {% load static %}
 
-{% block title %}Order Confirmed #{{ order.order_number }} - PackAxis{% endblock %}
+{% block title %}Order Confirmed #{{ order.order_number }} - Packaxis{% endblock %}
 
 {% block extra_css %}
 <style>
     .confirmation-page {
-        padding: 3rem 0 4rem;
-        min-height: 60vh;
-        background: #f8f9fa;
+        padding-top: 120px;
+        padding-bottom: 5rem;
+        min-height: 100vh;
+        background: linear-gradient(180deg, #f5f5f0 0%, #fafaf2 100%);
     }
     
     .confirmation-container {
-        max-width: 700px;
+        max-width: 900px;
         margin: 0 auto;
         padding: 0 1.25rem;
     }
@@ -20,87 +21,137 @@
     /* Success Header */
     .success-header {
         text-align: center;
-        margin-bottom: 2rem;
+        margin-bottom: 2.5rem;
     }
     
     .success-icon {
-        width: 64px;
-        height: 64px;
-        background: #dcfce7;
+        width: 80px;
+        height: 80px;
+        background: #d4ff9e;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin: 0 auto 1.25rem;
+        margin: 0 auto 1.5rem;
+        animation: scaleIn 0.5s ease-out;
+        box-shadow: 0 8px 30px rgba(212, 255, 158, 0.4);
+    }
+    
+    @keyframes scaleIn {
+        0% { transform: scale(0); opacity: 0; }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); opacity: 1; }
     }
     
     .success-icon svg {
-        width: 32px;
-        height: 32px;
-        stroke: #16a34a;
+        width: 40px;
+        height: 40px;
+        stroke: #292808;
+        stroke-width: 3;
     }
     
     .success-header h1 {
-        font-size: 1.75rem;
-        color: #333;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
+        font-size: 2rem;
+        color: #292808;
+        font-weight: 800;
+        margin-bottom: 0.75rem;
     }
     
     .success-header p {
         color: #666;
-        font-size: 0.9375rem;
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+    
+    .success-header p strong {
+        color: #292808;
     }
     
     .order-badge {
-        display: inline-block;
-        background: var(--primary-color);
-        color: white;
-        padding: 0.5rem 1rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: #292808;
+        color: #d4ff9e;
+        padding: 0.75rem 1.5rem;
         border-radius: 50px;
-        font-weight: 600;
-        font-size: 0.9375rem;
-        margin-top: 1rem;
+        font-weight: 700;
+        font-size: 1rem;
+        margin-top: 1.25rem;
+        box-shadow: 0 4px 15px rgba(47, 46, 12, 0.15);
     }
     
-    /* Content Card */
+    .order-badge svg {
+        width: 18px;
+        height: 18px;
+    }
+    
+    /* Main Content Grid */
+    .confirmation-grid {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 1.5rem;
+    }
+    
+    @media (max-width: 900px) {
+        .confirmation-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    
+    /* Content Cards */
     .confirmation-card {
         background: white;
-        border-radius: 12px;
-        border: 1px solid #e5e5e5;
+        border-radius: 20px;
+        border: 1px solid rgba(47, 46, 12, 0.06);
         overflow: hidden;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
     }
     
     .card-section {
         padding: 1.5rem;
-        border-bottom: 1px solid #eee;
+        border-bottom: 1px solid rgba(47, 46, 12, 0.06);
     }
     
     .card-section:last-child {
         border-bottom: none;
     }
     
-    .section-heading {
-        font-size: 0.9375rem;
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 1rem;
+    .section-header {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.75rem;
+        margin-bottom: 1.25rem;
     }
     
-    .section-heading svg {
-        width: 18px;
-        height: 18px;
-        stroke: var(--primary-color);
+    .section-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #f0fff4 0%, #e6ffec 100%);
+        border: 1px solid rgba(212, 255, 158, 0.3);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .section-icon svg {
+        width: 20px;
+        height: 20px;
+        stroke: #292808;
+    }
+    
+    .section-heading {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #292808;
     }
     
     /* Info Grid */
     .info-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 1.25rem;
+        gap: 1rem;
     }
     
     @media (max-width: 500px) {
@@ -110,17 +161,19 @@
     }
     
     .info-box {
-        background: #f8f9fa;
-        padding: 1rem;
-        border-radius: 50px;
+        background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+        padding: 1rem 1.25rem;
+        border-radius: 12px;
+        border: 1px solid rgba(47, 46, 12, 0.04);
     }
     
     .info-box h4 {
         font-size: 0.6875rem;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.75px;
         color: #888;
         margin-bottom: 0.5rem;
+        font-weight: 600;
     }
     
     .info-box p {
@@ -130,19 +183,28 @@
     }
     
     .status-badge {
-        display: inline-block;
-        background: #fef3c7;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.375rem;
+        background: linear-gradient(135deg, #fef9e7 0%, #fff8e1 100%);
         color: #92400e;
-        padding: 0.25rem 0.625rem;
+        padding: 0.375rem 0.75rem;
         border-radius: 50px;
         font-size: 0.75rem;
         font-weight: 600;
+        border: 1px solid #f9e79f;
+    }
+    
+    .status-badge.paid {
+        background: linear-gradient(135deg, #f0fff4 0%, #e6ffec 100%);
+        color: #166534;
+        border-color: #d4ff9e;
     }
     
     /* Order Items */
     .order-items {
-        border: 1px solid #eee;
-        border-radius: 16px;
+        border: 1px solid rgba(47, 46, 12, 0.06);
+        border-radius: 12px;
         overflow: hidden;
     }
     
@@ -150,78 +212,126 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0.875rem 1rem;
-        border-bottom: 1px solid #eee;
+        padding: 1rem 1.25rem;
+        border-bottom: 1px solid rgba(47, 46, 12, 0.04);
+        transition: background 0.2s;
     }
     
     .order-item:last-child {
         border-bottom: none;
     }
     
+    .order-item:hover {
+        background: #fafafa;
+    }
+    
+    .order-item-info {
+        flex: 1;
+    }
+    
     .order-item-name {
-        font-size: 0.875rem;
-        font-weight: 500;
-        color: #333;
+        font-size: 0.9375rem;
+        font-weight: 600;
+        color: #292808;
     }
     
     .order-item-details {
         font-size: 0.8125rem;
         color: #888;
-        margin-top: 0.125rem;
+        margin-top: 0.25rem;
     }
     
     .order-item-price {
-        font-weight: 600;
-        color: #333;
+        font-weight: 700;
+        color: #292808;
+        font-size: 0.9375rem;
+    }
+    
+    /* Order Summary Panel */
+    .summary-panel {
+        position: sticky;
+        top: 100px;
+    }
+    
+    .summary-card {
+        background: white;
+        border-radius: 20px;
+        border: 1px solid rgba(47, 46, 12, 0.06);
+        overflow: hidden;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+    }
+    
+    .summary-header {
+        background: #292808;
+        color: white;
+        padding: 1.25rem 1.5rem;
+    }
+    
+    .summary-header h3 {
+        font-size: 1rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .summary-header h3 svg {
+        width: 18px;
+        height: 18px;
+        stroke: #d4ff9e;
+    }
+    
+    .summary-content {
+        padding: 1.5rem;
     }
     
     /* Totals */
     .order-totals {
-        background: #f8f9fa;
-        padding: 1rem;
-        border-radius: 16px;
-        margin-top: 1rem;
+        border-top: 1px solid rgba(47, 46, 12, 0.06);
+        padding-top: 1rem;
+        margin-top: 0.5rem;
     }
     
     .total-row {
         display: flex;
         justify-content: space-between;
-        padding: 0.375rem 0;
+        padding: 0.5rem 0;
         font-size: 0.875rem;
         color: #666;
     }
     
     .total-row.grand {
-        font-size: 1.1rem;
-        font-weight: 700;
-        color: #333;
-        padding-top: 0.75rem;
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: #292808;
+        padding-top: 1rem;
         margin-top: 0.5rem;
-        border-top: 2px solid #ddd;
+        border-top: 2px solid #292808;
     }
     
     /* Next Steps */
     .next-steps {
-        background: #f0fdf4;
-        border: 1px solid #bbf7d0;
+        background: linear-gradient(135deg, #f0fff4 0%, #e6ffec 100%);
+        border: 1px solid #d4ff9e;
         border-radius: 16px;
-        padding: 1.25rem;
+        padding: 1.5rem;
+        margin-top: 1rem;
     }
     
     .next-steps h4 {
-        font-size: 0.9375rem;
-        font-weight: 600;
-        color: #166534;
-        margin-bottom: 0.75rem;
+        font-size: 1rem;
+        font-weight: 700;
+        color: #292808;
+        margin-bottom: 1rem;
         display: flex;
         align-items: center;
         gap: 0.5rem;
     }
     
     .next-steps h4 svg {
-        width: 18px;
-        height: 18px;
-        stroke: #16a34a;
+        width: 20px;
+        height: 20px;
+        stroke: #292808;
     }
     
     .next-steps ul {
@@ -231,99 +341,144 @@
     }
     
     .next-steps li {
-        padding: 0.375rem 0;
-        padding-left: 1.5rem;
+        padding: 0.5rem 0;
+        padding-left: 1.75rem;
         position: relative;
         font-size: 0.875rem;
-        color: #166534;
+        color: #333;
+        line-height: 1.5;
     }
     
     .next-steps li::before {
-        content: "✓";
+        content: "";
         position: absolute;
         left: 0;
-        color: #16a34a;
-        font-weight: bold;
+        top: 0.75rem;
+        width: 8px;
+        height: 8px;
+        background: #d4ff9e;
+        border-radius: 50%;
+        border: 2px solid #292808;
     }
     
     /* Actions */
-    .actions {
-        display: flex;
-        gap: 1rem;
-        margin-top: 2rem;
-        flex-wrap: wrap;
+    .actions-section {
+        margin-top: 1.5rem;
     }
     
-    .btn-primary {
-        flex: 1;
-        min-width: 180px;
-        padding: 0.875rem 1.25rem;
-        background: var(--primary-color);
-        color: white;
-        text-decoration: none;
-        border-radius: 50px;
-        font-weight: 600;
-        text-align: center;
-        font-size: 0.9375rem;
+    .btn-download {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 0.5rem;
-        transition: background 0.2s;
+        gap: 0.75rem;
+        width: 100%;
+        padding: 1rem;
+        background: #d4ff9e;
+        color: #292808;
+        text-decoration: none;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 0.9375rem;
+        transition: all 0.3s;
+        border: none;
+        cursor: pointer;
     }
     
-    .btn-primary:hover {
-        background: var(--secondary-color);
-        color: white;
+    .btn-download:hover {
+        background: #a8e65c;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(212, 255, 158, 0.4);
+    }
+    
+    .btn-download svg {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .secondary-actions {
+        display: flex;
+        gap: 0.75rem;
+        margin-top: 1rem;
     }
     
     .btn-secondary {
         flex: 1;
-        min-width: 180px;
-        padding: 0.875rem 1.25rem;
+        padding: 0.875rem 1rem;
         background: white;
-        color: var(--primary-color);
+        color: #292808;
         text-decoration: none;
-        border-radius: 50px;
-        border: 1.5px solid var(--primary-color);
+        border-radius: 12px;
+        border: 1.5px solid rgba(47, 46, 12, 0.1);
         font-weight: 600;
+        text-align: center;
+        font-size: 0.8125rem;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    
+    .btn-secondary:hover {
+        border-color: #292808;
+        background: #292808;
+        color: #d4ff9e;
+    }
+    
+    .btn-secondary svg {
+        width: 16px;
+        height: 16px;
+    }
+    
+    /* Mobile Actions */
+    .mobile-actions {
+        display: none;
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+    
+    @media (max-width: 900px) {
+        .mobile-actions {
+            display: flex;
+        }
+    }
+    
+    .btn-primary-mobile {
+        width: 100%;
+        padding: 1rem;
+        background: #d4ff9e;
+        color: #292808;
+        text-decoration: none;
+        border-radius: 12px;
+        font-weight: 700;
         text-align: center;
         font-size: 0.9375rem;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 0.5rem;
-        transition: all 0.2s;
+        transition: all 0.3s;
     }
     
-    .btn-secondary:hover {
-        background: var(--primary-color);
-        color: white;
+    .btn-primary-mobile:hover {
+        background: #a8e65c;
     }
     
-    .btn-primary svg,
-    .btn-secondary svg {
-        width: 18px;
-        height: 18px;
+    .mobile-secondary {
+        display: flex;
+        gap: 0.75rem;
     }
     
-    .print-link {
-        display: block;
-        text-align: center;
-        margin-top: 1.25rem;
-        color: #666;
-        text-decoration: none;
-        font-size: 0.875rem;
-    }
-    
-    .print-link:hover {
-        color: var(--primary-color);
+    .mobile-secondary .btn-secondary {
+        padding: 0.75rem;
     }
     
     /* Print Styles */
     @media print {
-        .actions,
-        .print-link,
+        .actions-section,
+        .mobile-actions,
+        .secondary-actions,
         header,
         footer {
             display: none !important;
@@ -334,8 +489,18 @@
             background: white;
         }
         
-        .confirmation-card {
-            border: none;
+        .confirmation-card,
+        .summary-card {
+            border: 1px solid #ddd;
+            box-shadow: none;
+        }
+        
+        .confirmation-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .summary-panel {
+            position: static;
         }
     }
 </style>
@@ -347,173 +512,240 @@
         <!-- Success Header -->
         <div class="success-header">
             <div class="success-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                     <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
             </div>
             <h1>Thank You for Your Order!</h1>
-            <p>A confirmation email has been sent to <strong>{{ order.email }}</strong></p>
-            <div class="order-badge">Order #{{ order.order_number }}</div>
+            <p>We've received your order and a confirmation email has been sent to <strong>{{ order.email }}</strong></p>
+            <div class="order-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                </svg>
+                Order #{{ order.order_number }}
+            </div>
         </div>
         
-        <!-- Confirmation Card -->
-        <div class="confirmation-card">
-            <!-- Order Details -->
-            <div class="card-section">
-                <h3 class="section-heading">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <polyline points="12 6 12 12 16 14"></polyline>
-                    </svg>
-                    Order Details
-                </h3>
-                <div class="info-grid">
-                    <div class="info-box">
-                        <h4>Order Date</h4>
-                        <p>{{ order.created_at|date:"F d, Y" }}<br>{{ order.created_at|time:"g:i A" }}</p>
-                    </div>
-                    <div class="info-box">
-                        <h4>Status</h4>
-                        <p><span class="status-badge">{{ order.get_status_display }}</span></p>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Customer Info -->
-            <div class="card-section">
-                <h3 class="section-heading">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="12" cy="7" r="4"></circle>
-                    </svg>
-                    Customer Information
-                </h3>
-                <div class="info-grid">
-                    <div class="info-box">
-                        <h4>Contact</h4>
-                        <p>
-                            {{ order.full_name }}<br>
-                            {% if order.company_name %}{{ order.company_name }}<br>{% endif %}
-                            {{ order.email }}<br>
-                            {{ order.phone }}
-                        </p>
-                    </div>
-                    <div class="info-box">
-                        <h4>Shipping Address</h4>
-                        <p>{{ order.shipping_address|linebreaksbr }}</p>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Items -->
-            <div class="card-section">
-                <h3 class="section-heading">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                    </svg>
-                    Items Ordered
-                </h3>
-                
-                <div class="order-items">
-                    {% for item in order_items %}
-                    <div class="order-item">
-                        <div>
-                            <div class="order-item-name">{{ item.product_title }}</div>
-                            <div class="order-item-details">Qty: {{ item.quantity }} × ${{ item.unit_price }}{% if item.product_sku %} · SKU: {{ item.product_sku }}{% endif %}</div>
+        <div class="confirmation-grid">
+            <!-- Main Content -->
+            <div class="main-content">
+                <div class="confirmation-card">
+                    <!-- Order Details -->
+                    <div class="card-section">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
+                            </div>
+                            <h3 class="section-heading">Order Details</h3>
                         </div>
-                        <div class="order-item-price">${{ item.total_price }}</div>
+                        <div class="info-grid">
+                            <div class="info-box">
+                                <h4>Order Date</h4>
+                                <p>{{ order.created_at|date:"F d, Y" }}<br>{{ order.created_at|time:"g:i A" }}</p>
+                            </div>
+                            <div class="info-box">
+                                <h4>Status</h4>
+                                <p>
+                                    <span class="status-badge {% if order.payment_status == 'paid' %}paid{% endif %}">
+                                        {{ order.get_status_display }}
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                    {% endfor %}
-                </div>
-                
-                <div class="order-totals">
-                    <div class="total-row">
-                        <span>Subtotal</span>
-                        <span>${{ order.subtotal }}</span>
+                    
+                    <!-- Customer Info -->
+                    <div class="card-section">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                            </div>
+                            <h3 class="section-heading">Customer Information</h3>
+                        </div>
+                        <div class="info-grid">
+                            <div class="info-box">
+                                <h4>Contact</h4>
+                                <p>
+                                    {{ order.full_name }}<br>
+                                    {% if order.company_name %}{{ order.company_name }}<br>{% endif %}
+                                    {{ order.email }}<br>
+                                    {{ order.phone }}
+                                </p>
+                            </div>
+                            <div class="info-box">
+                                <h4>Shipping Address</h4>
+                                <p>{{ order.shipping_address|linebreaksbr }}</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="total-row">
-                        <span>Shipping</span>
-                        <span>{% if order.shipping_cost %}${{ order.shipping_cost }}{% else %}TBD{% endif %}</span>
+                    
+                    <!-- Items -->
+                    <div class="card-section">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="section-heading">Items Ordered</h3>
+                        </div>
+                        
+                        <div class="order-items">
+                            {% for item in order_items %}
+                            <div class="order-item">
+                                <div class="order-item-info">
+                                    <div class="order-item-name">{{ item.product_title }}</div>
+                                    <div class="order-item-details">Qty: {{ item.quantity }} × ${{ item.unit_price }}{% if item.product_sku %} · SKU: {{ item.product_sku }}{% endif %}</div>
+                                </div>
+                                <div class="order-item-price">${{ item.total_price }}</div>
+                            </div>
+                            {% endfor %}
+                        </div>
                     </div>
-                    <div class="total-row">
-                        <span>Tax</span>
-                        <span>{% if order.tax %}${{ order.tax }}{% else %}TBD{% endif %}</span>
-                    </div>
-                    {% if order.discount %}
-                    <div class="total-row">
-                        <span>Discount</span>
-                        <span>-${{ order.discount }}</span>
+                    
+                    {% if order.customer_notes %}
+                    <div class="card-section">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                </svg>
+                            </div>
+                            <h3 class="section-heading">Order Notes</h3>
+                        </div>
+                        <div class="info-box">
+                            <p>{{ order.customer_notes }}</p>
+                        </div>
                     </div>
                     {% endif %}
-                    <div class="total-row grand">
-                        <span>Total</span>
-                        <span>${{ order.total }}</span>
+                </div>
+                
+                <!-- Mobile Actions -->
+                <div class="mobile-actions">
+                    <a href="{% url 'core:download_invoice' order.order_number %}" class="btn-primary-mobile">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Download Invoice
+                    </a>
+                    <div class="mobile-secondary">
+                        <a href="{% url 'core:products' %}" class="btn-secondary">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                                <line x1="3" y1="6" x2="21" y2="6"></line>
+                                <path d="M16 10a4 4 0 0 1-8 0"></path>
+                            </svg>
+                            Shop
+                        </a>
+                        <a href="javascript:window.print()" class="btn-secondary">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                                <rect x="6" y="14" width="12" height="8"></rect>
+                            </svg>
+                            Print
+                        </a>
                     </div>
                 </div>
             </div>
             
-            {% if order.customer_notes %}
-            <div class="card-section">
-                <h3 class="section-heading">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                        <polyline points="14 2 14 8 20 8"></polyline>
-                    </svg>
-                    Order Notes
-                </h3>
-                <div class="info-box">
-                    <p>{{ order.customer_notes }}</p>
-                </div>
-            </div>
-            {% endif %}
-            
-            <!-- Next Steps -->
-            <div class="card-section">
-                <div class="next-steps">
-                    <h4>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="9 11 12 14 22 4"></polyline>
-                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
-                        </svg>
-                        What Happens Next?
-                    </h4>
-                    <ul>
-                        <li>Our team will review your order within 24 hours</li>
-                        <li>We'll contact you to confirm payment details</li>
-                        <li>Your order will be processed once payment is confirmed</li>
-                        <li>You'll receive tracking info when it ships</li>
-                    </ul>
+            <!-- Summary Panel -->
+            <div class="summary-panel">
+                <div class="summary-card">
+                    <div class="summary-header">
+                        <h3>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 11l3 3L22 4"></path>
+                                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                            </svg>
+                            Order Summary
+                        </h3>
+                    </div>
+                    <div class="summary-content">
+                        <div class="order-totals">
+                            <div class="total-row">
+                                <span>Subtotal</span>
+                                <span>${{ order.subtotal }}</span>
+                            </div>
+                            <div class="total-row">
+                                <span>Shipping</span>
+                                <span>{% if order.shipping_cost %}${{ order.shipping_cost }}{% else %}TBD{% endif %}</span>
+                            </div>
+                            <div class="total-row">
+                                <span>Tax</span>
+                                <span>{% if order.tax %}${{ order.tax }}{% else %}TBD{% endif %}</span>
+                            </div>
+                            {% if order.discount %}
+                            <div class="total-row">
+                                <span>Discount</span>
+                                <span>-${{ order.discount }}</span>
+                            </div>
+                            {% endif %}
+                            <div class="total-row grand">
+                                <span>Total</span>
+                                <span>${{ order.total }}</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Next Steps -->
+                        <div class="next-steps">
+                            <h4>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="9 11 12 14 22 4"></polyline>
+                                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                                </svg>
+                                What's Next?
+                            </h4>
+                            <ul>
+                                <li>Our team will review your order within 24 hours</li>
+                                <li>We'll contact you to confirm details</li>
+                                <li>You'll receive tracking info when it ships</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Actions -->
+                        <div class="actions-section">
+                            <a href="{% url 'core:download_invoice' order.order_number %}" class="btn-download">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                                Download Invoice
+                            </a>
+                            <div class="secondary-actions">
+                                <a href="{% url 'core:products' %}" class="btn-secondary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                                        <path d="M16 10a4 4 0 0 1-8 0"></path>
+                                    </svg>
+                                    Shop
+                                </a>
+                                <a href="javascript:window.print()" class="btn-secondary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                                        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                                        <rect x="6" y="14" width="12" height="8"></rect>
+                                    </svg>
+                                    Print
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        <!-- Actions -->
-        <div class="actions">
-            <a href="{% url 'core:products' %}" class="btn-primary">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <path d="M16 10a4 4 0 0 1-8 0"></path>
-                </svg>
-                Continue Shopping
-            </a>
-            <a href="{% url 'core:index' %}" class="btn-secondary">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                </svg>
-                Back to Home
-            </a>
-        </div>
-        
-        <a href="javascript:window.print()" class="print-link">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 4px;">
-                <polyline points="6 9 6 2 18 2 18 9"></polyline>
-                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
-                <rect x="6" y="14" width="12" height="8"></rect>
-            </svg>
-            Print this page
-        </a>
     </div>
 </section>
 {% endblock %}

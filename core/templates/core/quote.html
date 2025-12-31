@@ -1,29 +1,91 @@
-{% extends 'core/base.html' %}
+﻿{% extends 'core/base.html' %}
 {% load static %}
 
-{% block title %}Request a Quote - PackAxis Packaging Canada{% endblock %}
+{% block title %}Request a Quote - Packaxis Packaging Canada{% endblock %}
 
 {% block extra_css %}
 <style>
+    /* Page Wrapper with Theme Background */
+    .quote-page {
+        padding-top: 0;
+        min-height: 100vh;
+        background: linear-gradient(180deg, #ffffff 0%, #fafaf2 100%);
+    }
+    
     .quote-hero {
-        background: linear-gradient(135deg, var(--primary-color) 0%, #1a5d38 100%);
-        padding: 8rem 0 4rem;
-        color: white;
+        background: linear-gradient(180deg, #292808 0%, #1f1e06 100%);
+        padding: 140px 0 80px;
         text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .quote-hero::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -30%;
+        width: 80%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(212, 255, 158, 0.06) 0%, transparent 50%);
+        pointer-events: none;
+    }
+    
+    .quote-hero::after {
+        content: '';
+        position: absolute;
+        bottom: -50%;
+        left: -20%;
+        width: 60%;
+        height: 150%;
+        background: radial-gradient(circle, rgba(212, 255, 158, 0.04) 0%, transparent 50%);
+        pointer-events: none;
+    }
+    
+    .quote-hero .container {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .breadcrumb {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.9rem;
+        color: rgba(255,255,255,0.6);
+        margin-bottom: 2rem;
+    }
+    
+    .breadcrumb a {
+        color: #d4ff9e;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+    
+    .breadcrumb a:hover {
+        color: #ffffff;
     }
 
     .quote-hero h1 {
-        font-size: 3rem;
-        font-weight: 900;
-        margin-bottom: 1rem;
+        font-size: 3.5rem;
+        font-weight: 800;
+        margin-bottom: 1.25rem;
         letter-spacing: -0.02em;
+        color: #ffffff;
+        line-height: 1.15;
+    }
+    
+    .quote-hero h1 span {
+        color: #d4ff9e;
     }
 
     .quote-hero p {
-        font-size: 1.25rem;
-        opacity: 0.95;
+        font-size: 1.2rem;
+        color: rgba(255,255,255,0.8);
         max-width: 600px;
         margin: 0 auto;
+        line-height: 1.7;
     }
 
     /* Alert Messages */
@@ -71,7 +133,7 @@
         width: 28px;
         height: 28px;
         background: #28a745;
-        color: white;
+        color: #292808;
         border-radius: 50%;
         font-weight: bold;
         font-size: 1.1rem;
@@ -86,7 +148,7 @@
         width: 28px;
         height: 28px;
         background: #dc3545;
-        color: white;
+        color: #292808;
         border-radius: 50%;
         font-weight: bold;
         font-size: 1.1rem;
@@ -94,17 +156,17 @@
     }
 
     .quote-section {
-        padding: 5rem 0;
-        background: #fafafa;
+        padding: 3rem 0 4rem;
+        background: transparent;
     }
 
     .quote-container {
         max-width: 800px;
         margin: 0 auto;
         background: white;
-        border-radius: 20px;
+        border-radius: 24px;
         padding: 3rem;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 8px 50px rgba(0, 0, 0, 0.08);
     }
 
     .quote-form-header {
@@ -156,7 +218,7 @@
         border: 2px solid #e5e7eb;
         border-radius: 12px;
         font-size: 1rem;
-        transition: all 0.3s ease;
+        transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         font-family: inherit;
     }
 
@@ -165,7 +227,8 @@
     .form-group-quote textarea:focus {
         outline: none;
         border-color: var(--primary-color);
-        box-shadow: 0 0 0 3px rgba(45, 122, 78, 0.1);
+        box-shadow: 0 0 0 5px rgba(212, 255, 158, 0.15);
+        transform: translateY(-2px);
     }
 
     .form-group-quote textarea {
@@ -184,22 +247,31 @@
 
     .submit-btn {
         width: 100%;
-        padding: 1.125rem 2rem;
-        background: linear-gradient(135deg, var(--primary-color) 0%, #1a5d38 100%);
-        color: white;
+        padding: 18px 2rem;
+        background: linear-gradient(135deg, #292808 0%, #1f1e06 100%);
+        color: #ffffff;
         border: none;
         border-radius: 50px;
-        font-size: 1.05rem;
-        font-weight: 600;
+        font-size: 1.1rem;
+        font-weight: 700;
         cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(45, 122, 78, 0.3);
-        margin-top: 1rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        margin-top: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
     }
 
     .submit-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(45, 122, 78, 0.4);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 40px rgba(41, 40, 8, 0.3);
+    }
+
+    .submit-btn:active {
+        transform: translateY(-1px);
+        transition-duration: 0.1s;
     }
 
     .info-cards {
@@ -216,16 +288,17 @@
     }
 
     .info-card-icon {
-        width: 60px;
-        height: 60px;
-        background: linear-gradient(135deg, var(--primary-color) 0%, #1a5d38 100%);
-        border-radius: 50%;
+        width: 64px;
+        height: 64px;
+        background: linear-gradient(135deg, #d4ff9e 0%, #c2f488 100%);
+        border-radius: 18px;
         display: flex;
         align-items: center;
         justify-content: center;
         margin: 0 auto 1rem;
-        color: white;
-        font-size: 1.5rem;
+        color: #292808;
+        font-size: 1.75rem;
+        box-shadow: 0 4px 20px rgba(212, 255, 158, 0.3);
     }
 
     .info-card h3 {
@@ -241,12 +314,23 @@
     }
 
     @media (max-width: 768px) {
+        .quote-hero {
+            padding: 120px 0 60px;
+        }
+        
         .quote-hero h1 {
             font-size: 2rem;
+        }
+        
+        .quote-hero p {
+            font-size: 1rem;
+            padding: 0 1rem;
         }
 
         .quote-container {
             padding: 2rem 1.5rem;
+            margin: 0 1rem;
+            border-radius: 20px;
         }
 
         .form-row {
@@ -262,9 +346,15 @@
 {% endblock %}
 
 {% block content %}
+<div class="quote-page">
 <section class="quote-hero">
     <div class="container">
-        <h1>Request a Quote</h1>
+        <nav class="breadcrumb">
+            <a href="{% url 'core:index' %}">Home</a>
+            <span>›</span>
+            <span>Request Quote</span>
+        </nav>
+        <h1>Request a <span>Quote</span></h1>
         <p>Fill out the form below and we'll get back to you with a competitive quote within 24 hours</p>
     </div>
 </section>
@@ -272,14 +362,6 @@
 <section class="quote-section">
     <div class="container">
         <div class="quote-container">
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-
             <div class="quote-form-header">
                 <h2>Get Your Custom Quote</h2>
                 <p>Tell us about your requirements and we'll provide a tailored solution</p>
@@ -364,4 +446,5 @@
         </div>
     </div>
 </section>
+</div><!-- End quote-page wrapper -->
 {% endblock %}

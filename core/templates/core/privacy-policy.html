@@ -1,39 +1,233 @@
-{% extends 'core/base.html' %}
+﻿{% extends 'core/base.html' %}
 {% load static %}
 
-{% block title %}Privacy Policy - PackAxis Packaging Canada{% endblock %}
+{% block title %}Privacy Policy - Packaxis Packaging Canada{% endblock %}
+
+{% block extra_css %}
+<style>
+    .policy-hero {
+        background: linear-gradient(180deg, #292808 0%, #1f1e06 100%);
+        padding: 140px 0 80px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .policy-hero::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -30%;
+        width: 80%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(212, 255, 158, 0.06) 0%, transparent 50%);
+        pointer-events: none;
+    }
+    
+    .policy-hero .container {
+        position: relative;
+        z-index: 2;
+        max-width: 900px;
+    }
+    
+    .breadcrumb {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.9rem;
+        color: rgba(255,255,255,0.6);
+        margin-bottom: 2rem;
+    }
+    
+    .breadcrumb a {
+        color: #d4ff9e;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+    
+    .breadcrumb a:hover {
+        color: #ffffff;
+    }
+    
+    .policy-hero h1 {
+        font-size: 3.5rem;
+        font-weight: 800;
+        color: #ffffff;
+        margin-bottom: 1rem;
+        line-height: 1.15;
+    }
+    
+    .policy-hero h1 span {
+        color: #d4ff9e;
+    }
+    
+    .policy-hero p {
+        font-size: 1.1rem;
+        color: rgba(255,255,255,0.7);
+    }
+    
+    .policy-content {
+        padding: 80px 0 100px;
+        background: linear-gradient(180deg, #ffffff 0%, #fafaf2 100%);
+    }
+    
+    .policy-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+    
+    .policy-card {
+        background: white;
+        padding: 48px;
+        border-radius: 24px;
+        box-shadow: 0 8px 50px rgba(0,0,0,0.08);
+        line-height: 1.8;
+    }
+    
+    .policy-card h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #292808;
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    
+    .policy-card h2:first-child {
+        margin-top: 0;
+    }
+    
+    .policy-card h2::before {
+        content: '';
+        width: 4px;
+        height: 24px;
+        background: #d4ff9e;
+        border-radius: 2px;
+    }
+    
+    .policy-card p {
+        color: #555;
+        font-size: 1.05rem;
+        margin-bottom: 1rem;
+    }
+    
+    .policy-card ul {
+        margin: 1rem 0;
+        padding-left: 0;
+        list-style: none;
+    }
+    
+    .policy-card ul li {
+        position: relative;
+        padding-left: 1.75rem;
+        margin-bottom: 0.75rem;
+        color: #555;
+        font-size: 1.05rem;
+    }
+    
+    .policy-card ul li::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0.5rem;
+        width: 8px;
+        height: 8px;
+        background: #d4ff9e;
+        border-radius: 50%;
+    }
+    
+    .contact-box {
+        background: linear-gradient(135deg, #292808 0%, #1f1e06 100%);
+        padding: 32px;
+        border-radius: 16px;
+        margin-top: 2rem;
+        color: white;
+    }
+    
+    .contact-box p {
+        color: rgba(255,255,255,0.9);
+        margin: 0;
+    }
+    
+    .contact-box strong {
+        color: #d4ff9e;
+    }
+    
+    .contact-box a {
+        color: #d4ff9e;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+    
+    .contact-box a:hover {
+        color: #ffffff;
+    }
+    
+    @media (max-width: 768px) {
+        .policy-hero {
+            padding: 120px 0 60px;
+        }
+        
+        .policy-hero h1 {
+            font-size: 2rem;
+        }
+        
+        .policy-card {
+            padding: 32px 24px;
+        }
+        
+        .policy-card h2 {
+            font-size: 1.25rem;
+        }
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-<section style="padding: 8rem 0 4rem; background: var(--bg-light);">
-    <div class="container" style="max-width: 900px;">
-        <h1 class="hero-title" style="margin-bottom: 2rem;">Privacy Policy</h1>
-        <p class="hero-subtitle">Last updated: November 23, 2025</p>
-        
-        <div style="background: white; padding: 3rem; border-radius: 16px; margin-top: 2rem; line-height: 1.8;">
-            <h2 style="margin-top: 2rem; margin-bottom: 1rem;">1. Information We Collect</h2>
+<section class="policy-hero">
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="{% url 'core:index' %}">Home</a>
+            <span>›</span>
+            <span>Privacy Policy</span>
+        </nav>
+        <h1>Privacy <span>Policy</span></h1>
+        <p>Last updated: November 23, 2025</p>
+    </div>
+</section>
+
+<section class="policy-content">
+    <div class="policy-container">
+        <div class="policy-card">
+            <h2>Information We Collect</h2>
             <p>We collect information you provide directly to us, including name, email address, phone number, company name, and any other information you choose to provide when you contact us or request a quote.</p>
 
-            <h2 style="margin-top: 2rem; margin-bottom: 1rem;">2. How We Use Your Information</h2>
+            <h2>How We Use Your Information</h2>
             <p>We use the information we collect to:</p>
-            <ul style="margin-left: 2rem; margin-top: 1rem;">
+            <ul>
                 <li>Respond to your inquiries and provide customer service</li>
                 <li>Process and fulfill your orders</li>
                 <li>Send you quotes and product information</li>
                 <li>Communicate with you about our products and services</li>
             </ul>
 
-            <h2 style="margin-top: 2rem; margin-bottom: 1rem;">3. Information Sharing</h2>
+            <h2>Information Sharing</h2>
             <p>We do not sell, trade, or otherwise transfer your personal information to outside parties except as necessary to fulfill your orders or as required by law.</p>
 
-            <h2 style="margin-top: 2rem; margin-bottom: 1rem;">4. Data Security</h2>
+            <h2>Data Security</h2>
             <p>We implement appropriate security measures to protect your personal information from unauthorized access, alteration, disclosure, or destruction.</p>
 
-            <h2 style="margin-top: 2rem; margin-bottom: 1rem;">5. Contact Us</h2>
-            <p>If you have questions about this Privacy Policy, please contact us at:</p>
-            <p style="margin-top: 1rem;">
-                <strong>Email:</strong> hello@packaxis.ca<br>
-                <strong>Phone:</strong> +1 (249) 989-2496
-            </p>
+            <h2>Contact Us</h2>
+            <p>If you have questions about this Privacy Policy, please contact us:</p>
+            
+            <div class="contact-box">
+                <p><strong>Email:</strong> <a href="mailto:hello@packaxis.ca">hello@packaxis.ca</a></p>
+                <p style="margin-top: 0.5rem;"><strong>Phone:</strong> <a href="tel:+12499892496">+1 (249) 989-2496</a></p>
+            </div>
         </div>
     </div>
 </section>

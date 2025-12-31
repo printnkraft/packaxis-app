@@ -1,13 +1,13 @@
-{% extends 'core/base.html' %}
+﻿{% extends 'core/base.html' %}
 
-{% block title %}Order History - PackAxis{% endblock %}
+{% block title %}Order History - Packaxis{% endblock %}
 
 {% block extra_css %}
 <style>
     .orders-page {
         padding: 6rem 0 5rem;
         min-height: 70vh;
-        background: #f8f9fa;
+        background: linear-gradient(135deg, #f5f5f0 0%, #fafaf2 100%);
     }
     
     .orders-container {
@@ -35,14 +35,14 @@
     .orders-header h1 svg {
         width: 28px;
         height: 28px;
-        color: var(--primary-color);
+        color: #292808;
     }
     
     .back-link {
         display: flex;
         align-items: center;
         gap: 0.5rem;
-        color: var(--primary-color);
+        color: #292808;
         text-decoration: none;
         font-weight: 500;
         font-size: 0.9375rem;
@@ -50,6 +50,7 @@
     
     .back-link:hover {
         text-decoration: underline;
+        color: #333;
     }
     
     .orders-list {
@@ -60,8 +61,8 @@
     
     .order-card {
         background: white;
-        border-radius: 12px;
-        border: 1px solid #e5e5e5;
+        border-radius: 16px;
+        box-shadow: 0 4px 30px rgba(0,0,0,0.06);
         overflow: hidden;
     }
     
@@ -71,7 +72,7 @@
         align-items: center;
         padding: 1.25rem;
         background: #f8f9fa;
-        border-bottom: 1px solid #eee;
+        border-bottom: 1px solid #f0f0f0;
     }
     
     .order-info h3 {
@@ -156,7 +157,7 @@
     
     .order-total span:last-child {
         font-size: 1.1rem;
-        color: var(--primary-color);
+        color: #292808;
     }
     
     .no-orders {
@@ -191,15 +192,250 @@
         gap: 0.5rem;
         padding: 0.875rem 1.75rem;
         background: var(--primary-color);
-        color: white;
-        border-radius: 10px;
+        color: #292808;
+        border-radius: 50px;
         font-weight: 600;
         text-decoration: none;
-        transition: all 0.2s ease;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
     
     .shop-btn:hover {
-        background: #1a5d38;
+        background: #292808;
+        color: #d4ff9e;
+        transform: translateY(-4px);
+        box-shadow: 0 12px 35px rgba(47, 46, 12, 0.25);
+    }
+    
+    .shop-btn:active {
+        transform: translateY(-1px);
+        transition-duration: 0.1s;
+    }
+    
+    /* Order Tracking Progress */
+    .order-tracking {
+        padding: 1.25rem;
+        background: #f8f9fa;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .tracking-steps {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        margin: 0 1rem;
+    }
+    
+    .tracking-steps::before {
+        content: '';
+        position: absolute;
+        top: 14px;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: #e5e5e5;
+        z-index: 1;
+    }
+    
+    .tracking-step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .step-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #e5e5e5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+    
+    .step-icon svg {
+        width: 16px;
+        height: 16px;
+        stroke: #999;
+    }
+    
+    .tracking-step.completed .step-icon {
+        background: #292808;
+    }
+    
+    .tracking-step.completed .step-icon svg {
+        stroke: #d4ff9e;
+    }
+    
+    .tracking-step.active .step-icon {
+        background: #d4ff9e;
+        box-shadow: 0 0 0 4px rgba(212, 255, 158, 0.3);
+    }
+    
+    .tracking-step.active .step-icon svg {
+        stroke: #292808;
+    }
+    
+    .step-label {
+        font-size: 0.6875rem;
+        color: #999;
+        text-align: center;
+        max-width: 60px;
+    }
+    
+    .tracking-step.completed .step-label,
+    .tracking-step.active .step-label {
+        color: #292808;
+        font-weight: 600;
+    }
+    
+    @media (max-width: 480px) {
+        .step-label {
+            font-size: 0.625rem;
+            max-width: 50px;
+        }
+        
+        .step-icon {
+            width: 28px;
+            height: 28px;
+        }
+        
+        .step-icon svg {
+            width: 14px;
+            height: 14px;
+        }
+    }
+    
+    /* Order Actions */
+    .order-actions {
+        display: flex;
+        gap: 0.75rem;
+        padding: 1rem 1.25rem;
+        background: #fafafa;
+        border-top: 1px solid #eee;
+    }
+    
+    .order-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.625rem 1.25rem;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border: none;
+    }
+    
+    .order-btn svg {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .order-btn-primary {
+        background: #292808;
+        color: #d4ff9e;
+    }
+    
+    .order-btn-primary:hover {
+        background: #1a1a06;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(41, 40, 8, 0.3);
+    }
+    
+    .order-btn-secondary {
+        background: white;
+        color: #333;
+        border: 1px solid #ddd;
+    }
+    
+    .order-btn-secondary:hover {
+        background: #f5f5f5;
+        border-color: #ccc;
+    }
+    
+    /* Order Details Expandable */
+    .order-details {
+        display: none;
+        padding: 1.25rem;
+        background: #f8f9fa;
+        border-top: 1px solid #eee;
+    }
+    
+    .order-details.show {
+        display: block;
+    }
+    
+    .order-details-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .detail-group h4 {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #666;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+    }
+    
+    .detail-group p {
+        font-size: 0.875rem;
+        color: #333;
+        line-height: 1.5;
+    }
+    
+    .detail-group p strong {
+        color: #1F1F1F;
+    }
+    
+    /* Toggle Details Button */
+    .toggle-details {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        font-size: 0.8125rem;
+        color: #666;
+        background: none;
+        border: none;
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+    
+    .toggle-details:hover {
+        color: #292808;
+    }
+    
+    .toggle-details svg {
+        width: 16px;
+        height: 16px;
+        transition: transform 0.3s ease;
+    }
+    
+    .toggle-details.open svg {
+        transform: rotate(180deg);
+    }
+    
+    @media (max-width: 640px) {
+        .order-actions {
+            flex-direction: column;
+        }
+        
+        .order-btn {
+            justify-content: center;
+        }
+        
+        .order-details-grid {
+            grid-template-columns: 1fr;
+        }
     }
 </style>
 {% endblock %}
@@ -236,15 +472,54 @@
                     </div>
                     <span class="order-status {{ order.status|lower }}">{{ order.get_status_display }}</span>
                 </div>
+                
+                <!-- Order Tracking Progress -->
+                {% if order.status != 'cancelled' and order.status != 'refunded' %}
+                <div class="order-tracking">
+                    <div class="tracking-steps">
+                        {% for step in order.tracking_steps_data %}
+                        <div class="tracking-step {% if step.completed %}completed{% endif %} {% if step.active %}active{% endif %}">
+                            <div class="step-icon">
+                                {% if step.step == 1 %}
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 11l3 3L22 4"></path>
+                                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                                </svg>
+                                {% elif step.step == 2 %}
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                                </svg>
+                                {% elif step.step == 3 %}
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="1" y="3" width="15" height="13" rx="2" ry="2"></rect>
+                                    <path d="M16 8h2a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-8"></path>
+                                    <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                                    <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                                </svg>
+                                {% else %}
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                </svg>
+                                {% endif %}
+                            </div>
+                            <span class="step-label">{{ step.label }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                
                 <div class="order-body">
                     <div class="order-items">
                         {% for item in order.items.all %}
                         <div class="order-item">
                             <div>
-                                <span class="order-item-name">{{ item.product_name }}</span>
+                                <span class="order-item-name">{{ item.product_title }}</span>
                                 <span class="order-item-qty">× {{ item.quantity }}</span>
                             </div>
-                            <span class="order-item-price">${{ item.line_total }}</span>
+                            <span class="order-item-price">${{ item.total_price }}</span>
                         </div>
                         {% endfor %}
                     </div>
@@ -252,6 +527,70 @@
                         <span>Total</span>
                         <span>${{ order.total }}</span>
                     </div>
+                </div>
+                
+                <!-- Order Details (Expandable) -->
+                <div class="order-details" id="details-{{ order.order_number }}">
+                    <div class="order-details-grid">
+                        <div class="detail-group">
+                            <h4>Shipping Address</h4>
+                            <p>
+                                {{ order.first_name }} {{ order.last_name }}<br>
+                                {{ order.shipping_address_1 }}<br>
+                                {% if order.shipping_address_2 %}{{ order.shipping_address_2 }}<br>{% endif %}
+                                {{ order.shipping_city }}, {{ order.shipping_state }} {{ order.shipping_postal_code }}<br>
+                                {{ order.shipping_country }}
+                            </p>
+                        </div>
+                        <div class="detail-group">
+                            <h4>Order Breakdown</h4>
+                            <p>
+                                Subtotal: <strong>${{ order.subtotal }}</strong><br>
+                                Shipping: <strong>{% if order.shipping_cost == 0 %}Free{% else %}${{ order.shipping_cost }}{% endif %}</strong><br>
+                                Tax: <strong>${{ order.tax }}</strong><br>
+                                {% if order.discount > 0 %}Discount: <strong>-${{ order.discount }}</strong><br>{% endif %}
+                                <strong>Total: ${{ order.total }}</strong>
+                            </p>
+                        </div>
+                        <div class="detail-group">
+                            <h4>Delivery Info</h4>
+                            <p>
+                                {% if order.shipping_method %}Method: <strong>{{ order.shipping_method }}</strong><br>{% endif %}
+                                {% if order.shipping_eta %}ETA: <strong>{{ order.shipping_eta }}</strong><br>{% endif %}
+                                {% if order.tracking_number %}
+                                Tracking: <strong><a href="{{ order.tracking_url }}" target="_blank" style="color: #292808;">{{ order.tracking_number }}</a></strong>
+                                {% else %}
+                                Tracking: <em>Not available yet</em>
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="detail-group">
+                            <h4>Payment</h4>
+                            <p>
+                                Status: <strong>{{ order.get_payment_status_display }}</strong><br>
+                                {% if order.payment_method %}Method: <strong>{{ order.payment_method }}</strong>{% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Order Actions -->
+                <div class="order-actions">
+                    <a href="{% url 'core:download_invoice' order.order_number %}" class="order-btn order-btn-primary" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                        </svg>
+                        Download Invoice
+                    </a>
+                    <button type="button" class="order-btn order-btn-secondary toggle-details" onclick="toggleDetails('{{ order.order_number }}', this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                        View Details
+                    </button>
                 </div>
             </div>
             {% endfor %}
@@ -277,4 +616,21 @@
         {% endif %}
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function toggleDetails(orderNumber, btn) {
+    const details = document.getElementById('details-' + orderNumber);
+    const isOpen = details.classList.contains('show');
+    
+    // Toggle visibility
+    details.classList.toggle('show');
+    btn.classList.toggle('open');
+    
+    // Update button text
+    const textNode = btn.childNodes[btn.childNodes.length - 1];
+    textNode.textContent = isOpen ? ' View Details' : ' Hide Details';
+}
+</script>
 {% endblock %}

@@ -1,36 +1,40 @@
-{% extends "core/base.html" %}
+﻿{% extends "core/base.html" %}
 {% load static %}
 
-{% block title %}Our Products - Custom Paper Bags & Eco-Friendly Packaging | PackAxis{% endblock %}
+{% block title %}Our Products - Custom Paper Bags & Eco-Friendly Packaging | Packaxis{% endblock %}
 
 {% block content %}
     <!-- Products Hero -->
-    <section class="products-hero" style="background: linear-gradient(135deg, #2D7A4E 0%, #1a4d2e 100%); position: relative; overflow: hidden;">
-        <div style="position: absolute; top: -50%; right: -20%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); border-radius: 50%;"></div>
-        <div style="position: absolute; bottom: -30%; left: -15%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(212,175,55,0.15) 0%, transparent 70%); border-radius: 50%;"></div>
+    <section class="products-hero" style="background: linear-gradient(180deg, #292808 0%, #1f1e06 100%); position: relative; overflow: hidden;">
+        <div style="position: absolute; top: -50%; right: -30%; width: 80%; height: 200%; background: radial-gradient(circle, rgba(212, 255, 158, 0.06) 0%, transparent 50%); pointer-events: none;"></div>
+        <div style="position: absolute; bottom: -50%; left: -20%; width: 60%; height: 150%; background: radial-gradient(circle, rgba(212, 255, 158, 0.04) 0%, transparent 50%); pointer-events: none;"></div>
         <div class="container" style="position: relative; z-index: 2;">
-            <div class="section-header" style="padding-top: 120px; padding-bottom: 60px;">
-                <span class="section-tag" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3);">Our Products</span>
-                <h1 class="section-title" style="color: white; text-shadow: 0 2px 20px rgba(0,0,0,0.2);">Sustainable Paper Bags for Every Need</h1>
-                <p class="section-description" style="color: rgba(255,255,255,0.95); max-width: 750px; margin: 0 auto;">From wholesale kraft paper bags to custom branded shopping bags, our recyclable packaging solutions help Canadian businesses make an eco-friendly statement.</p>
+            <div class="section-header" style="padding-top: 140px; padding-bottom: 80px; text-align: center;">
+                <nav style="display: flex; gap: 0.5rem; justify-content: center; align-items: center; font-size: 0.9rem; color: rgba(255,255,255,0.6); margin-bottom: 2rem;">
+                    <a href="{% url 'core:index' %}" style="color: #d4ff9e; text-decoration: none; transition: color 0.2s;">Home</a>
+                    <span>›</span>
+                    <span>Products</span>
+                </nav>
+                <h1 class="section-title" style="color: #ffffff; font-size: 3.5rem; font-weight: 800; line-height: 1.15; margin-bottom: 1.25rem;">Sustainable Paper Bags for <span style="color: #d4ff9e;">Every Need</span></h1>
+                <p class="section-description" style="color: rgba(255,255,255,0.8); max-width: 750px; margin: 0 auto; font-size: 1.2rem; line-height: 1.7;">From wholesale kraft paper bags to custom branded shopping bags, our recyclable packaging solutions help Canadian businesses make an eco-friendly statement.</p>
             </div>
         </div>
     </section>
 
     <!-- Products Grid Section -->
-    <section id="products" class="products-grid-section" style="padding: 4rem 0; background: #fafafa;">
+    <section id="products" class="products-grid-section" style="padding: 5rem 0; background: linear-gradient(180deg, #ffffff 0%, #fafaf2 100%);">
         <div class="container">
             <!-- Category Filter -->
             <div class="products-filter" style="margin-bottom: 2rem; display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center;">
                 <a href="{% url 'core:products' %}" 
                    class="filter-btn {% if not selected_category %}active{% endif %}"
-                   style="padding: 0.625rem 1.25rem; border-radius: 50px; font-size: 0.875rem; font-weight: 600; text-decoration: none; transition: all 0.2s; {% if not selected_category %}background: var(--primary-color); color: white;{% else %}background: white; color: var(--text-dark); border: 1px solid #e0e0e0;{% endif %}">
+                   style="padding: 0.625rem 1.25rem; border-radius: 50px; font-size: 0.875rem; font-weight: 600; text-decoration: none; transition: all 0.2s; {% if not selected_category %}background: #292808; color: #d4ff9e;{% else %}background: white; color: #292808; box-shadow: 0 2px 12px rgba(0,0,0,0.06);{% endif %}">
                     All Products
                 </a>
                 {% for category in categories %}
                 <a href="{% url 'core:products' %}?category={{ category.slug }}" 
                    class="filter-btn {% if selected_category == category.slug %}active{% endif %}"
-                   style="padding: 0.625rem 1.25rem; border-radius: 50px; font-size: 0.875rem; font-weight: 600; text-decoration: none; transition: all 0.2s; {% if selected_category == category.slug %}background: var(--primary-color); color: white;{% else %}background: white; color: var(--text-dark); border: 1px solid #e0e0e0;{% endif %}">
+                   style="padding: 0.625rem 1.25rem; border-radius: 50px; font-size: 0.875rem; font-weight: 600; text-decoration: none; transition: all 0.2s; {% if selected_category == category.slug %}background: #292808; color: #d4ff9e;{% else %}background: white; color: #292808; box-shadow: 0 2px 12px rgba(0,0,0,0.06);{% endif %}">
                     {{ category.title }}
                 </a>
                 {% endfor %}
@@ -44,14 +48,14 @@
             <!-- Products Grid -->
             <div class="products-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;">
                 {% for product in products %}
-                <div class="product-card" style="background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: all 0.3s ease; position: relative;">
+                <div class="product-card" style="background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.06); transition: all 0.3s ease; position: relative;">
                     {% if product.is_featured %}
-                    <div class="product-badge">Featured</div>
+                    <div class="product-badge" style="background: #292808; color: #d4ff9e;">Featured</div>
                     {% endif %}
                     {% if not product.is_in_stock %}
                     <div class="product-badge sold-out">Sold Out</div>
                     {% endif %}
-                    <a href="{% url 'core:product_detail' product.slug %}" class="product-image-link" style="display: block; position: relative; height: 220px; overflow: hidden; background: #f5f5f5;">
+                    <a href="{% url 'core:product_detail' product.category.slug product.slug %}" class="product-image-link" style="display: block; position: relative; height: 220px; overflow: hidden; background: #f8f8f8;">
                         {% if product.image %}
                         <img src="{{ product.image.url }}" alt="{{ product.title }}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;">
                         {% else %}
@@ -62,10 +66,10 @@
                     </a>
                     <div class="product-content" style="padding: 1.25rem;">
                         {% if product.category %}
-                        <span style="font-size: 0.75rem; color: var(--primary-color); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">{{ product.category.title }}</span>
+                        <span style="font-size: 0.75rem; color: #292808; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; background: rgba(212, 255, 158, 0.3); padding: 0.25rem 0.625rem; border-radius: 50px; display: inline-block;">{{ product.category.title }}</span>
                         {% endif %}
-                        <a href="{% url 'core:product_detail' product.slug %}" style="text-decoration: none;">
-                            <h3 style="font-size: 1.125rem; font-weight: 700; color: #1F1F1F; margin: 0.5rem 0; line-height: 1.3;">{{ product.title }}</h3>
+                        <a href="{% url 'core:product_detail' product.category.slug product.slug %}" style="text-decoration: none;">
+                            <h3 style="font-size: 1.125rem; font-weight: 700; color: #1F1F1F; margin: 0.75rem 0 0.5rem; line-height: 1.3;">{{ product.title }}</h3>
                         </a>
                         <p style="color: #666; font-size: 0.875rem; line-height: 1.5; margin-bottom: 1rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">{{ product.short_description|truncatewords:12 }}</p>
                         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
@@ -73,7 +77,7 @@
                                 {% if product.compare_at_price %}
                                 <span style="text-decoration: line-through; color: #999; font-size: 0.875rem; margin-right: 0.5rem;">${{ product.compare_at_price }}</span>
                                 {% endif %}
-                                <span style="font-size: 1.25rem; font-weight: 700; color: var(--primary-color);">${{ product.price }}</span>
+                                <span style="font-size: 1.25rem; font-weight: 700; color: #292808;">${{ product.price }}</span>
                             </div>
                         </div>
                         {% if product.is_in_stock and product.price %}
@@ -86,7 +90,7 @@
                             Sold Out
                         </button>
                         {% else %}
-                        <a href="{% url 'core:product_detail' product.slug %}" class="quick-add-btn view-btn">
+                        <a href="{% url 'core:product_detail' product.category.slug product.slug %}" class="quick-add-btn view-btn">
                             View Details
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                         </a>
@@ -104,48 +108,14 @@
         </div>
     </section>
 
-    <!-- Why Choose Section -->
-    <section class="about" style="background: white; padding: 4rem 0;">
-        <div class="container">
-            <div class="about-content" style="gap: 4rem;">
-                <div class="about-text">
-                    <span class="section-tag">Why Choose PackAxis</span>
-                    <h2 class="section-title" style="font-size: 2.25rem;">Quality & Sustainability Combined</h2>
-                    <p style="font-size: 1.05rem; line-height: 1.7; margin-bottom: 2rem;">Our paper bags are crafted with precision and care, using eco-friendly materials that don't compromise on quality. Each product is designed to meet the highest standards of durability and style.</p>
-                    <div class="about-features" style="gap: 1rem;">
-                        <div class="about-feature" style="background: rgba(45, 122, 78, 0.05); padding: 1rem; border-radius: 12px; transition: all 0.3s ease;">
-                            <div class="check-icon" style="background: linear-gradient(135deg, #2D7A4E 0%, #1a4d2e 100%); color: white; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 0.85rem; font-weight: 700;">✓</div>
-                            <span style="font-weight: 600; color: #1F1F1F;">100% Eco-Friendly Materials</span>
-                        </div>
-                        <div class="about-feature" style="background: rgba(45, 122, 78, 0.05); padding: 1rem; border-radius: 12px; transition: all 0.3s ease;">
-                            <div class="check-icon" style="background: linear-gradient(135deg, #2D7A4E 0%, #1a4d2e 100%); color: white; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 0.85rem; font-weight: 700;">✓</div>
-                            <span style="font-weight: 600; color: #1F1F1F;">Custom Branding Options</span>
-                        </div>
-                        <div class="about-feature" style="background: rgba(45, 122, 78, 0.05); padding: 1rem; border-radius: 12px; transition: all 0.3s ease;">
-                            <div class="check-icon" style="background: linear-gradient(135deg, #2D7A4E 0%, #1a4d2e 100%); color: white; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 0.85rem; font-weight: 700;">✓</div>
-                            <span style="font-weight: 600; color: #1F1F1F;">Bulk Order Discounts</span>
-                        </div>
-                        <div class="about-feature" style="background: rgba(45, 122, 78, 0.05); padding: 1rem; border-radius: 12px; transition: all 0.3s ease;">
-                            <div class="check-icon" style="background: linear-gradient(135deg, #2D7A4E 0%, #1a4d2e 100%); color: white; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 0.85rem; font-weight: 700;">✓</div>
-                            <span style="font-weight: 600; color: #1F1F1F;">Reliable Canada-Wide Distribution</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="quality-image" style="border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.15);">
-                    <img src="{% static 'images/assests/Paper Bag Restaurant.png' %}" alt="High-quality kraft paper bags" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- CTA Section -->
-    <section class="cta-section" style="background: linear-gradient(135deg, #2D7A4E 0%, #1a4d2e 100%); padding: 5rem 0; position: relative; overflow: hidden;">
-        <div style="position: absolute; top: -50%; right: -10%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(212,175,55,0.2) 0%, transparent 70%); border-radius: 50%;"></div>
-        <div style="position: absolute; bottom: -40%; left: -10%; width: 450px; height: 450px; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); border-radius: 50%;"></div>
+    <section class="cta-section" style="background: #292808; padding: 5rem 0; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: -50%; right: -10%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(212, 255, 158, 0.15) 0%, transparent 70%); border-radius: 50%;"></div>
+        <div style="position: absolute; bottom: -40%; left: -10%; width: 450px; height: 450px; background: radial-gradient(circle, rgba(212, 255, 158, 0.1) 0%, transparent 70%); border-radius: 50%;"></div>
         <div class="cta-content" style="position: relative; z-index: 2;">
-            <h2 style="font-size: 2.75rem; color: white; text-shadow: 0 2px 20px rgba(0,0,0,0.2);">Ready to Order?</h2>
-            <p style="font-size: 1.2rem; opacity: 0.95;">Get competitive pricing on bulk orders. Contact our team today for a custom quote.</p>
-            <a href="{% url 'core:quote_request' %}" class="btn-cta" style="background: white; color: #2D7A4E; padding: 1.1rem 2.75rem; border-radius: 50px; font-weight: 700; font-size: 1.1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.75rem; transition: all 0.3s ease; box-shadow: 0 8px 30px rgba(0,0,0,0.25);">
+            <h2 style="font-size: 2.75rem; color: #ffffff;">Ready to Order?</h2>
+            <p style="font-size: 1.2rem; color: rgba(255, 255, 255, 0.8);">Get competitive pricing on bulk orders. Contact our team today for a custom quote.</p>
+            <a href="{% url 'core:quote_request' %}" class="btn-cta" style="background: #d4ff9e; color: #292808; padding: 1.1rem 2.75rem; border-radius: 50px; font-weight: 700; font-size: 1.1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.75rem; transition: all 0.3s ease;">
                 Get Your Custom Quote
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                     <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -157,14 +127,14 @@
     
     <style>
     .filter-btn:hover {
-        background: var(--primary-color) !important;
-        color: white !important;
-        border-color: var(--primary-color) !important;
+        background: #292808 !important;
+        color: #d4ff9e !important;
+        border-color: #292808 !important;
     }
     
     .product-card:hover {
         transform: translateY(-4px);
-        box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+        box-shadow: 0 16px 40px rgba(47, 46, 12, 0.12);
     }
     
     .product-card:hover img {
@@ -175,12 +145,31 @@
         cursor: pointer;
     }
     
+    /* Product Badge */
+    .product-badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background: #292808;
+        color: #d4ff9e;
+        font-size: 0.75rem;
+        font-weight: 600;
+        padding: 0.375rem 0.75rem;
+        border-radius: 50px;
+        z-index: 5;
+    }
+    
+    .product-badge.sold-out {
+        background: #666;
+        color: white;
+    }
+    
     /* Quick Add Button */
     .quick-add-btn {
         width: 100%;
         padding: 0.75rem 1rem;
-        background: var(--primary-color);
-        color: white;
+        background: #d4ff9e;
+        color: #292808;
         border: none;
         border-radius: 50px;
         font-size: 0.875rem;
@@ -190,48 +179,60 @@
         align-items: center;
         justify-content: center;
         gap: 0.5rem;
-        transition: all 0.2s ease;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         text-decoration: none;
     }
     
     .quick-add-btn:hover {
-        background: var(--secondary-color);
+        background: #292808;
+        color: #d4ff9e;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(47, 46, 12, 0.2);
+    }
+    
+    .quick-add-btn:active {
         transform: translateY(-1px);
+        transition-duration: 0.1s;
     }
     
     .quick-add-btn.sold-out {
         background: #999;
+        color: white;
         cursor: not-allowed;
     }
     
     .quick-add-btn.view-btn {
         background: transparent;
-        color: var(--primary-color);
-        border: 2px solid var(--primary-color);
+        color: #292808;
+        border: 2px solid #292808;
     }
     
     .quick-add-btn.view-btn:hover {
-        background: var(--primary-color);
-        color: white;
+        background: #292808;
+        color: #d4ff9e;
     }
     
     .quick-add-btn.adding {
         background: #666;
+        color: white;
         pointer-events: none;
     }
     
     .quick-add-btn.added {
-        background: #28a745;
+        background: #292808;
+        color: #d4ff9e;
     }
     
     .about-feature:hover {
-        background: rgba(45, 122, 78, 0.1) !important;
+        background: rgba(212, 255, 158, 0.25) !important;
         transform: translateX(8px);
     }
     
     .btn-cta:hover {
+        background: white !important;
+        color: #292808 !important;
         transform: translateY(-3px);
-        box-shadow: 0 15px 45px rgba(0,0,0,0.4) !important;
+        box-shadow: 0 15px 45px rgba(212, 255, 158, 0.4) !important;
     }
     
     /* Toast notification */
@@ -242,23 +243,24 @@
         background: white;
         padding: 1rem 1.25rem;
         border-radius: 12px;
-        box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        box-shadow: 0 8px 30px rgba(47, 46, 12, 0.15);
         display: flex;
         align-items: center;
         gap: 0.75rem;
         z-index: 9999;
-        transform: translateY(100px);
+        transform: translateY(100px) scale(0.9);
         opacity: 0;
-        transition: all 0.3s ease;
+        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        border: 1px solid rgba(47, 46, 12, 0.06);
     }
     
     .toast-notification.show {
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
         opacity: 1;
     }
     
     .toast-notification.success svg {
-        color: #28a745;
+        color: #292808;
     }
     
     .toast-notification span {
@@ -270,17 +272,19 @@
     .toast-action {
         margin-left: 0.5rem;
         padding: 0.375rem 0.75rem;
-        background: var(--primary-color);
-        color: white !important;
+        background: #292808;
+        color: #d4ff9e !important;
         text-decoration: none;
         border-radius: 50px;
         font-size: 0.8125rem;
         font-weight: 600;
-        transition: background 0.2s;
+        transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
     
     .toast-action:hover {
-        background: var(--secondary-color);
+        background: #d4ff9e;
+        color: #292808 !important;
+        transform: translateY(-2px);
     }
     
     @media (max-width: 600px) {
@@ -290,6 +294,8 @@
             bottom: 10px;
         }
     }
+    
+    /* Tablet (768px) */
     @media (max-width: 768px) {
         .products-filter {
             padding: 0 1rem;
@@ -298,6 +304,134 @@
         .products-grid {
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)) !important;
             gap: 1rem !important;
+        }
+        
+        .section-header h1 {
+            font-size: 2.25rem !important;
+        }
+        
+        .section-header p {
+            font-size: 1rem !important;
+        }
+        
+        .cta-content h2 {
+            font-size: 2rem;
+        }
+        
+        .cta-content p {
+            font-size: 1rem;
+        }
+    }
+    
+    /* Mobile (480px) */
+    @media (max-width: 480px) {
+        .products-hero .section-header {
+            padding-top: 110px !important;
+            padding-bottom: 50px !important;
+        }
+        
+        .section-header h1 {
+            font-size: 1.75rem !important;
+            line-height: 1.25 !important;
+        }
+        
+        .section-header p {
+            font-size: 0.9375rem !important;
+        }
+        
+        .products-filter {
+            gap: 0.5rem !important;
+            padding: 0 0.75rem;
+        }
+        
+        .filter-btn {
+            padding: 0.5rem 1rem !important;
+            font-size: 0.8125rem !important;
+        }
+        
+        .products-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 0.75rem !important;
+        }
+        
+        .product-card {
+            border-radius: 16px !important;
+        }
+        
+        .product-image-link {
+            height: 160px !important;
+        }
+        
+        .product-content {
+            padding: 1rem !important;
+        }
+        
+        .product-content h3 {
+            font-size: 0.9375rem !important;
+        }
+        
+        .product-content p {
+            font-size: 0.8125rem !important;
+            margin-bottom: 0.75rem !important;
+        }
+        
+        .product-price span:last-child {
+            font-size: 1.0625rem !important;
+        }
+        
+        .quick-add-btn {
+            padding: 0.625rem 0.875rem !important;
+            font-size: 0.8125rem !important;
+        }
+        
+        .cta-section {
+            padding: 3rem 0 !important;
+        }
+        
+        .cta-content h2 {
+            font-size: 1.5rem !important;
+        }
+        
+        .cta-content p {
+            font-size: 0.9375rem !important;
+        }
+        
+        .btn-cta {
+            padding: 0.875rem 1.75rem !important;
+            font-size: 0.9375rem !important;
+        }
+    }
+    
+    /* Small Mobile (375px) */
+    @media (max-width: 375px) {
+        .products-hero .section-header {
+            padding-top: 100px !important;
+            padding-bottom: 40px !important;
+        }
+        
+        .section-header h1 {
+            font-size: 1.5rem !important;
+        }
+        
+        .products-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+        }
+        
+        .product-image-link {
+            height: 140px !important;
+        }
+        
+        .product-content {
+            padding: 0.875rem !important;
+        }
+        
+        .product-content h3 {
+            font-size: 0.875rem !important;
+        }
+        
+        .quick-add-btn {
+            padding: 0.5rem 0.75rem !important;
+            font-size: 0.75rem !important;
         }
     }
     </style>

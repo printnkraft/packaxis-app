@@ -19,9 +19,13 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from core.sitemaps import sitemap_view, robots_txt_view
+from core.views import custom_404_view, custom_403_view, custom_500_view
 
 urlpatterns = [
+    # Admin path - use only one obscure path for security
+    # Remove /admin/ to prevent easy discovery by attackers
     path('superusers/', admin.site.urls),
+    # path('admin/', admin.site.urls),  # DISABLED for security
     path('', include('core.urls')),
     path('blog/', include('blog.urls')),
     path('accounts/', include('accounts.urls')),
@@ -33,3 +37,8 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+# Custom error handlers - these are used when DEBUG=False
+handler404 = custom_404_view
+handler403 = custom_403_view
+handler500 = custom_500_view

@@ -1,42 +1,211 @@
-{% extends 'core/base.html' %}
+﻿{% extends 'core/base.html' %}
 {% load static %}
 
-{% block title %}Terms of Service - PackAxis Packaging Canada{% endblock %}
+{% block title %}Terms of Service - Packaxis Packaging Canada{% endblock %}
+
+{% block extra_css %}
+<style>
+    .policy-hero {
+        background: linear-gradient(180deg, #292808 0%, #1f1e06 100%);
+        padding: 140px 0 80px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .policy-hero::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -30%;
+        width: 80%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(212, 255, 158, 0.06) 0%, transparent 50%);
+        pointer-events: none;
+    }
+    
+    .policy-hero .container {
+        position: relative;
+        z-index: 2;
+        max-width: 900px;
+    }
+    
+    .breadcrumb {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.9rem;
+        color: rgba(255,255,255,0.6);
+        margin-bottom: 2rem;
+    }
+    
+    .breadcrumb a {
+        color: #d4ff9e;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+    
+    .breadcrumb a:hover {
+        color: #ffffff;
+    }
+    
+    .policy-hero h1 {
+        font-size: 3.5rem;
+        font-weight: 800;
+        color: #ffffff;
+        margin-bottom: 1rem;
+        line-height: 1.15;
+    }
+    
+    .policy-hero h1 span {
+        color: #d4ff9e;
+    }
+    
+    .policy-hero p {
+        font-size: 1.1rem;
+        color: rgba(255,255,255,0.7);
+    }
+    
+    .policy-content {
+        padding: 80px 0 100px;
+        background: linear-gradient(180deg, #ffffff 0%, #fafaf2 100%);
+    }
+    
+    .policy-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+    
+    .policy-card {
+        background: white;
+        padding: 48px;
+        border-radius: 24px;
+        box-shadow: 0 8px 50px rgba(0,0,0,0.08);
+        line-height: 1.8;
+    }
+    
+    .policy-card h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #292808;
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    
+    .policy-card h2:first-child {
+        margin-top: 0;
+    }
+    
+    .policy-card h2::before {
+        content: '';
+        width: 4px;
+        height: 24px;
+        background: #d4ff9e;
+        border-radius: 2px;
+    }
+    
+    .policy-card p {
+        color: #555;
+        font-size: 1.05rem;
+        margin-bottom: 1rem;
+    }
+    
+    .contact-box {
+        background: linear-gradient(135deg, #292808 0%, #1f1e06 100%);
+        padding: 32px;
+        border-radius: 16px;
+        margin-top: 2rem;
+        color: white;
+    }
+    
+    .contact-box p {
+        color: rgba(255,255,255,0.9);
+        margin: 0;
+    }
+    
+    .contact-box strong {
+        color: #d4ff9e;
+    }
+    
+    .contact-box a {
+        color: #d4ff9e;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+    
+    .contact-box a:hover {
+        color: #ffffff;
+    }
+    
+    @media (max-width: 768px) {
+        .policy-hero {
+            padding: 120px 0 60px;
+        }
+        
+        .policy-hero h1 {
+            font-size: 2rem;
+        }
+        
+        .policy-card {
+            padding: 32px 24px;
+        }
+        
+        .policy-card h2 {
+            font-size: 1.25rem;
+        }
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-<section style="padding: 8rem 0 4rem; background: var(--bg-light);">
-    <div class="container" style="max-width: 900px;">
-        <h1 class="hero-title" style="margin-bottom: 2rem;">Terms of Service</h1>
-        <p class="hero-subtitle">Last updated: November 23, 2025</p>
-        
-        <div style="background: white; padding: 3rem; border-radius: 16px; margin-top: 2rem; line-height: 1.8;">
-            <h2 style="margin-top: 2rem; margin-bottom: 1rem;">1. Agreement to Terms</h2>
-            <p>By accessing or using PackAxis Packaging Canada's services, you agree to be bound by these Terms of Service. If you disagree with any part of these terms, you may not access our services.</p>
+<section class="policy-hero">
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="{% url 'core:index' %}">Home</a>
+            <span>›</span>
+            <span>Terms of Service</span>
+        </nav>
+        <h1>Terms of <span>Service</span></h1>
+        <p>Last updated: November 23, 2025</p>
+    </div>
+</section>
 
-            <h2 style="margin-top: 2rem; margin-bottom: 1rem;">2. Products and Services</h2>
+<section class="policy-content">
+    <div class="policy-container">
+        <div class="policy-card">
+            <h2>Agreement to Terms</h2>
+            <p>By accessing or using Packaxis Packaging Canada's services, you agree to be bound by these Terms of Service. If you disagree with any part of these terms, you may not access our services.</p>
+
+            <h2>Products and Services</h2>
             <p>We offer wholesale paper packaging products including paper bags, kraft bags, custom branded packaging, and paper straws. All product specifications are subject to industry standards and may vary slightly.</p>
 
-            <h2 style="margin-top: 2rem; margin-bottom: 1rem;">3. Orders and Pricing</h2>
+            <h2>Orders and Pricing</h2>
             <p>All orders are subject to acceptance and availability. Prices are quoted in Canadian dollars and are subject to change without notice. Minimum order quantities may apply.</p>
 
-            <h2 style="margin-top: 2rem; margin-bottom: 1rem;">4. Payment Terms</h2>
+            <h2>Payment Terms</h2>
             <p>Payment terms will be agreed upon at the time of order. We accept various payment methods including bank transfer and credit card payments.</p>
 
-            <h2 style="margin-top: 2rem; margin-bottom: 1rem;">5. Delivery and Shipping</h2>
+            <h2>Delivery and Shipping</h2>
             <p>Delivery times are estimates and may vary based on order size and destination. Risk of loss passes to the buyer upon delivery to the carrier.</p>
 
-            <h2 style="margin-top: 2rem; margin-bottom: 1rem;">6. Returns and Refunds</h2>
+            <h2>Returns and Refunds</h2>
             <p>Custom orders are non-refundable. Standard products may be returned within 30 days of receipt if unused and in original packaging, subject to a restocking fee.</p>
 
-            <h2 style="margin-top: 2rem; margin-bottom: 1rem;">7. Limitation of Liability</h2>
-            <p>PackAxis Packaging Canada shall not be liable for any indirect, incidental, special, or consequential damages arising from the use of our products or services.</p>
+            <h2>Limitation of Liability</h2>
+            <p>Packaxis Packaging Canada shall not be liable for any indirect, incidental, special, or consequential damages arising from the use of our products or services.</p>
 
-            <h2 style="margin-top: 2rem; margin-bottom: 1rem;">8. Contact Information</h2>
+            <h2>Contact Information</h2>
             <p>For questions about these Terms, please contact us:</p>
-            <p style="margin-top: 1rem;">
-                <strong>Email:</strong> hello@packaxis.ca<br>
-                <strong>Phone:</strong> +1 (249) 989-2496
-            </p>
+            
+            <div class="contact-box">
+                <p><strong>Email:</strong> <a href="mailto:hello@packaxis.ca">hello@packaxis.ca</a></p>
+                <p style="margin-top: 0.5rem;"><strong>Phone:</strong> <a href="tel:+12499892496">+1 (249) 989-2496</a></p>
+            </div>
         </div>
     </div>
 </section>

@@ -1,0 +1,252 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Error - PackAxis Canada</title>
+    <link rel="icon" type="image/png" href="{% static 'images/packaxis-fav.png' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #fafaf2 0%, #f5f5e8 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            color: #1F1F1F;
+        }
+        
+        .error-container {
+            text-align: center;
+            max-width: 600px;
+        }
+        
+        .error-icon {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 2rem;
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 60px rgba(220, 53, 69, 0.2);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        
+        .error-icon i {
+            font-size: 5rem;
+            color: white;
+        }
+        
+        .error-code {
+            font-size: 8rem;
+            font-weight: 700;
+            color: #292808;
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+        
+        .error-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #292808;
+            margin-bottom: 1rem;
+        }
+        
+        .error-message {
+            font-size: 1.125rem;
+            color: #666;
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+        
+        .error-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #292808 0%, #1f1e06 100%);
+            color: #d4ff9e;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(41, 40, 8, 0.3);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #292808;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .btn-secondary:hover {
+            border-color: #d4ff9e;
+            background: #fafaf2;
+        }
+        
+        .status-box {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .status-box h3 {
+            font-size: 0.875rem;
+            color: #666;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: #333;
+        }
+        
+        .status-item i {
+            color: #28a745;
+        }
+        
+        .contact-info {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: rgba(212, 255, 158, 0.2);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #292808;
+        }
+        
+        .contact-info a {
+            color: #292808;
+            font-weight: 600;
+        }
+        
+        .logo {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+        }
+        
+        .logo img {
+            height: 40px;
+        }
+        
+        @media (max-width: 640px) {
+            .error-code {
+                font-size: 5rem;
+            }
+            
+            .error-title {
+                font-size: 1.5rem;
+            }
+            
+            .error-icon {
+                width: 140px;
+                height: 140px;
+            }
+            
+            .error-icon i {
+                font-size: 3.5rem;
+            }
+            
+            .error-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="logo">
+        <img src="{% static 'images/assests/packaxis-logo-dark.png' %}" alt="PackAxis Canada">
+    </a>
+    
+    <div class="error-container">
+        <div class="error-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        
+        <div class="error-code">500</div>
+        <h1 class="error-title">Something Went Wrong</h1>
+        <p class="error-message">
+            We're experiencing technical difficulties. Our team has been notified 
+            and is working to fix this. Please try again in a few moments.
+        </p>
+        
+        <div class="error-actions">
+            <a href="/" class="btn btn-primary">
+                <i class="fas fa-home"></i>
+                Back to Home
+            </a>
+            <a href="javascript:location.reload()" class="btn btn-secondary">
+                <i class="fas fa-redo"></i>
+                Try Again
+            </a>
+        </div>
+        
+        <div class="status-box">
+            <h3>What you can do:</h3>
+            <div class="status-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Refresh the page in a few seconds</span>
+            </div>
+            <div class="status-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Clear your browser cache and try again</span>
+            </div>
+            <div class="status-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Come back later if the issue persists</span>
+            </div>
+        </div>
+        
+        <div class="contact-info">
+            <i class="fas fa-info-circle"></i>
+            Need immediate assistance? Contact us at 
+            <a href="mailto:hello@packaxis.ca">hello@packaxis.ca</a> or call 
+            <a href="tel:+14162752227">416-275-2227</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -55,6 +55,10 @@ class ProductCategory(models.Model):
         ordering = ['order', 'title']
         verbose_name = "Product Category"
         verbose_name_plural = "Product Categories"
+        indexes = [
+            models.Index(fields=['slug']),
+            models.Index(fields=['is_active', 'order']),
+        ]
     
     def __str__(self):
         return self.title
@@ -113,11 +117,24 @@ class Product(models.Model):
     minimum_order = models.IntegerField(null=True, blank=True, help_text="Minimum order quantity")
     case_quantity = models.IntegerField(default=1, help_text="Number of pieces per case")
     
-    # Additional features
+    # Additional features (expanded to 6)
     feature_1 = models.CharField(max_length=200, blank=True, help_text="Product feature")
     feature_2 = models.CharField(max_length=200, blank=True, help_text="Product feature")
     feature_3 = models.CharField(max_length=200, blank=True, help_text="Product feature")
     feature_4 = models.CharField(max_length=200, blank=True, help_text="Product feature")
+    feature_5 = models.CharField(max_length=200, blank=True, help_text="Product feature")
+    feature_6 = models.CharField(max_length=200, blank=True, help_text="Product feature")
+    
+    # SEO & Metadata
+    meta_title = models.CharField(max_length=70, blank=True, help_text="SEO title (max 70 chars)")
+    meta_description = models.CharField(max_length=160, blank=True, help_text="SEO description (max 160 chars)")
+    canonical_url = models.URLField(blank=True, help_text="Canonical URL if different from default")
+    search_keywords = models.TextField(blank=True, help_text="Internal search keywords (comma-separated)")
+    schema_type = models.CharField(max_length=50, default='Product', help_text="Schema.org type")
+    
+    # Industries (many-to-many through ProductIndustry)
+    industries = models.ManyToManyField('Industry', through='ProductIndustry', blank=True, 
+                                         related_name='products_direct', help_text="Industries this product serves")
     
     # Display settings
     order = models.IntegerField(default=0, help_text="Display order within category (lower numbers appear first)")
@@ -131,6 +148,14 @@ class Product(models.Model):
         ordering = ['category__order', 'order', 'title']
         verbose_name = "Product"
         verbose_name_plural = "Products"
+        indexes = [
+            models.Index(fields=['slug']),
+            models.Index(fields=['category', 'is_active']),
+            models.Index(fields=['is_active', 'is_featured']),
+            models.Index(fields=['is_active', 'order']),
+            models.Index(fields=['sku']),
+            models.Index(fields=['created_at']),
+        ]
     
     def __str__(self):
         return f"{self.category.title} - {self.title}"
@@ -156,6 +181,30 @@ class Product(models.Model):
             return f"${self.price:.2f}"
         return self.price_range or "Contact for pricing"
     
+    @property
+    def average_rating(self):
+        """Calculate average rating from approved reviews"""
+        reviews = self.reviews.filter(is_approved=True)
+        if reviews.exists():
+            return round(sum(r.rating for r in reviews) / reviews.count(), 1)
+        return 0
+    
+    @property
+    def review_count(self):
+        """Count approved reviews"""
+        return self.reviews.filter(is_approved=True).count()
+    
+    def get_tiered_price(self, quantity):
+        """Get price for a specific quantity based on tiered pricing"""
+        tiered = self.tiered_prices.filter(
+            min_quantity__lte=quantity
+        ).filter(
+            models.Q(max_quantity__gte=quantity) | models.Q(max_quantity__isnull=True)
+        ).first()
+        if tiered:
+            return tiered.price_per_unit
+        return self.price
+    
     def get_specifications(self):
         """Return list of specifications for template"""
         specs = []
@@ -176,11 +225,19 @@ class Product(models.Model):
     def get_features(self):
         """Return list of non-empty features"""
         features = []
-        for i in range(1, 5):
+        for i in range(1, 7):  # Now supports 6 features
             feature = getattr(self, f'feature_{i}', '')
             if feature:
                 features.append(feature)
         return features
+    
+    def get_size_variants(self):
+        """Get size variants for this product"""
+        return self.variants.filter(variant_type='size', is_active=True).order_by('order')
+    
+    def get_color_variants(self):
+        """Get color variants for this product"""
+        return self.variants.filter(variant_type='color', is_active=True).order_by('order')
     
     def get_all_images(self):
         """Return list of all product images including main image"""
@@ -320,6 +377,25 @@ class Cart(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
+    # Tax rates for Canada
+    TAX_RATES = {
+        'ON': Decimal('0.13'),  # Ontario HST
+        'BC': Decimal('0.12'),  # BC PST + GST
+        'AB': Decimal('0.05'),  # Alberta GST only
+        'QC': Decimal('0.14975'),  # Quebec GST + QST
+        'MB': Decimal('0.12'),  # Manitoba PST + GST
+        'SK': Decimal('0.11'),  # Saskatchewan PST + GST
+        'NS': Decimal('0.15'),  # Nova Scotia HST
+        'NB': Decimal('0.15'),  # New Brunswick HST
+        'NL': Decimal('0.15'),  # Newfoundland HST
+        'PE': Decimal('0.15'),  # PEI HST
+        'NT': Decimal('0.05'),  # GST only
+        'YT': Decimal('0.05'),  # GST only
+        'NU': Decimal('0.05'),  # GST only
+    }
+    
+    FREE_SHIPPING_THRESHOLD = Decimal('2000.00')
+    
     class Meta:
         verbose_name = "Shopping Cart"
         verbose_name_plural = "Shopping Carts"
@@ -334,8 +410,64 @@ class Cart(models.Model):
     
     @property
     def subtotal(self):
-        """Subtotal of all items in cart"""
+        """Subtotal of all items in cart (with tiered pricing)"""
         return sum(item.total_price for item in self.items.all())
+    
+    @property
+    def original_subtotal(self):
+        """What the cart would cost without tiered pricing"""
+        return sum(item.original_total for item in self.items.all())
+    
+    @property
+    def total_savings(self):
+        """Total savings from tiered pricing"""
+        return sum(item.total_savings for item in self.items.all())
+    
+    @property
+    def has_savings(self):
+        """Check if cart has any savings"""
+        return self.total_savings > 0
+    
+    @property
+    def savings_percentage(self):
+        """Overall percentage savings"""
+        if self.original_subtotal and self.original_subtotal > 0:
+            return int((self.total_savings / self.original_subtotal) * 100)
+        return 0
+    
+    def get_estimated_tax(self, province='ON'):
+        """Estimate tax based on province"""
+        rate = self.TAX_RATES.get(province.upper(), Decimal('0.13'))
+        return (self.subtotal * rate).quantize(Decimal('0.01'))
+    
+    def get_shipping_estimate(self):
+        """Estimate shipping cost"""
+        if self.subtotal >= self.FREE_SHIPPING_THRESHOLD:
+            return Decimal('0.00')
+        # Flat rate shipping for orders under threshold
+        if self.subtotal >= Decimal('500.00'):
+            return Decimal('29.99')
+        elif self.subtotal >= Decimal('200.00'):
+            return Decimal('49.99')
+        else:
+            return Decimal('79.99')
+    
+    @property
+    def shipping_progress(self):
+        """Progress towards free shipping (percentage)"""
+        if self.subtotal >= self.FREE_SHIPPING_THRESHOLD:
+            return 100
+        return int((self.subtotal / self.FREE_SHIPPING_THRESHOLD) * 100)
+    
+    @property
+    def amount_to_free_shipping(self):
+        """Amount needed for free shipping"""
+        remaining = self.FREE_SHIPPING_THRESHOLD - self.subtotal
+        return max(Decimal('0.00'), remaining)
+    
+    def get_total_with_tax(self, province='ON'):
+        """Total including tax"""
+        return self.subtotal + self.get_estimated_tax(province) + self.get_shipping_estimate()
     
     @property
     def total(self):
@@ -359,14 +491,67 @@ class CartItem(models.Model):
         return f"{self.quantity}x {self.product.title}"
     
     @property
-    def unit_price(self):
-        """Get product price"""
+    def base_price(self):
+        """Get base product price without tiered discount"""
         return self.product.price or Decimal('0.00')
     
     @property
+    def unit_price(self):
+        """Get tiered unit price based on quantity"""
+        base = self.product.price or Decimal('0.00')
+        if not base:
+            return Decimal('0.00')
+        
+        # Check for tiered pricing
+        tiered_prices = self.product.tiered_prices.filter(
+            min_quantity__lte=self.quantity
+        ).order_by('-min_quantity').first()
+        
+        if tiered_prices:
+            # Check max_quantity if set
+            if tiered_prices.max_quantity is None or self.quantity <= tiered_prices.max_quantity:
+                return tiered_prices.price_per_unit
+        
+        return base
+    
+    @property
+    def applied_tier(self):
+        """Get the applied tiered pricing tier"""
+        tiered_prices = self.product.tiered_prices.filter(
+            min_quantity__lte=self.quantity
+        ).order_by('-min_quantity').first()
+        
+        if tiered_prices:
+            if tiered_prices.max_quantity is None or self.quantity <= tiered_prices.max_quantity:
+                return tiered_prices
+        return None
+    
+    @property
+    def savings_per_unit(self):
+        """Calculate savings per unit compared to base price"""
+        return max(Decimal('0.00'), self.base_price - self.unit_price)
+    
+    @property
+    def total_savings(self):
+        """Total savings on this item"""
+        return self.savings_per_unit * self.quantity
+    
+    @property
+    def savings_percentage(self):
+        """Percentage savings compared to base price"""
+        if self.base_price and self.base_price > 0:
+            return int((self.savings_per_unit / self.base_price) * 100)
+        return 0
+    
+    @property
     def total_price(self):
-        """Total price for this cart item"""
+        """Total price for this cart item (with tiered pricing)"""
         return self.unit_price * self.quantity
+    
+    @property
+    def original_total(self):
+        """Total price without tiered discount"""
+        return self.base_price * self.quantity
 
 
 class Order(models.Model):
@@ -388,7 +573,25 @@ class Order(models.Model):
         ('refunded', 'Refunded'),
     ]
     
+    # Tracking steps for customer view (1-4)
+    TRACKING_STEPS = [
+        (1, 'Order Placed'),
+        (2, 'Processing'),
+        (3, 'Shipped'),
+        (4, 'Delivered'),
+    ]
+    
     order_number = models.CharField(max_length=50, unique=True, editable=False)
+    
+    # Link to User Account (optional - for guest checkout)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        blank=True, 
+        related_name='orders',
+        help_text="User account (if logged in during checkout)"
+    )
     
     # Customer Information
     email = models.EmailField(help_text="Customer email")
@@ -405,6 +608,10 @@ class Order(models.Model):
     shipping_postal_code = models.CharField(max_length=20)
     shipping_country = models.CharField(max_length=100, default='Canada')
     
+    # Shipping method selection
+    shipping_method = models.CharField(max_length=50, blank=True, help_text="Selected shipping method")
+    shipping_eta = models.CharField(max_length=100, blank=True, help_text="Estimated delivery window")
+
     # Billing Address (same as shipping by default)
     billing_same_as_shipping = models.BooleanField(default=True)
     billing_address_1 = models.CharField(max_length=255, blank=True)
@@ -419,6 +626,7 @@ class Order(models.Model):
     shipping_cost = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0.00'))
     tax = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0.00'))
     discount = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0.00'))
+    promo_code = models.CharField(max_length=50, blank=True, help_text="Applied promo code")
     total = models.DecimalField(max_digits=10, decimal_places=2)
     
     # Status
@@ -436,6 +644,7 @@ class Order(models.Model):
     # Tracking
     tracking_number = models.CharField(max_length=100, blank=True)
     tracking_url = models.URLField(blank=True)
+    tracking_step = models.IntegerField(default=1, choices=[(1, 'Order Placed'), (2, 'Processing'), (3, 'Shipped'), (4, 'Delivered')], help_text="Current tracking step (1-4)")
     
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
@@ -447,6 +656,14 @@ class Order(models.Model):
         ordering = ['-created_at']
         verbose_name = "Order"
         verbose_name_plural = "Orders"
+        indexes = [
+            models.Index(fields=['order_number']),
+            models.Index(fields=['email']),
+            models.Index(fields=['status']),
+            models.Index(fields=['payment_status']),
+            models.Index(fields=['created_at']),
+            models.Index(fields=['status', 'created_at']),
+        ]
     
     def __str__(self):
         return f"Order {self.order_number}"
@@ -474,6 +691,23 @@ class Order(models.Model):
         parts.append(f"{self.shipping_city}, {self.shipping_state} {self.shipping_postal_code}")
         parts.append(self.shipping_country)
         return '\n'.join(parts)
+    
+    @property
+    def tracking_step_label(self):
+        """Get the current tracking step label"""
+        step_labels = {1: 'Order Placed', 2: 'Processing', 3: 'Shipped', 4: 'Delivered'}
+        return step_labels.get(self.tracking_step, 'Order Placed')
+    
+    @property 
+    def tracking_steps_data(self):
+        """Return tracking steps with completion status for template"""
+        steps = [
+            {'step': 1, 'label': 'Order Placed', 'completed': self.tracking_step >= 1, 'active': self.tracking_step == 1},
+            {'step': 2, 'label': 'Processing', 'completed': self.tracking_step >= 2, 'active': self.tracking_step == 2},
+            {'step': 3, 'label': 'Shipped', 'completed': self.tracking_step >= 3, 'active': self.tracking_step == 3},
+            {'step': 4, 'label': 'Delivered', 'completed': self.tracking_step >= 4, 'active': self.tracking_step == 4},
+        ]
+        return steps
 
 
 class OrderItem(models.Model):
@@ -496,3 +730,287 @@ class OrderItem(models.Model):
     def save(self, *args, **kwargs):
         self.total_price = self.unit_price * self.quantity
         super().save(*args, **kwargs)
+
+
+# ============================================
+# PRODUCT VARIANTS & PRICING
+# ============================================
+
+class ProductVariant(models.Model):
+    """Product variants for size, color combinations"""
+    VARIANT_TYPES = [
+        ('size', 'Size'),
+        ('color', 'Color'),
+    ]
+    
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='variants')
+    variant_type = models.CharField(max_length=20, choices=VARIANT_TYPES)
+    name = models.CharField(max_length=100, help_text="e.g., 'Small', 'Red', '10x12x5'")
+    value = models.CharField(max_length=100, help_text="Display value")
+    price_adjustment = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0.00'), 
+                                           help_text="Price adjustment (+/-) from base price")
+    sku_suffix = models.CharField(max_length=50, blank=True, help_text="SKU suffix for this variant")
+    stock_quantity = models.IntegerField(default=0, help_text="Stock for this variant")
+    image = models.ImageField(upload_to='product-variants/', blank=True, null=True, 
+                              help_text="Variant-specific image (optional)")
+    order = models.IntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+    
+    class Meta:
+        ordering = ['product', 'variant_type', 'order']
+        verbose_name = "Product Variant"
+        verbose_name_plural = "Product Variants"
+    
+    def __str__(self):
+        return f"{self.product.title} - {self.get_variant_type_display()}: {self.name}"
+    
+    @property
+    def full_sku(self):
+        if self.sku_suffix and self.product.sku:
+            return f"{self.product.sku}-{self.sku_suffix}"
+        return self.product.sku or ""
+
+
+class TieredPricing(models.Model):
+    """Volume-based tiered pricing for products"""
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='tiered_prices')
+    min_quantity = models.IntegerField(help_text="Minimum quantity for this tier")
+    max_quantity = models.IntegerField(null=True, blank=True, help_text="Maximum quantity (leave blank for unlimited)")
+    price_per_unit = models.DecimalField(max_digits=10, decimal_places=2)
+    label = models.CharField(max_length=50, blank=True, help_text="e.g., 'Bulk', 'Wholesale'")
+    
+    class Meta:
+        ordering = ['product', 'min_quantity']
+        verbose_name = "Tiered Pricing"
+        verbose_name_plural = "Tiered Pricing"
+    
+    def __str__(self):
+        if self.max_quantity:
+            return f"{self.product.title}: {self.min_quantity}-{self.max_quantity} units @ ${self.price_per_unit}"
+        return f"{self.product.title}: {self.min_quantity}+ units @ ${self.price_per_unit}"
+    
+    @property
+    def quantity_range(self):
+        if self.max_quantity:
+            return f"{self.min_quantity}–{self.max_quantity}"
+        return f"{self.min_quantity}+"
+
+
+class DiscountRule(models.Model):
+    """Discount rules for products"""
+    DISCOUNT_TYPES = [
+        ('volume', 'Volume Discount'),
+        ('customer_group', 'Customer Group'),
+        ('promo_code', 'Promo Code'),
+    ]
+    
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='discount_rules', 
+                                null=True, blank=True, help_text="Leave blank for store-wide discount")
+    name = models.CharField(max_length=100)
+    discount_type = models.CharField(max_length=20, choices=DISCOUNT_TYPES)
+    discount_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    discount_amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    promo_code = models.CharField(max_length=50, blank=True, help_text="Required for promo code type")
+    min_quantity = models.IntegerField(null=True, blank=True, help_text="Minimum quantity for volume discount")
+    customer_group = models.CharField(max_length=100, blank=True, help_text="e.g., 'wholesale', 'vip'")
+    is_active = models.BooleanField(default=True)
+    start_date = models.DateTimeField(null=True, blank=True)
+    end_date = models.DateTimeField(null=True, blank=True)
+    
+    class Meta:
+        ordering = ['product', 'discount_type']
+        verbose_name = "Discount Rule"
+        verbose_name_plural = "Discount Rules"
+    
+    def __str__(self):
+        return f"{self.name} ({self.get_discount_type_display()})"
+
+
+# ============================================
+# PRODUCT REVIEWS
+# ============================================
+
+class ProductReview(models.Model):
+    """Customer reviews for products"""
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reviews')
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    rating = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)], default=5)
+    title = models.CharField(max_length=200, blank=True)
+    review = models.TextField()
+    image = models.ImageField(upload_to='review-images/', blank=True, null=True, 
+                              help_text="Optional review image")
+    is_verified = models.BooleanField(default=False, help_text="Verified purchase")
+    is_approved = models.BooleanField(default=False, help_text="Approved to display")
+    helpful_count = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = "Product Review"
+        verbose_name_plural = "Product Reviews"
+    
+    def __str__(self):
+        return f"{self.name} - {self.product.title} ({self.rating}★)"
+
+
+# ============================================
+# PRODUCT-INDUSTRY & PRODUCT-CATEGORY RELATIONS
+# ============================================
+
+class ProductIndustry(models.Model):
+    """Many-to-many relationship between products and industries"""
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_industries')
+    industry = models.ForeignKey(Industry, on_delete=models.CASCADE, related_name='industry_products')
+    
+    class Meta:
+        unique_together = ['product', 'industry']
+        verbose_name = "Product Industry"
+        verbose_name_plural = "Product Industries"
+    
+    def __str__(self):
+        return f"{self.product.title} - {self.industry.title}"
+
+
+# ============================================
+# SITE SETTINGS
+# ============================================
+
+class PromoCode(models.Model):
+    """Promotional discount codes for checkout"""
+    DISCOUNT_TYPE_CHOICES = [
+        ('percentage', 'Percentage Off'),
+        ('fixed', 'Fixed Amount Off'),
+        ('free_shipping', 'Free Shipping'),
+    ]
+    
+    code = models.CharField(max_length=50, unique=True, help_text="Unique promo code (will be stored uppercase)")
+    description = models.CharField(max_length=255, blank=True, help_text="Internal description")
+    
+    discount_type = models.CharField(max_length=20, choices=DISCOUNT_TYPE_CHOICES, default='percentage')
+    discount_value = models.DecimalField(max_digits=10, decimal_places=2, default=0, help_text="Percentage or fixed amount")
+    
+    # Limits
+    minimum_order_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0, help_text="Minimum order subtotal required")
+    maximum_discount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, help_text="Cap on discount amount (for percentage codes)")
+    usage_limit = models.PositiveIntegerField(null=True, blank=True, help_text="Total times this code can be used (blank = unlimited)")
+    usage_count = models.PositiveIntegerField(default=0, help_text="Times this code has been used")
+    per_user_limit = models.PositiveIntegerField(default=1, help_text="Times each user/email can use this code")
+    
+    # Validity
+    is_active = models.BooleanField(default=True)
+    valid_from = models.DateTimeField(null=True, blank=True, help_text="Start date (blank = immediately)")
+    valid_until = models.DateTimeField(null=True, blank=True, help_text="End date (blank = never expires)")
+    
+    # Restrictions
+    first_order_only = models.BooleanField(default=False, help_text="Only valid for first-time customers")
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name = "Promo Code"
+        verbose_name_plural = "Promo Codes"
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return f"{self.code} ({self.get_discount_type_display()})"
+    
+    def save(self, *args, **kwargs):
+        self.code = self.code.upper().strip()
+        super().save(*args, **kwargs)
+    
+    def is_valid(self, subtotal, email=None):
+        """Check if promo code is valid for given order"""
+        from django.utils import timezone
+        now = timezone.now()
+        
+        # Check if active
+        if not self.is_active:
+            return False, "This promo code is no longer active."
+        
+        # Check date validity
+        if self.valid_from and now < self.valid_from:
+            return False, "This promo code is not yet active."
+        
+        if self.valid_until and now > self.valid_until:
+            return False, "This promo code has expired."
+        
+        # Check usage limit
+        if self.usage_limit and self.usage_count >= self.usage_limit:
+            return False, "This promo code has reached its usage limit."
+        
+        # Check minimum order
+        if subtotal < self.minimum_order_amount:
+            return False, f"Minimum order of ${self.minimum_order_amount} required for this code."
+        
+        # Check per-user limit
+        if email and self.per_user_limit:
+            from core.models import Order
+            user_usage = Order.objects.filter(email__iexact=email, promo_code=self.code).count()
+            if user_usage >= self.per_user_limit:
+                return False, "You've already used this promo code."
+        
+        # Check first order only
+        if self.first_order_only and email:
+            from core.models import Order
+            if Order.objects.filter(email__iexact=email).exists():
+                return False, "This promo code is only valid for first-time customers."
+        
+        return True, "Valid"
+    
+    def calculate_discount(self, subtotal, shipping_cost=Decimal('0.00')):
+        """Calculate the discount amount"""
+        if self.discount_type == 'percentage':
+            discount = (subtotal * self.discount_value) / Decimal('100')
+            if self.maximum_discount:
+                discount = min(discount, self.maximum_discount)
+            return discount
+        elif self.discount_type == 'fixed':
+            return min(self.discount_value, subtotal)  # Can't discount more than subtotal
+        elif self.discount_type == 'free_shipping':
+            return shipping_cost
+        return Decimal('0.00')
+
+
+class SiteSettings(models.Model):
+    """Global site settings - only one instance should exist"""
+    
+    # Payment Settings
+    online_payments_enabled = models.BooleanField(
+        default=False, 
+        help_text="Enable/disable Stripe online payments. When disabled, orders will be placed without payment."
+    )
+    
+    # Store Info
+    store_name = models.CharField(max_length=100, default="PackAxis Packaging Canada")
+    store_email = models.EmailField(default="hello@packaxis.ca")
+    store_phone = models.CharField(max_length=20, default="(647) 555-0123")
+    store_address = models.TextField(default="Toronto, Ontario, Canada", blank=True)
+    
+    # Tax Settings
+    tax_rate = models.DecimalField(max_digits=5, decimal_places=2, default=13.00, help_text="Tax rate percentage (e.g., 13 for 13% HST)")
+    
+    # Order Settings
+    minimum_order_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0, help_text="Minimum order amount (0 = no minimum)")
+    free_shipping_threshold = models.DecimalField(max_digits=10, decimal_places=2, default=500, help_text="Order amount for free shipping")
+    
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name = "Site Settings"
+        verbose_name_plural = "Site Settings"
+    
+    def __str__(self):
+        return "Site Settings"
+    
+    def save(self, *args, **kwargs):
+        # Ensure only one instance exists
+        self.pk = 1
+        super().save(*args, **kwargs)
+    
+    @classmethod
+    def get_settings(cls):
+        """Get the singleton settings instance, creating it if needed"""
+        settings, created = cls.objects.get_or_create(pk=1)
+        return settings

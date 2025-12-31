@@ -18,7 +18,7 @@
                         <span class="cart-qty-value">{{ item.quantity }}</span>
                         <button type="button" class="cart-qty-btn plus" onclick="updateCartDropdown({{ item.id }}, 1)">+</button>
                     </div>
-                    <span class="cart-dropdown-price">${{ item.line_total }}</span>
+                    <span class="cart-dropdown-price">${{ item.total_price }}</span>
                 </div>
             </div>
             <button type="button" class="cart-dropdown-remove" onclick="removeFromCartDropdown({{ item.id }})" title="Remove">

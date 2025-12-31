@@ -1,6 +1,10 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import MenuItem, Product, ProductImage, ProductCategory, Service, Quote, FAQ, Industry, Cart, CartItem, Order, OrderItem
+from .models import (
+    MenuItem, Product, ProductImage, ProductCategory, Service, Quote, FAQ, Industry, 
+    Cart, CartItem, Order, OrderItem, ProductVariant, TieredPricing, DiscountRule, 
+    ProductReview, ProductIndustry, SiteSettings, PromoCode
+)
 
 @admin.register(MenuItem)
 class MenuItemAdmin(admin.ModelAdmin):
@@ -87,16 +91,35 @@ class ProductImageInline(admin.TabularInline):
     image_preview.short_description = 'Preview'
 
 
+class ProductVariantInline(admin.TabularInline):
+    model = ProductVariant
+    extra = 1
+    fields = ['variant_type', 'name', 'sku_suffix', 'price_adjustment', 'stock_quantity', 'image', 'is_active']
+    
+
+class TieredPricingInline(admin.TabularInline):
+    model = TieredPricing
+    extra = 1
+    fields = ['min_quantity', 'max_quantity', 'price_per_unit', 'label']
+    
+
+class ProductIndustryInline(admin.TabularInline):
+    model = ProductIndustry
+    extra = 1
+    fields = ['industry']
+    autocomplete_fields = ['industry']
+
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['image_preview', 'title', 'category', 'display_price_admin', 'stock_status', 'order', 'is_active', 'is_featured']
+    list_display = ['image_preview', 'title', 'category', 'display_price_admin', 'stock_status', 'review_stats', 'order', 'is_active', 'is_featured']
     list_filter = ['is_active', 'is_featured', 'category', 'track_inventory', 'created_at']
     list_editable = ['order', 'is_active', 'is_featured']
     search_fields = ['title', 'description', 'category__title', 'sku']
     prepopulated_fields = {'slug': ('title',)}
     list_per_page = 20
     autocomplete_fields = ['category']
-    inlines = [ProductImageInline]
+    inlines = [ProductImageInline, ProductVariantInline, TieredPricingInline, ProductIndustryInline]
     
     fieldsets = (
         ('Basic Information', {
@@ -118,8 +141,13 @@ class ProductAdmin(admin.ModelAdmin):
             'classes': ('collapse',)
         }),
         ('Product Features', {
-            'fields': ('feature_1', 'feature_2', 'feature_3', 'feature_4'),
-            'description': 'Add up to 4 key features (leave blank if not needed)',
+            'fields': ('feature_1', 'feature_2', 'feature_3', 'feature_4', 'feature_5', 'feature_6'),
+            'description': 'Add up to 6 key features (leave blank if not needed)',
+            'classes': ('collapse',)
+        }),
+        ('SEO Settings', {
+            'fields': ('meta_title', 'meta_description', 'canonical_url', 'search_keywords', 'schema_type'),
+            'description': 'Search engine optimization fields',
             'classes': ('collapse',)
         }),
         ('Display Settings', {
@@ -159,6 +187,61 @@ class ProductAdmin(admin.ModelAdmin):
                 return format_html('<span style="background: #17a2b8; color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px;">Backorder</span>')
             return format_html('<span style="background: #dc3545; color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px;">Out of Stock</span>')
     stock_status.short_description = 'Stock'
+    
+    def review_stats(self, obj):
+        try:
+            count = obj.review_count
+            if count > 0:
+                avg = obj.average_rating
+                return format_html('<span style="color: #ffc107;">★</span> {} ({} reviews)', avg, count)
+            return format_html('<span style="color: #999;">No reviews</span>')
+        except Exception:
+            return format_html('<span style="color: #999;">—</span>')
+    review_stats.short_description = 'Reviews'
+
+
+@admin.register(ProductReview)
+class ProductReviewAdmin(admin.ModelAdmin):
+    list_display = ['product', 'name', 'rating_display', 'is_verified', 'is_approved', 'created_at']
+    list_filter = ['is_approved', 'is_verified', 'rating', 'created_at']
+    list_editable = ['is_approved']
+    search_fields = ['product__title', 'name', 'email', 'review']
+    list_per_page = 25
+    
+    fieldsets = (
+        ('Review Details', {
+            'fields': ('product', 'name', 'email', 'rating', 'title', 'review', 'image')
+        }),
+        ('Verification', {
+            'fields': ('is_verified', 'is_approved')
+        }),
+    )
+    
+    def rating_display(self, obj):
+        stars = '★' * obj.rating + '☆' * (5 - obj.rating)
+        return format_html('<span style="color: #ffc107;">{}</span>', stars)
+    rating_display.short_description = 'Rating'
+
+
+@admin.register(DiscountRule)
+class DiscountRuleAdmin(admin.ModelAdmin):
+    list_display = ['name', 'discount_type', 'product', 'discount_percentage', 'discount_amount', 'is_active', 'start_date', 'end_date']
+    list_filter = ['discount_type', 'is_active', 'start_date', 'end_date']
+    list_editable = ['is_active']
+    search_fields = ['name', 'promo_code', 'product__title']
+    autocomplete_fields = ['product']
+    
+    fieldsets = (
+        ('Discount Details', {
+            'fields': ('name', 'discount_type', 'discount_percentage', 'discount_amount', 'promo_code')
+        }),
+        ('Applicable To', {
+            'fields': ('product', 'min_quantity', 'customer_group')
+        }),
+        ('Validity', {
+            'fields': ('start_date', 'end_date', 'is_active')
+        }),
+    )
 
 
 @admin.register(Service)
@@ -343,14 +426,14 @@ class OrderItemInline(admin.TabularInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['order_number', 'full_name', 'email', 'total', 'status_badge', 'payment_badge', 'created_at']
-    list_filter = ['status', 'payment_status', 'created_at']
+    list_display = ['order_number', 'full_name', 'email', 'total', 'status_badge', 'payment_badge', 'tracking_step_display', 'created_at']
+    list_filter = ['status', 'payment_status', 'tracking_step', 'created_at']
     search_fields = ['order_number', 'email', 'first_name', 'last_name', 'phone', 'company_name']
     readonly_fields = ['order_number', 'created_at', 'updated_at', 'order_summary']
     date_hierarchy = 'created_at'
     list_per_page = 25
     inlines = [OrderItemInline]
-    actions = ['mark_as_processing', 'mark_as_shipped', 'mark_as_delivered']
+    actions = ['mark_as_processing', 'mark_as_shipped', 'mark_as_delivered', 'set_tracking_step_1', 'set_tracking_step_2', 'set_tracking_step_3', 'set_tracking_step_4']
     
     fieldsets = (
         ('Order Summary', {
@@ -366,7 +449,11 @@ class OrderAdmin(admin.ModelAdmin):
             'fields': ('shipping_address_1', 'shipping_address_2', 'shipping_city', 'shipping_state', 'shipping_postal_code', 'shipping_country'),
         }),
         ('Order Totals', {
-            'fields': ('subtotal', 'shipping_cost', 'tax', 'discount', 'total'),
+            'fields': ('subtotal', 'shipping_cost', 'tax', 'discount', 'promo_code', 'total'),
+        }),
+        ('Order Tracking (Customer View)', {
+            'fields': ('tracking_step',),
+            'description': 'Set the tracking step shown to customers: 1=Order Placed, 2=Processing, 3=Shipped, 4=Delivered'
         }),
         ('Shipping & Tracking', {
             'fields': ('tracking_number', 'tracking_url', 'shipped_at', 'delivered_at'),
@@ -381,6 +468,18 @@ class OrderAdmin(admin.ModelAdmin):
             'classes': ('collapse',)
         }),
     )
+    
+    def tracking_step_display(self, obj):
+        step_labels = {1: '1️⃣ Placed', 2: '2️⃣ Processing', 3: '3️⃣ Shipped', 4: '4️⃣ Delivered'}
+        colors = {1: '#6c757d', 2: '#6f42c1', 3: '#0dcaf0', 4: '#28a745'}
+        label = step_labels.get(obj.tracking_step, '1️⃣ Placed')
+        color = colors.get(obj.tracking_step, '#6c757d')
+        return format_html(
+            '<span style="background: {}; color: #fff; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600;">{}</span>',
+            color, label
+        )
+    tracking_step_display.short_description = 'Tracking'
+    tracking_step_display.admin_order_field = 'tracking_step'
     
     def status_badge(self, obj):
         colors = {
@@ -458,3 +557,115 @@ class OrderAdmin(admin.ModelAdmin):
         updated = queryset.update(status='delivered', delivered_at=timezone.now())
         self.message_user(request, f'{updated} order(s) marked as delivered.')
     mark_as_delivered.short_description = "Mark as Delivered"
+    
+    # Tracking Step Actions
+    def set_tracking_step_1(self, request, queryset):
+        updated = queryset.update(tracking_step=1)
+        self.message_user(request, f'{updated} order(s) set to Step 1: Order Placed.')
+    set_tracking_step_1.short_description = "📦 Set Tracking: Step 1 (Order Placed)"
+    
+    def set_tracking_step_2(self, request, queryset):
+        updated = queryset.update(tracking_step=2)
+        self.message_user(request, f'{updated} order(s) set to Step 2: Processing.')
+    set_tracking_step_2.short_description = "⚙️ Set Tracking: Step 2 (Processing)"
+    
+    def set_tracking_step_3(self, request, queryset):
+        updated = queryset.update(tracking_step=3)
+        self.message_user(request, f'{updated} order(s) set to Step 3: Shipped.')
+    set_tracking_step_3.short_description = "🚚 Set Tracking: Step 3 (Shipped)"
+    
+    def set_tracking_step_4(self, request, queryset):
+        from django.utils import timezone
+        updated = queryset.update(tracking_step=4, delivered_at=timezone.now())
+        self.message_user(request, f'{updated} order(s) set to Step 4: Delivered.')
+    set_tracking_step_4.short_description = "✅ Set Tracking: Step 4 (Delivered)"
+
+
+# ============================================
+# PROMO CODE ADMIN
+# ============================================
+
+@admin.register(PromoCode)
+class PromoCodeAdmin(admin.ModelAdmin):
+    list_display = ['code', 'discount_type', 'discount_display', 'usage_display', 'is_active', 'valid_until', 'created_at']
+    list_filter = ['is_active', 'discount_type', 'first_order_only', 'created_at']
+    list_editable = ['is_active']
+    search_fields = ['code', 'description']
+    ordering = ['-created_at']
+    list_per_page = 25
+    
+    fieldsets = (
+        ('Code Details', {
+            'fields': ('code', 'description', 'is_active'),
+        }),
+        ('Discount Settings', {
+            'fields': ('discount_type', 'discount_value', 'maximum_discount'),
+            'description': 'Configure the discount amount. For percentage, enter value like 10 for 10% off.'
+        }),
+        ('Usage Limits', {
+            'fields': ('minimum_order_amount', 'usage_limit', 'usage_count', 'per_user_limit'),
+            'classes': ('collapse',)
+        }),
+        ('Validity Period', {
+            'fields': ('valid_from', 'valid_until'),
+            'classes': ('collapse',)
+        }),
+        ('Restrictions', {
+            'fields': ('first_order_only',),
+            'classes': ('collapse',)
+        }),
+    )
+    
+    readonly_fields = ['usage_count', 'created_at', 'updated_at']
+    
+    def discount_display(self, obj):
+        if obj.discount_type == 'percentage':
+            return f"{obj.discount_value}%"
+        elif obj.discount_type == 'fixed':
+            return f"${obj.discount_value}"
+        else:
+            return "Free Shipping"
+    discount_display.short_description = 'Discount'
+    
+    def usage_display(self, obj):
+        if obj.usage_limit:
+            return f"{obj.usage_count}/{obj.usage_limit}"
+        return f"{obj.usage_count}/∞"
+    usage_display.short_description = 'Usage'
+
+
+# ============================================
+# SITE SETTINGS ADMIN
+# ============================================
+
+@admin.register(SiteSettings)
+class SiteSettingsAdmin(admin.ModelAdmin):
+    list_display = ['store_name', 'online_payments_enabled', 'tax_rate', 'updated_at']
+    
+    fieldsets = (
+        ('Payment Settings', {
+            'fields': ('online_payments_enabled',),
+            'description': 'Control online payment functionality'
+        }),
+        ('Store Information', {
+            'fields': ('store_name', 'store_email', 'store_phone', 'store_address'),
+            'classes': ('collapse',)
+        }),
+        ('Order Settings', {
+            'fields': ('tax_rate', 'minimum_order_amount', 'free_shipping_threshold'),
+            'classes': ('collapse',)
+        }),
+    )
+    
+    def has_add_permission(self, request):
+        # Only allow one instance
+        return not SiteSettings.objects.exists()
+    
+    def has_delete_permission(self, request, obj=None):
+        return False
+    
+    def changelist_view(self, request, extra_context=None):
+        # Auto-redirect to the single settings instance
+        settings = SiteSettings.get_settings()
+        from django.shortcuts import redirect
+        return redirect(f'/admin/core/sitesettings/{settings.pk}/change/')

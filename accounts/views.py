@@ -13,6 +13,7 @@ from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.db import models
 import secrets
 
 from .forms import SignUpForm, SignInForm, ProfileForm, ChangePasswordForm, CustomPasswordResetForm, CustomSetPasswordForm
@@ -145,9 +146,11 @@ def change_password(request):
 @login_required
 def order_history(request):
     """View all user orders"""
-    orders = []
-    if hasattr(request.user, 'orders'):
-        orders = request.user.orders.all().order_by('-created_at')
+    from core.models import Order
+    # Get orders linked to user account OR matching user's email
+    orders = Order.objects.filter(
+        models.Q(user=request.user) | models.Q(email=request.user.email)
+    ).distinct().order_by('-created_at')
     
     return render(request, 'accounts/order_history.html', {'orders': orders})
 

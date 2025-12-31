@@ -1,14 +1,14 @@
-{% extends 'core/base.html' %}
+﻿{% extends 'core/base.html' %}
 {% load static %}
 
-{% block title %}My Account - PackAxis{% endblock %}
+{% block title %}My Account - Packaxis{% endblock %}
 
 {% block extra_css %}
 <style>
     .profile-page {
         padding: 6rem 0 5rem;
         min-height: 70vh;
-        background: #f8f9fa;
+        background: linear-gradient(135deg, #f5f5f0 0%, #fafaf2 100%);
     }
     
     .profile-container {
@@ -33,7 +33,7 @@
     .profile-header h1 svg {
         width: 28px;
         height: 28px;
-        color: var(--primary-color);
+        color: #292808;
     }
     
     .profile-content {
@@ -52,23 +52,23 @@
     /* Sidebar */
     .profile-sidebar {
         background: white;
-        border-radius: 16px;
-        border: 1px solid #e5e5e5;
+        border-radius: 20px;
+        box-shadow: 0 4px 30px rgba(0,0,0,0.06);
         overflow: hidden;
     }
     
     .profile-user {
         padding: 1.5rem;
         text-align: center;
-        border-bottom: 1px solid #eee;
+        border-bottom: 1px solid #f0f0f0;
     }
     
     .profile-avatar {
         width: 72px;
         height: 72px;
         border-radius: 50%;
-        background: linear-gradient(135deg, var(--primary-color), #4CAF50);
-        color: white;
+        background: #d4ff9e;
+        color: #292808;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -101,28 +101,34 @@
         color: #555;
         text-decoration: none;
         font-size: 0.9375rem;
-        transition: all 0.15s ease;
+        transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
     
     .profile-nav a:hover {
         background: #f8f9fa;
-        color: var(--primary-color);
+        color: #292808;
+        padding-left: 1.75rem;
     }
     
     .profile-nav a.active {
-        background: rgba(45, 122, 78, 0.1);
-        color: var(--primary-color);
+        background: rgba(212, 255, 158, 0.2);
+        color: #292808;
         font-weight: 600;
     }
     
     .profile-nav a svg {
         width: 18px;
         height: 18px;
+        transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    
+    .profile-nav a:hover svg {
+        transform: scale(1.1);
     }
     
     .profile-nav .signout-link {
         color: #dc3545;
-        border-top: 1px solid #eee;
+        border-top: 1px solid #f0f0f0;
         margin-top: 0.5rem;
         padding-top: 1rem;
     }
@@ -134,8 +140,8 @@
     /* Main Content */
     .profile-main {
         background: white;
-        border-radius: 16px;
-        border: 1px solid #e5e5e5;
+        border-radius: 20px;
+        box-shadow: 0 4px 30px rgba(0,0,0,0.06);
         padding: 2rem;
     }
     
@@ -145,7 +151,7 @@
         color: #1F1F1F;
         margin-bottom: 1.5rem;
         padding-bottom: 1rem;
-        border-bottom: 1px solid #eee;
+        border-bottom: 1px solid #f0f0f0;
     }
     
     .profile-form {
@@ -182,9 +188,9 @@
         width: 100%;
         padding: 0.75rem 1rem;
         border: 1.5px solid #e0e0e0;
-        border-radius: 10px;
+        border-radius: 12px;
         font-size: 0.9375rem;
-        transition: all 0.2s ease;
+        transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         background: #fafafa;
     }
     
@@ -192,7 +198,8 @@
         outline: none;
         border-color: var(--primary-color);
         background: white;
-        box-shadow: 0 0 0 3px rgba(45, 122, 78, 0.1);
+        box-shadow: 0 0 0 4px rgba(212, 255, 158, 0.2);
+        transform: translateY(-2px);
     }
     
     .form-input[readonly] {
@@ -227,17 +234,25 @@
     .btn-primary {
         padding: 0.875rem 2rem;
         background: var(--primary-color);
-        color: white;
+        color: #292808;
         border: none;
-        border-radius: 10px;
+        border-radius: 50px;
         font-size: 0.9375rem;
         font-weight: 600;
         cursor: pointer;
-        transition: all 0.2s ease;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
     
     .btn-primary:hover {
-        background: #1a5d38;
+        background: #292808;
+        color: #d4ff9e;
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(47, 46, 12, 0.2);
+    }
+    
+    .btn-primary:active {
+        transform: translateY(-1px);
+        transition-duration: 0.1s;
     }
     
     .btn-secondary {
@@ -245,17 +260,24 @@
         background: white;
         color: #666;
         border: 1.5px solid #ddd;
-        border-radius: 10px;
+        border-radius: 50px;
         font-size: 0.9375rem;
         font-weight: 600;
         cursor: pointer;
-        transition: all 0.2s ease;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         text-decoration: none;
     }
     
     .btn-secondary:hover {
-        border-color: #999;
-        color: #333;
+        border-color: #292808;
+        color: #292808;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn-secondary:active {
+        transform: translateY(-1px);
+        transition-duration: 0.1s;
     }
     
     .alert {

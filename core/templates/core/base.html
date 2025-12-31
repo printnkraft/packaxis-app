@@ -1,25 +1,117 @@
-{% load static %}
+﻿{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}PackAxis - Brown Kraft Paper Bags Wholesale Canada | Eco-Friendly Packaging Toronto{% endblock %}</title>
-    <meta name="description" content="{% block description %}Canada's #1 supplier of brown kraft paper bags in bulk. Eco-friendly, biodegradable kraft bags with custom branding options. Wholesale pricing for restaurants, grocery stores, and retailers across Toronto and Canada.{% endblock %}">
+    <title>{% block title %}Packaxis Packaging Canada - Premium Eco-Friendly Packaging Solutions{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Canada's trusted supplier of eco-friendly packaging solutions. Premium paper bags, custom branded packaging, and paper straws with wholesale pricing for businesses across Canada.{% endblock %}">
+    <meta name="keywords" content="custom branded bags, paper bags Canada, kraft paper bags wholesale, eco-friendly packaging Toronto, custom printed bags, shopping bags bulk, restaurant packaging, retail paper bags, sustainable packaging Canada, brown kraft bags Ontario">
+    <meta name="author" content="Packaxis Packaging Canada">
+    <link rel="canonical" href="{{ request.build_absolute_uri }}">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:title" content="Packaxis Packaging Canada - Premium Eco-Friendly Packaging Solutions">
+    <meta property="og:description" content="Canada's trusted supplier of eco-friendly packaging solutions. Premium paper bags, custom branded packaging, and paper straws with wholesale pricing for businesses across Canada.">
+    <meta property="og:image" content="{% static 'images/assests/packaxis-logo-dark.png' %}">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ request.build_absolute_uri }}">
+    <meta property="twitter:title" content="Packaxis Packaging Canada - Premium Eco-Friendly Packaging Solutions">
+    <meta property="twitter:description" content="Canada's trusted supplier of eco-friendly packaging solutions. Premium paper bags, custom branded packaging, and paper straws with wholesale pricing for businesses across Canada.">
+    <meta property="twitter:image" content="{% static 'images/assests/packaxis-logo-dark.png' %}">
+    
     <link rel="icon" type="image/png" href="{% static 'images/packaxis-fav.png' %}">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Structured Data - Organization Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Packaxis Packaging Canada",
+        "alternateName": "Packaxis",
+        "url": "https://packaxis.ca",
+        "logo": "{% static 'images/assests/packaxis-logo-dark.png' %}",
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+1-416-275-2227",
+            "contactType": "customer service",
+            "areaServed": "CA",
+            "availableLanguage": "en"
+        },
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "31 Amber Street Unit 6",
+            "addressLocality": "Markham",
+            "addressRegion": "ON",
+            "addressCountry": "CA"
+        },
+        "sameAs": [
+            "https://www.facebook.com/packaxis",
+            "https://www.instagram.com/packaxis",
+            "https://www.linkedin.com/company/packaxis"
+        ]
+    }
+    </script>
+    
+    <!-- Structured Data - Local Business Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Packaxis Packaging Canada",
+        "image": "{% static 'images/assests/packaxis-logo-dark.png' %}",
+        "@id": "https://packaxis.ca",
+        "url": "https://packaxis.ca",
+        "telephone": "+1-416-275-2227",
+        "priceRange": "$$",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "31 Amber Street Unit 6",
+            "addressLocality": "Markham",
+            "addressRegion": "ON",
+            "postalCode": "L3R 0H1",
+            "addressCountry": "CA"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 43.8561,
+            "longitude": -79.3370
+        },
+        "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday"
+            ],
+            "opens": "09:00",
+            "closes": "18:00"
+        }
+    }
+    </script>
+    
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <nav class="navbar">
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
         <div class="container">
             <div class="nav-wrapper">
                 <div class="logo-container">
-                    <a href="{% url 'core:index' %}"><img src="{% static 'images/assests/packaxis logo.png' %}" alt="PackAxis Packaging Canada - Custom Paper Bags Manufacturer" class="logo"></a>
+                    <a href="{% url 'core:index' %}"><img src="{% static 'images/assests/packaxis-logo-dark.png' %}" alt="Packaxis Packaging Canada Logo" class="logo"></a>
                 </div>
                 <ul class="nav-menu">
                     <li><a href="{% url 'core:index' %}" class="nav-link">Home</a></li>
@@ -67,10 +159,13 @@
                                             <div class="cart-dropdown-controls">
                                                 <div class="cart-dropdown-qty-control">
                                                     <button type="button" class="cart-qty-btn minus" onclick="updateCartDropdown({{ item.id }}, -1)">−</button>
-                                                    <span class="cart-qty-value">{{ item.quantity }}</span>
+                                                    <input type="number" class="cart-qty-input" value="{{ item.quantity }}" min="1" max="9999" 
+                                                           onchange="updateCartDropdownManual({{ item.id }}, this.value)"
+                                                           onkeypress="if(event.key==='Enter'){updateCartDropdownManual({{ item.id }}, this.value)}"
+                                                           data-item-id="{{ item.id }}" />
                                                     <button type="button" class="cart-qty-btn plus" onclick="updateCartDropdown({{ item.id }}, 1)">+</button>
                                                 </div>
-                                                <span class="cart-dropdown-price">${{ item.line_total }}</span>
+                                                <span class="cart-dropdown-price">${{ item.total_price }}</span>
                                             </div>
                                         </div>
                                         <button type="button" class="cart-dropdown-remove" onclick="removeFromCartDropdown({{ item.id }})" title="Remove">
@@ -103,11 +198,21 @@
                     {% if user.is_authenticated %}
                     <div class="nav-user-wrapper">
                         <button class="nav-user-btn" title="My Account">
-                            <span class="nav-user-avatar">{{ user.first_name|slice:":1"|upper }}{{ user.last_name|slice:":1"|upper }}</span>
+                            <span class="nav-user-avatar">
+                                {% if user.first_name and user.last_name %}
+                                    {{ user.first_name|slice:":1"|upper }}{{ user.last_name|slice:":1"|upper }}
+                                {% elif user.first_name %}
+                                    {{ user.first_name|slice:":2"|upper }}
+                                {% elif user.email %}
+                                    {{ user.email|slice:":2"|upper }}
+                                {% else %}
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                {% endif %}
+                            </span>
                         </button>
                         <div class="user-dropdown">
                             <div class="user-dropdown-header">
-                                <span class="user-dropdown-name">{{ user.first_name }} {{ user.last_name }}</span>
+                                <span class="user-dropdown-name">{% if user.first_name or user.last_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.email|truncatechars:25 }}{% endif %}</span>
                                 <span class="user-dropdown-email">{{ user.email }}</span>
                             </div>
                             <div class="user-dropdown-links">
@@ -141,68 +246,314 @@
         </div>
     </nav>
 
-    {% block content %}
-    {% endblock %}
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" aria-hidden="true"></div>
+    
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" role="dialog" aria-modal="true" aria-label="Mobile menu">
+        <div class="mobile-menu-header">
+            <img src="{% static 'images/assests/packaxis-logo-dark.png' %}" alt="Packaxis Packaging Canada" class="mobile-menu-logo">
+            <button class="mobile-menu-close" aria-label="Close menu">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+        <nav class="mobile-menu-nav">
+            <ul>
+                <li><a href="{% url 'core:index' %}">Home</a></li>
+                {% for item in menu_items %}
+                    {% if item.has_children %}
+                        <li>
+                            <a href="{% if item.url %}{{ item.url }}{% else %}#{% endif %}" class="mobile-submenu-toggle">
+                                {{ item.title }}
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                            </a>
+                            <ul class="mobile-submenu">
+                                {% for child in item.children.all %}
+                                    {% if child.is_active %}
+                                        <li><a href="{{ child.url }}"{% if child.open_in_new_tab %} target="_blank"{% endif %}>{{ child.title }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li><a href="{{ item.url }}"{% if item.open_in_new_tab %} target="_blank"{% endif %}>{{ item.title }}</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </nav>
+        <div class="mobile-menu-footer">
+            <a href="{% url 'core:quote_request' %}" class="mobile-menu-cta">Get Free Quote</a>
+            <div class="mobile-menu-contact">
+                <a href="tel:+14162752227">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    (416) 275-2227
+                </a>
+                <a href="mailto:hello@packaxis.ca">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    hello@packaxis.ca
+                </a>
+            </div>
+        </div>
+    </div>
 
-    <footer class="footer">
+    <!-- Toast Notification Container -->
+    <div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 12px; max-width: 380px;"></div>
+
+    <main id="main-content">
+        <!-- Global Messages as Toast Notifications -->
+        {% if messages %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const toastContainer = document.getElementById('toast-container');
+                const messages = [
+                    {% for message in messages %}
+                    { text: "{{ message|escapejs }}", type: "{{ message.tags }}" },
+                    {% endfor %}
+                ];
+                
+                messages.forEach(function(msg, index) {
+                    setTimeout(function() {
+                        showToast(msg.text, msg.type);
+                    }, index * 150);
+                });
+            });
+            
+            function showToast(message, type) {
+                const toastContainer = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                
+                let bgColor, textColor, borderColor, icon;
+                switch(type) {
+                    case 'success':
+                        bgColor = '#292808';
+                        textColor = '#d4ff9e';
+                        borderColor = '#d4ff9e';
+                        icon = '<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>';
+                        break;
+                    case 'error':
+                        bgColor = '#292808';
+                        textColor = '#ff6b6b';
+                        borderColor = '#ff6b6b';
+                        icon = '<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>';
+                        break;
+                    case 'warning':
+                        bgColor = '#292808';
+                        textColor = '#ffd93d';
+                        borderColor = '#ffd93d';
+                        icon = '<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>';
+                        break;
+                    default:
+                        bgColor = '#292808';
+                        textColor = '#ffffff';
+                        borderColor = '#d4ff9e';
+                        icon = '<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>';
+                }
+                
+                toast.style.cssText = `
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    padding: 16px 20px;
+                    background: ${bgColor};
+                    color: ${textColor};
+                    border-radius: 12px;
+                    border-left: 4px solid ${borderColor};
+                    font-size: 0.9375rem;
+                    font-weight: 500;
+                    animation: toastSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                    cursor: pointer;
+                    min-width: 280px;
+                `;
+                
+                toast.innerHTML = `
+                    <span style="color: ${borderColor}; display: flex; align-items: center;">${icon}</span>
+                    <span style="flex: 1;">${message}</span>
+                    <button style="background: none; border: none; color: ${textColor}; opacity: 0.6; cursor: pointer; padding: 0; font-size: 1.25rem; line-height: 1;" onclick="this.parentElement.remove()">&times;</button>
+                `;
+                
+                toast.onclick = function(e) {
+                    if (e.target.tagName !== 'BUTTON') {
+                        toast.style.animation = 'toastSlideOut 0.3s ease forwards';
+                        setTimeout(() => toast.remove(), 300);
+                    }
+                };
+                
+                toastContainer.appendChild(toast);
+                
+                // Auto-dismiss after 5 seconds
+                setTimeout(function() {
+                    if (toast.parentElement) {
+                        toast.style.animation = 'toastSlideOut 0.3s ease forwards';
+                        setTimeout(() => toast.remove(), 300);
+                    }
+                }, 5000);
+            }
+        </script>
+        <style>
+            @keyframes toastSlideIn {
+                from { opacity: 0; transform: translateX(100%); }
+                to { opacity: 1; transform: translateX(0); }
+            }
+            @keyframes toastSlideOut {
+                from { opacity: 1; transform: translateX(0); }
+                to { opacity: 0; transform: translateX(100%); }
+            }
+        </style>
+        {% endif %}
+        
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="footer" role="contentinfo">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <img src="{% static 'images/assests/packaxis logo.png' %}" alt="PackAxis - Eco-Friendly Paper Bags Canada" class="footer-logo">
-                    <p>Canada's premier supplier of brown kraft paper bags in bulk. Specializing in eco-friendly, biodegradable kraft bags with custom branding options for restaurants, grocery stores, and retailers across Toronto and nationwide.</p>
-                    <div class="social-links">
-                        <a href="https://www.facebook.com/people/PackAxis-Packaging/61584632132597/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                            <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                            </svg>
-                        </a>
-                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                            <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z"/>
-                            </svg>
-                        </a>
-                        <a href="https://www.linkedin.com/company/packaxis" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                            <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                            </svg>
-                        </a>
-                    </div>
+            <!-- Logo and Social Links Row -->
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <img src="{% static 'images/assests/packaxis-logo-light.png' %}" alt="Packaxis Packaging Canada" class="footer-logo">
                 </div>
+                <div class="footer-social">
+                    <a href="https://www.tiktok.com/@packaxis" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.facebook.com/people/PackAxis-Packaging/61584632132597/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                    </a>
+                    <a href="https://instagram.com/packaxis" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/company/packaxis" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                    </a>
+                    <a href="https://twitter.com/packaxis" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                        </svg>
+                    </a>
+                    <a href="https://youtube.com/@packaxis" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Footer Links Grid -->
+            <div class="footer-grid">
                 <div class="footer-col">
-                    <h4>Quick Links</h4>
+                    <h4>Products</h4>
                     <ul>
-                        <li><a href="{% url 'core:index' %}">Home</a></li>
-                        <li><a href="{% url 'core:products' %}">Products</a></li>
-                        <li><a href="{% url 'blog:blog_list' %}">Blog</a></li>
-                        <li><a href="{% url 'core:faq' %}">FAQ</a></li>
-                        <li><a href="{% url 'core:index' %}#about">About</a></li>
-                        <li><a href="{% url 'core:index' %}#contact">Contact</a></li>
+                        {% for product_category in product_categories %}
+                        <li><a href="{% url 'core:category_detail' product_category.slug %}">{{ product_category.title }}</a></li>
+                        {% endfor %}
                     </ul>
                 </div>
                 <div class="footer-col">
-                    <h4>Product Categories</h4>
+                    <h4>Industries</h4>
                     <ul>
-                        {% for product_category in product_categories %}
-                        <li><a href="{% url 'core:product_detail' product_category.slug %}">{{ product_category.title }}</a></li>
-                        {% endfor %}
+                        <li><a href="{% url 'core:restaurant_paper_bags' %}">Restaurants</a></li>
+                        <li><a href="{% url 'core:retail_paper_bags' %}">Retail Stores</a></li>
+                        <li><a href="{% url 'core:grocery_paper_bags' %}">Grocery Stores</a></li>
+                        <li><a href="{% url 'core:bakery_paper_bags' %}">Bakeries</a></li>
+                        <li><a href="{% url 'core:boutique_packaging' %}">Boutiques</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="{% url 'blog:blog_list' %}">Blog</a></li>
+                        <li><a href="{% url 'core:faq' %}">FAQ</a></li>
+                        <li><a href="{% url 'core:pricing_brochure' %}">Pricing Guide</a></li>
+                        <li><a href="{% url 'core:quote_request' %}">Request Quote</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="{% url 'core:index' %}#about">About Us</a></li>
+                        <li><a href="{% url 'core:index' %}#contact">Contact</a></li>
+                        <li><a href="{% url 'core:privacy_policy' %}">Privacy Policy</a></li>
+                        <li><a href="{% url 'core:terms_of_service' %}">Terms of Service</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h4>Contact</h4>
                     <ul>
-                        <li><a href="https://maps.google.com/?q=135+Eighth+St,+Toronto,+ON+M8V+3C8" target="_blank">135 Eighth St, Toronto, ON M8V 3C8</a></li>
+                        <li>
+                            <a href="https://maps.google.com/?q=135+Eighth+St,+Toronto,+ON+M8V+3C8" target="_blank">
+                                135 Eighth St, Toronto, ON M8V 3C8
+                            </a>
+                        </li>
                         <li><a href="tel:+12499892496">+1 (249) 989-2496</a></li>
                         <li><a href="tel:+16475948751">+1 (647) 594-8751</a></li>
                         <li><a href="mailto:hello@packaxis.ca">hello@packaxis.ca</a></li>
                     </ul>
                 </div>
             </div>
+
+            <!-- Footer Bottom -->
             <div class="footer-bottom">
-                <div class="footer-bottom-content">
-                    <p>&copy; 2025 PackAxis Packaging Canada. All rights reserved.</p>
-                    <div class="footer-links">
-                        <a href="{% url 'core:privacy_policy' %}">Privacy Policy</a>
-                        <a href="{% url 'core:terms_of_service' %}">Terms of Service</a>
+                <p>&copy; 2025 Packaxis Packaging Canada. All rights reserved.</p>
+            </div>
+            
+            <!-- Certification Badges -->
+            <div class="certification-badges" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 2rem; padding: 2rem 0; border-top: 1px solid rgba(212, 255, 158, 0.1); margin-top: 1.5rem;">
+                <div style="display: flex; align-items: center; gap: 0.75rem; color: rgba(255,255,255,0.8);">
+                    <div style="width: 44px; height: 44px; background: rgba(212, 255, 158, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d4ff9e" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M12 16v-4"></path>
+                            <path d="M12 8h.01"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <strong style="font-size: 0.875rem; color: #d4ff9e; display: block;">FSC Certified</strong>
+                        <span style="font-size: 0.75rem; opacity: 0.8;">Sustainable Forestry</span>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.75rem; color: rgba(255,255,255,0.8);">
+                    <div style="width: 44px; height: 44px; background: rgba(212, 255, 158, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d4ff9e" stroke-width="2">
+                            <path d="M3 12l9 9 9-9"></path>
+                            <path d="M3 3l9 9 9-9"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <strong style="font-size: 0.875rem; color: #d4ff9e; display: block;">100% Recyclable</strong>
+                        <span style="font-size: 0.75rem; opacity: 0.8;">Eco-Friendly Materials</span>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.75rem; color: rgba(255,255,255,0.8);">
+                    <div style="width: 44px; height: 44px; background: rgba(212, 255, 158, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d4ff9e" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                            <path d="M2 17l10 5 10-5"></path>
+                            <path d="M2 12l10 5 10-5"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <strong style="font-size: 0.875rem; color: #d4ff9e; display: block;">Compostable</strong>
+                        <span style="font-size: 0.75rem; opacity: 0.8;">Natural Breakdown</span>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.75rem; color: rgba(255,255,255,0.8);">
+                    <div style="width: 44px; height: 44px; background: rgba(212, 255, 158, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d4ff9e" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            <polyline points="9 12 11 14 15 10"></polyline>
+                        </svg>
+                    </div>
+                    <div>
+                        <strong style="font-size: 0.875rem; color: #d4ff9e; display: block;">Quality Guaranteed</strong>
+                        <span style="font-size: 0.75rem; opacity: 0.8;">100% Satisfaction</span>
                     </div>
                 </div>
             </div>
@@ -337,7 +688,7 @@
     
     .modal-btn-confirm {
         background: var(--primary-color);
-        color: white;
+        color: #292808;
     }
     
     .modal-btn-confirm:hover {
@@ -552,12 +903,76 @@
                 
                 // Refresh the dropdown HTML
                 await refreshCartDropdown();
+                
+                // Trigger update on checkout page if it exists
+                if (typeof updateCheckoutFromCart !== 'undefined') {
+                    updateCheckoutFromCart();
+                }
             } else if (data.error) {
                 showAlert('error', 'Error', data.error);
             }
         } catch (error) {
             console.error('Error:', error);
             showAlert('error', 'Error', 'Something went wrong. Please try again.');
+        }
+    }
+
+    async function updateCartDropdownManual(itemId, newQty) {
+        const quantity = parseInt(newQty);
+        
+        if (isNaN(quantity) || quantity < 1) {
+            showAlert('error', 'Invalid Quantity', 'Please enter a valid quantity (minimum 1)');
+            await refreshCartDropdown();
+            return;
+        }
+        
+        if (quantity > 9999) {
+            showAlert('error', 'Quantity Too High', 'Maximum quantity is 9999');
+            await refreshCartDropdown();
+            return;
+        }
+        
+        const itemEl = document.querySelector(`.cart-dropdown-item[data-item-id="${itemId}"]`);
+        const qtyInput = itemEl ? itemEl.querySelector('.cart-qty-input') : null;
+        
+        // Show loading state
+        if (qtyInput) {
+            qtyInput.disabled = true;
+        }
+        
+        try {
+            const response = await fetch(`/cart/set-quantity-ajax/${itemId}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({ quantity: quantity })
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                // Update the cart badge
+                updateCartBadge(data.cart_total_items);
+                
+                // Refresh the dropdown HTML
+                await refreshCartDropdown();
+                
+                // Trigger update on checkout page if it exists
+                if (typeof updateCheckoutFromCart !== 'undefined') {
+                    updateCheckoutFromCart();
+                }
+                
+                showAlert('success', 'Quantity Updated', `Quantity updated to ${quantity}`);
+            } else if (data.error) {
+                showAlert('error', 'Error', data.error);
+                await refreshCartDropdown();
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            showAlert('error', 'Error', 'Something went wrong. Please try again.');
+            await refreshCartDropdown();
         }
     }
 
@@ -623,19 +1038,171 @@
     }
     </script>
 
-    <!--Start of Tawk.to Script-->
-    <script type="text/javascript">
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    (function(){
-    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-    s1.async=true;
-    s1.src='https://embed.tawk.to/69235a09713892195f83790b/1jap1fdej';
-    s1.charset='UTF-8';
-    s1.setAttribute('crossorigin','*');
-    s0.parentNode.insertBefore(s1,s0);
-    })();
+    <!-- Mobile Menu Toggle Script -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const hamburger = document.querySelector('.hamburger');
+        const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
+        const mobileMenuClose = document.querySelector('.mobile-menu-close');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        
+        function openMobileMenu() {
+            hamburger.classList.add('active');
+            mobileMenuOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeMobileMenu() {
+            hamburger.classList.remove('active');
+            mobileMenuOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        // Toggle menu on hamburger click
+        if (hamburger) {
+            hamburger.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (mobileMenuOverlay.classList.contains('active')) {
+                    closeMobileMenu();
+                } else {
+                    openMobileMenu();
+                }
+            });
+        }
+        
+        // Close menu on close button click
+        if (mobileMenuClose) {
+            mobileMenuClose.addEventListener('click', closeMobileMenu);
+        }
+        
+        // Close menu when clicking overlay background
+        if (mobileMenuOverlay) {
+            mobileMenuOverlay.addEventListener('click', function(e) {
+                if (e.target === mobileMenuOverlay) {
+                    closeMobileMenu();
+                }
+            });
+        }
+        
+        // Close menu when clicking a nav link
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
+        
+        // Close menu on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && mobileMenuOverlay.classList.contains('active')) {
+                closeMobileMenu();
+            }
+        });
+        
+        // Close menu on window resize if viewport becomes larger
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768 && mobileMenuOverlay.classList.contains('active')) {
+                closeMobileMenu();
+            }
+        });
+    });
     </script>
-    <!--End of Tawk.to Script-->
+
+    <!-- GDPR Cookie Consent Banner -->
+    <div id="cookie-consent" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: #292808; color: white; padding: 1rem 2rem; z-index: 9999; box-shadow: 0 -4px 20px rgba(0,0,0,0.15);">
+        <div style="max-width: 1280px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+            <div style="flex: 1; min-width: 300px;">
+                <p style="margin: 0; font-size: 0.9rem; line-height: 1.5;">
+                    <i class="fas fa-cookie-bite" style="color: #d4ff9e; margin-right: 0.5rem;"></i>
+                    We use cookies to enhance your browsing experience, analyze site traffic, and personalize content. 
+                    By clicking "Accept All", you consent to our use of cookies. 
+                    <a href="/privacy-policy/" style="color: #d4ff9e; text-decoration: underline;">Learn more</a>
+                </p>
+            </div>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                <button onclick="acceptCookies('essential')" style="padding: 0.6rem 1.25rem; background: transparent; border: 1px solid #d4ff9e; color: #d4ff9e; border-radius: 6px; cursor: pointer; font-weight: 500; transition: all 0.2s;">
+                    Essential Only
+                </button>
+                <button onclick="acceptCookies('all')" style="padding: 0.6rem 1.25rem; background: #d4ff9e; border: none; color: #292808; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.2s;">
+                    Accept All
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+    // Cookie Consent Management
+    (function() {
+        const COOKIE_CONSENT_KEY = 'packaxis_cookie_consent';
+        const COOKIE_EXPIRY_DAYS = 365;
+        
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+            return null;
+        }
+        
+        function setCookie(name, value, days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            document.cookie = `${name}=${value};expires=${date.toUTCString()};path=/;SameSite=Lax`;
+        }
+        
+        function showCookieBanner() {
+            const banner = document.getElementById('cookie-consent');
+            if (banner) {
+                banner.style.display = 'block';
+            }
+        }
+        
+        function hideCookieBanner() {
+            const banner = document.getElementById('cookie-consent');
+            if (banner) {
+                banner.style.display = 'none';
+            }
+        }
+        
+        // Check if consent already given
+        const consent = getCookie(COOKIE_CONSENT_KEY);
+        if (!consent) {
+            // Show banner after a short delay
+            setTimeout(showCookieBanner, 1000);
+        }
+        
+        // Global function to accept cookies
+        window.acceptCookies = function(level) {
+            setCookie(COOKIE_CONSENT_KEY, level, COOKIE_EXPIRY_DAYS);
+            hideCookieBanner();
+            
+            if (level === 'all') {
+                // Enable analytics, marketing cookies, etc.
+                console.log('All cookies accepted');
+            } else {
+                // Only essential cookies
+                console.log('Only essential cookies accepted');
+            }
+        };
+    })();
+    
+    // Lazy Loading for Images
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add loading="lazy" to images that don't have it
+        const images = document.querySelectorAll('img:not([loading])');
+        images.forEach(img => {
+            img.setAttribute('loading', 'lazy');
+            img.setAttribute('decoding', 'async');
+        });
+        
+        // Mark images as loaded when they finish loading
+        document.querySelectorAll('img').forEach(img => {
+            if (img.complete) {
+                img.classList.add('loaded');
+            } else {
+                img.addEventListener('load', function() {
+                    this.classList.add('loaded');
+                });
+            }
+        });
+    });
+    </script>
 
     <script src="{% static 'js/script.js' %}"></script>
     {% block extra_js %}{% endblock %}

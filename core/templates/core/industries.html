@@ -1,15 +1,19 @@
-{% extends 'core/base.html' %}
+﻿{% extends 'core/base.html' %}
 {% load static %}
 
-{% block title %}Industries We Serve | PackAxis Packaging{% endblock %}
+{% block title %}Industries We Serve | Packaxis Packaging{% endblock %}
 
 {% block content %}
 <!-- Hero Section -->
 <section class="industries-hero">
     <div class="container">
         <div class="industries-hero-content">
-            <span class="hero-badge">Industries</span>
-            <h1>Tailored Packaging Solutions<br>for Every Industry</h1>
+            <nav class="breadcrumb" style="display: flex; gap: 0.5rem; justify-content: center; align-items: center; font-size: 0.9rem; color: rgba(255,255,255,0.6); margin-bottom: 2rem;">
+                <a href="{% url 'core:index' %}" style="color: #d4ff9e; text-decoration: none; transition: color 0.2s;">Home</a>
+                <span>›</span>
+                <span>Industries</span>
+            </nav>
+            <h1>Tailored Packaging Solutions<br>for Every <span style="color: #d4ff9e;">Industry</span></h1>
             <p class="hero-description">From restaurants to retail, we understand the unique packaging needs of your business. Explore our specialized solutions designed for your industry.</p>
         </div>
     </div>

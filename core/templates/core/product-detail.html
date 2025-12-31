@@ -1,9 +1,174 @@
 {% extends 'core/base.html' %}
 {% load static %}
 
-{% block title %}{{ product.title }} - {{ product.category.title }} | PackAxis Packaging{% endblock %}
+{% block title %}{{ product.meta_title|default:product.title }} - {{ product.category.title }} | Packaxis Packaging Canada{% endblock %}
+{% block description %}{{ product.meta_description|default:product.description|truncatewords:25 }}{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Page Top Spacing for Fixed Navbar */
+.product-detail-page { 
+    padding-top: 100px;
+    padding-bottom: 4rem;
+    background: linear-gradient(180deg, #f5f5f0 0%, #fafaf2 100%); }
+
+ /* Product Detail Section */
+.product-detail-section { padding: 1rem 0; }  
+
+/* Breadcrumbs */
+.breadcrumbs { padding: 1rem 0; background: var(--bg-light); }
+.breadcrumb-list { display: flex; align-items: center; gap: 0.5rem; list-style: none; margin: 0; padding: 0; font-size: 0.875rem; }
+.breadcrumb-list li { display: flex; align-items: center; gap: 0.5rem; }
+.breadcrumb-list a { color: var(--text-light); text-decoration: none; transition: color 0.2s; }
+.breadcrumb-list a:hover { color: var(--primary-color); }
+.breadcrumb-list .separator { color: #ccc; }
+.breadcrumb-list .current { color: var(--text-dark); font-weight: 500; }
+
+/* Reviews Summary */
+.reviews-summary { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+.stars { display: flex; gap: 2px; }
+.star { color: #ffc107; font-size: 1rem; }
+.star.empty { color: #ddd; }
+.review-count { font-size: 0.875rem; color: var(--text-light); }
+.review-count a { color: var(--primary-color); text-decoration: none; }
+
+/* Image Gallery - Left Side */
+.main-image-container-left {
+border: none;
+}
+
+.thumbnail-item-vertical{
+    border: none;
+}
+
+/*Product Pricing Main*/
+.product-pricing-main {
+  padding-bottom: 0rem;
+  border-bottom: none;
+}
+
+
+
+
+/* Tiered Pricing */
+.tiered-pricing { margin-top: 1rem; padding-top: 1rem; }
+.tiered-pricing h4 { font-size: 0.8125rem; font-weight: 600; color: var(--text-dark); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+.tiered-pricing h4 svg { color:#2e7d32; }
+.tier-table { display: grid; gap: 0.5rem; }
+.tier-row { display: grid; grid-template-columns: 1fr auto; gap: 1rem; padding: 0.5rem 1.75rem; background: white; border-radius: 50px; font-size: 0.875rem; cursor: pointer; transition: all 0.2s; border: 2px solid transparent; }
+.tier-row:hover { border-color: var(--primary-color); }
+.tier-row.active { background: rgba(57, 183, 93, 0.1); }
+.tier-row.active .tier-price { color:#292808; font-weight: 700; }
+.tier-qty { color: var(--text-dark); }
+.tier-price { font-weight: 600; color: #292808; }
+.tier-savings { font-size: 0.75rem; color: #2e7d32; background: #e8f5e9; padding: 0.125rem 0.5rem; border-radius: 50px; margin-left: 0.5rem; }
+
+/* Dynamic Price Display */
+.dynamic-price-display {  background: linear-gradient(135deg, #d4ff9e 0%, #d4ff9e 100%); border-radius: 20px; padding: 2rem; margin-top: 1rem; margin-bottom: 1rem }
+.price-breakdown { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+.price-label { font-size: 0.875rem; color: var(--text-light); }
+.price-value { font-weight: 600; color: var(--text-dark); }
+.price-total-row { display: flex; justify-content: space-between; align-items: center; padding-top: 0.75rem; border-top: 2px solid #008000; }
+.price-total-label { font-size: 1rem; font-weight: 600; color: var(--text-dark); }
+.price-total-value { font-size: 1.5rem; font-weight: 800; }
+.savings-banner { background: #2e7d32; color: white; padding: 0.5rem 0.75rem; border-radius: 50px; margin-top: 0.75rem; font-size: 0.8125rem; text-align: center; font-weight: 600; }
+
+/* Variants Section */
+.variants-section { margin-bottom: 1.5rem; }
+.variant-group { margin-bottom: 1.25rem; }
+.variant-label { display: block; font-size: 0.875rem; font-weight: 600; color: var(--text-dark); margin-bottom: 0.5rem; }
+.variant-label span { font-weight: 400; color: var(--text-light); }
+.variant-options { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.variant-btn { padding: 0.625rem 1rem; border: 2px solid #e0e0e0; border-radius: 50px; background: white; font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+.variant-btn:hover { border-color: var(--primary-color); }
+.variant-btn.active { border-color: var(--primary-color); background: rgba(57, 183, 93, 0.1); color:#292808; }
+
+/* Color Swatches */
+.color-swatch { width: 40px; height: 40px; border-radius: 50%; padding: 0; position: relative; border: 3px solid #e0e0e0; transition: all 0.2s; }
+.color-swatch:hover { transform: scale(1.1); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+.color-swatch.active { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(57, 183, 93, 0.3); }
+.color-swatch.active::after { content: '✓'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 1rem; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+.color-swatch[data-color="white"].active::after,
+.color-swatch[data-color="natural"].active::after,
+.color-swatch[data-color="cream"].active::after { color: #333; text-shadow: none; }
+.color-swatch-wrapper { display: flex; flex-direction: column; align-items: center; gap: 0.25rem; }
+.color-swatch-name { font-size: 0.6875rem; color: var(--text-light); text-transform: capitalize; }
+
+/* Product Tags */
+.product-tags { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #eee; }
+.tags-label { font-size: 0.75rem; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem; }
+.tags-list { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.tag-item { display: inline-block; padding: 0.375rem 1.75rem; background:#fffbeb; border-radius: 50px; font-size: 0.8125rem; color: var(--text-dark); text-decoration: none; transition: all 0.2s; }
+.tag-item:hover { background: rgba(57, 183, 93, 0.1); color: var(--text-dark); }
+
+/* Quantity Section - Added Later By Pujan */
+
+.quantity-selector input {
+    border-radius: 50px;
+}
+
+/*Product Options - Varients Color and Size*/
+.option-value {
+  border: none;
+  padding: 0.625rem 1.75rem;
+  background: #fdfbe5;
+}
+
+/*Guarantee Banner */
+.guarantee-banner{
+    border: none;
+    padding: 0.875rem 1.75rem;
+}
+
+.guarantee-banner svg {
+    flex-shrink: 0;
+    stroke: #2e7d32;
+}
+
+
+/* Reviews Section */
+.reviews-section { margin-top: 4rem; padding-top: 3rem; border-top: 1px solid #eee; }
+.reviews-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+.reviews-title { font-size: 1.5rem; font-weight: 700; }
+.reviews-overview { display: flex; align-items: center; gap: 1rem; }
+.rating-big { font-size: 3rem; font-weight: 800; color: var(--text-dark); }
+.rating-info .stars { font-size: 1.25rem; }
+.rating-info span { font-size: 0.875rem; color: var(--text-light); }
+.reviews-grid { display: grid; gap: 1.5rem; }
+.review-card { padding: 1.5rem; background: var(--bg-light); border-radius: 12px; }
+.review-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+.reviewer-info { display: flex; align-items: center; gap: 0.75rem; }
+.reviewer-avatar { width: 48px; height: 48px; background: var(--primary-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 1.125rem; }
+.reviewer-name { font-weight: 600; color: var(--text-dark); }
+.review-date { font-size: 0.8125rem; color: var(--text-light); }
+.verified-badge { display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.75rem; color: #2e7d32; background: #e8f5e9; padding: 0.25rem 0.5rem; border-radius: 4px; margin-top: 0.25rem; }
+.review-rating { display: flex; gap: 2px; }
+.review-title { font-weight: 600; margin-bottom: 0.5rem; }
+.review-text { color: var(--text-dark); line-height: 1.6; margin-bottom: 1rem; }
+.review-image { max-width: 200px; border-radius: 8px; margin-top: 1rem; }
+.no-reviews { text-align: center; padding: 3rem; background: var(--bg-light); border-radius: 12px; color: var(--text-light); }
+</style>
+{% endblock %}
 
 {% block content %}
+<div class="product-detail-page">
+<!-- Breadcrumbs -->
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <div class="container">
+        <ol class="breadcrumb-list">
+            <li><a href="{% url 'core:index' %}">Home</a></li>
+            <li><span class="separator">/</span></li>
+            <li><a href="{% url 'core:products' %}">Products</a></li>
+            <li><span class="separator">/</span></li>
+            {% if product.category %}
+            <li><a href="{% url 'core:category_detail' product.category.slug %}">{{ product.category.title }}</a></li>
+            <li><span class="separator">/</span></li>
+            {% endif %}
+            <li><span class="current">{{ product.title }}</span></li>
+        </ol>
+    </div>
+</nav>
+
 <!-- Product Detail Section -->
 <section class="product-detail-section">
     <div class="container">
@@ -66,6 +231,25 @@
                     {% endif %}
                 </div>
                 
+                <!-- Reviews Summary -->
+                {% if product.review_count > 0 %}
+                <div class="reviews-summary">
+                    <div class="stars">
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= product.average_rating %}
+                                <span class="star">★</span>
+                            {% else %}
+                                <span class="star empty">★</span>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <span class="review-count">
+                        {{ product.average_rating }} out of 5 
+                        (<a href="#reviews">{{ product.review_count }} review{{ product.review_count|pluralize }}</a>)
+                    </span>
+                </div>
+                {% endif %}
+                
                 <!-- Pricing -->
                 <div class="product-pricing-main">
                     {% if product.price %}
@@ -84,6 +268,46 @@
                         {% endif %}
                     {% endif %}
                 </div>
+                
+                <!-- Tiered Pricing -->
+                {% if tiered_prices %}
+                <div class="tiered-pricing" id="tieredPricing">
+                    <h4>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                            <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                        </svg>
+                        Volume Pricing <span style="font-weight: 400; color: var(--text-light);">(click to apply)</span>
+                    </h4>
+                    <div class="tier-table" id="tierTable">
+                        {% for tier in tiered_prices %}
+                        <div class="tier-row" data-min="{{ tier.min_quantity }}" data-max="{{ tier.max_quantity|default:'999999' }}" data-price="{{ tier.price_per_unit }}" onclick="applyTier(this)">
+                            <span class="tier-qty">{{ tier.min_quantity }}{% if tier.max_quantity %}-{{ tier.max_quantity }}{% else %}+{% endif %} units</span>
+                            <span class="tier-price">${{ tier.price_per_unit }}/unit</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <!-- Dynamic Price Calculator -->
+                <div class="dynamic-price-display" id="priceCalculator" style="display: none;">
+                    <div class="price-breakdown">
+                        <span class="price-label">Unit Price:</span>
+                        <span class="price-value" id="displayUnitPrice">$0.00</span>
+                    </div>
+                    <div class="price-breakdown">
+                        <span class="price-label">Quantity:</span>
+                        <span class="price-value" id="displayQuantity">0</span>
+                    </div>
+                    <div class="price-total-row">
+                        <span class="price-total-label">Estimated Total:</span>
+                        <span class="price-total-value" id="displayTotal">$0.00</span>
+                    </div>
+                    <div class="savings-banner" id="savingsBanner" style="display: none;">
+                        🎉 You're saving <span id="savingsAmount">$0</span> with volume pricing!
+                    </div>
+                </div>
+                {% endif %}
 
                 <!-- Size/Specifications Quick View -->
                 {% if product.size or product.color %}
@@ -102,10 +326,59 @@
                     {% endif %}
                 </div>
                 {% endif %}
+                
+                <!-- Variants Section -->
+                {% if size_variants or color_variants %}
+                <div class="variants-section">
+                    {% if size_variants %}
+                    <div class="variant-group">
+                        <label class="variant-label">Size: <span id="selectedSize">{{ size_variants.0.name }}</span></label>
+                        <div class="variant-options">
+                            {% for variant in size_variants %}
+                            <button type="button" class="variant-btn {% if forloop.first %}active{% endif %}" 
+                                    data-variant-type="size" 
+                                    data-variant-id="{{ variant.id }}"
+                                    data-variant-name="{{ variant.name }}"
+                                    data-price-adjustment="{{ variant.price_adjustment }}"
+                                    onclick="selectVariant(this, 'size')">
+                                {{ variant.name }}
+                            </button>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if color_variants %}
+                    <div class="variant-group">
+                        <label class="variant-label">Color: <span id="selectedColor">{{ color_variants.0.name }}</span></label>
+                        <div class="variant-options">
+                            {% for variant in color_variants %}
+                            <div class="color-swatch-wrapper">
+                                <button type="button" class="color-swatch {% if forloop.first %}active{% endif %}" 
+                                        data-variant-type="color" 
+                                        data-variant-id="{{ variant.id }}"
+                                        data-variant-name="{{ variant.name }}"
+                                        data-color="{{ variant.name|lower }}"
+                                        data-price-adjustment="{{ variant.price_adjustment }}"
+                                        {% if variant.image %}data-image="{{ variant.image.url }}"{% endif %}
+                                        onclick="selectVariant(this, 'color')"
+                                        style="background-color: {% if 'brown' in variant.name|lower %}#8B4513{% elif 'kraft' in variant.name|lower %}#C4A77D{% elif 'white' in variant.name|lower %}#FFFFFF{% elif 'black' in variant.name|lower %}#292808{% elif 'red' in variant.name|lower %}#DC3545{% elif 'blue' in variant.name|lower %}#007BFF{% elif 'green' in variant.name|lower %}#28A745{% elif 'natural' in variant.name|lower %}#DEB887{% elif 'cream' in variant.name|lower %}#FFFDD0{% elif 'grey' in variant.name|lower or 'gray' in variant.name|lower %}#6c757d{% elif 'navy' in variant.name|lower %}#001f3f{% elif 'burgundy' in variant.name|lower %}#800020{% elif 'gold' in variant.name|lower %}#FFD700{% elif 'silver' in variant.name|lower %}#C0C0C0{% else %}#e0e0e0{% endif %};">
+                                </button>
+                                <span class="color-swatch-name">{{ variant.name }}</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
 
                 <!-- Quantity Selector -->
-                <form action="{% url 'core:add_to_cart' product.slug %}" method="POST" class="add-to-cart-form">
+                <form action="{% url 'core:add_to_cart' product.slug %}" method="POST" class="add-to-cart-form" id="addToCartForm">
                     {% csrf_token %}
+                    <input type="hidden" name="size_variant" id="sizeVariantInput" value="">
+                    <input type="hidden" name="color_variant" id="colorVariantInput" value="">
+                    
                     <div class="quantity-section">
                         <label>Quantity{% if product.case_quantity %} ({{ product.case_quantity }} per case){% endif %}</label>
                         <div class="quantity-selector">
@@ -152,13 +425,60 @@
                                 Get a Quote
                             </a>
                         {% endif %}
-                        <a href="tel:+14164004747" class="btn-call" title="Call us now">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                            </svg>
-                        </a>
                     </div>
                 </form>
+
+                <!-- Custom Quote CTA for B2B -->
+                <div class="custom-quote-cta" style="background: linear-gradient(135deg, #f5f5f0 0%, #fafaf2 100%); border: 2px solid #d4ff9e; border-radius: 16px; padding: 1.25rem; margin-top: 1rem; margin-bottom: 1rem;">
+                    <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                        <div style="background: #d4ff9e; border-radius: 12px; padding: 0.75rem; flex-shrink: 0;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#292808" stroke-width="2">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                                <path d="M2 17l10 5 10-5"></path>
+                                <path d="M2 12l10 5 10-5"></path>
+                            </svg>
+                        </div>
+                        <div style="flex: 1;">
+                            <h4 style="font-size: 1rem; font-weight: 700; color: #292808; margin-bottom: 0.25rem;">Need Custom Branded Bags?</h4>
+                            <p style="font-size: 0.875rem; color: #5a5930; margin-bottom: 0.75rem; line-height: 1.4;">Get your logo printed on these bags. Perfect for restaurants, retail stores, and corporate gifts. <strong>MOQ: 1,000 pcs.</strong></p>
+                            <a href="{% url 'core:quote_request' %}?product={{ product.slug }}&custom=true" style="display: inline-flex; align-items: center; gap: 0.5rem; background: #292808; color: #d4ff9e; padding: 0.625rem 1.25rem; border-radius: 50px; font-size: 0.875rem; font-weight: 600; text-decoration: none; transition: all 0.2s;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                                </svg>
+                                Request Custom Quote
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- B2B Wholesale Benefits -->
+                <div class="wholesale-benefits" style="background: #292808; border-radius: 16px; padding: 1.25rem; margin-bottom: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d4ff9e" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            <polyline points="9 12 11 14 15 10"></polyline>
+                        </svg>
+                        <span style="font-size: 0.875rem; font-weight: 700; color: #d4ff9e;">Wholesale Benefits</span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d4ff9e" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span style="font-size: 0.8125rem; color: #fafaf2;">Up to 30% Volume Discount</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d4ff9e" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span style="font-size: 0.8125rem; color: #fafaf2;">Free Shipping $2000+</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d4ff9e" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span style="font-size: 0.8125rem; color: #fafaf2;">NET 30 Terms Available</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d4ff9e" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span style="font-size: 0.8125rem; color: #fafaf2;">Dedicated Account Manager</span>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Trust Badges - Compact -->
                 <div class="trust-badges-compact">
@@ -204,6 +524,67 @@
                     </svg>
                     <span><strong>Quality Guarantee</strong> — 100% satisfaction or we'll make it right</span>
                 </div>
+                
+                <!-- Custom Branding Workflow Section -->
+                <div class="custom-branding-section" style="background: linear-gradient(135deg, #f5f5f0 0%, #fafaf2 100%); border: 2px dashed rgba(47, 46, 12, 0.15); border-radius: 16px; padding: 1.5rem; margin-top: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                        <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #d4ff9e 0%, #a8e65c 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#292808" stroke-width="2">
+                                <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 style="font-size: 1rem; font-weight: 700; color: #292808; margin: 0;">Custom Branding Available</h4>
+                            <p style="font-size: 0.8125rem; color: #5a5930; margin: 0;">Add your logo to these bags</p>
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1rem;">
+                        <div style="background: white; border-radius: 10px; padding: 0.75rem; text-align: center;">
+                            <div style="font-size: 1.25rem; margin-bottom: 0.25rem;">🎨</div>
+                            <div style="font-size: 0.75rem; font-weight: 600; color: #292808;">1-Color Print</div>
+                            <div style="font-size: 0.6875rem; color: #5a5930;">From $0.15/bag</div>
+                        </div>
+                        <div style="background: white; border-radius: 10px; padding: 0.75rem; text-align: center;">
+                            <div style="font-size: 1.25rem; margin-bottom: 0.25rem;">🖼️</div>
+                            <div style="font-size: 0.75rem; font-weight: 600; color: #292808;">Full Color</div>
+                            <div style="font-size: 0.6875rem; color: #5a5930;">From $0.35/bag</div>
+                        </div>
+                        <div style="background: white; border-radius: 10px; padding: 0.75rem; text-align: center;">
+                            <div style="font-size: 1.25rem; margin-bottom: 0.25rem;">✨</div>
+                            <div style="font-size: 0.75rem; font-weight: 600; color: #292808;">Foil Stamping</div>
+                            <div style="font-size: 0.6875rem; color: #5a5930;">From $0.50/bag</div>
+                        </div>
+                    </div>
+                    <a href="{% url 'core:quote_request' %}?product={{ product.slug }}&branding=true" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; background: #292808; color: #d4ff9e; padding: 0.75rem 1rem; border-radius: 50px; font-size: 0.875rem; font-weight: 600; text-decoration: none; transition: all 0.2s;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        Get Custom Branding Quote
+                    </a>
+                </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="8" r="7"></circle>
+                        <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                    </svg>
+                    <span><strong>Quality Guarantee</strong> — 100% satisfaction or we'll make it right</span>
+                </div>
+                
+                <!-- Industries & Categories Tags -->
+                {% if product_industries or product.category %}
+                <div class="product-tags">
+                    <div class="tags-label">Categories & Industries</div>
+                    <div class="tags-list">
+                        {% if product.category %}
+                        <a href="{% url 'core:products' %}?category={{ product.category.slug }}" class="tag-item">{{ product.category.title }}</a>
+                        {% endif %}
+                        {% for pi in product_industries %}
+                        <a href="{{ pi.industry.url }}" class="tag-item">{{ pi.industry.title }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
             </div>
         </div>
         
@@ -221,7 +602,7 @@
                 <!-- Description Tab -->
                 <div id="description" class="tab-panel active">
                     {% if product.description %}
-                        <p>{{ product.description }}</p>
+                        <p>{{ product.description|linebreaks }}</p>
                     {% else %}
                         <p>Premium quality packaging solution designed for your business needs. Contact us for detailed product information.</p>
                     {% endif %}
@@ -257,7 +638,136 @@
     </div>
 </section>
 
+<!-- Use Cases Section -->
+<section class="use-cases-section" style="padding: 4rem 0; background: linear-gradient(135deg, #f5f5f0 0%, #fafaf2 100%);">
+    <div class="container">
+        <div style="text-align: center; margin-bottom: 2.5rem;">
+            <span style="display: inline-block; background: rgba(47, 46, 12, 0.08); color: #292808; padding: 0.5rem 1.25rem; border-radius: 50px; font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem;">Perfect For</span>
+            <h2 style="font-size: 2rem; font-weight: 800; color: #292808; margin-bottom: 0.75rem;">Popular Use Cases</h2>
+            <p style="font-size: 1rem; color: #5a5930; max-width: 600px; margin: 0 auto;">Discover how businesses across Canada use {{ product.title }} to elevate their brand.</p>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;">
+            <div style="background: white; border-radius: 16px; padding: 1.5rem; text-align: center; border: 1px solid rgba(47, 46, 12, 0.06); box-shadow: 0 2px 12px rgba(47, 46, 12, 0.04); transition: all 0.3s;">
+                <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #d4ff9e 0%, #a8e65c 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#292808" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                </div>
+                <h3 style="font-size: 1rem; font-weight: 700; color: #292808; margin-bottom: 0.5rem;">Restaurants & Cafes</h3>
+                <p style="font-size: 0.875rem; color: #5a5930; line-height: 1.5;">Perfect for takeout orders, delivery bags, and branded customer packaging.</p>
+            </div>
+            <div style="background: white; border-radius: 16px; padding: 1.5rem; text-align: center; border: 1px solid rgba(47, 46, 12, 0.06); box-shadow: 0 2px 12px rgba(47, 46, 12, 0.04); transition: all 0.3s;">
+                <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #d4ff9e 0%, #a8e65c 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#292808" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                </div>
+                <h3 style="font-size: 1rem; font-weight: 700; color: #292808; margin-bottom: 0.5rem;">Retail Stores</h3>
+                <p style="font-size: 0.875rem; color: #5a5930; line-height: 1.5;">Enhance customer experience with premium branded shopping bags.</p>
+            </div>
+            <div style="background: white; border-radius: 16px; padding: 1.5rem; text-align: center; border: 1px solid rgba(47, 46, 12, 0.06); box-shadow: 0 2px 12px rgba(47, 46, 12, 0.04); transition: all 0.3s;">
+                <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #d4ff9e 0%, #a8e65c 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#292808" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="8" x2="8" y2="8"></line>
+                        <line x1="16" y1="12" x2="8" y2="12"></line>
+                        <line x1="10" y1="16" x2="8" y2="16"></line>
+                    </svg>
+                </div>
+                <h3 style="font-size: 1rem; font-weight: 700; color: #292808; margin-bottom: 0.5rem;">E-commerce</h3>
+                <p style="font-size: 0.875rem; color: #5a5930; line-height: 1.5;">Sustainable shipping and product packaging for online orders.</p>
+            </div>
+            <div style="background: white; border-radius: 16px; padding: 1.5rem; text-align: center; border: 1px solid rgba(47, 46, 12, 0.06); box-shadow: 0 2px 12px rgba(47, 46, 12, 0.04); transition: all 0.3s;">
+                <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #d4ff9e 0%, #a8e65c 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#292808" stroke-width="2">
+                        <path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"></path>
+                        <path d="M4 6v12c0 1.1.9 2 2 2h14v-4"></path>
+                        <path d="M18 12a2 2 0 0 0-2-2c-1.1 0-2 .9-2 2v4a2 2 0 0 0 2 2c1.1 0 2-.9 2-2v-4z"></path>
+                    </svg>
+                </div>
+                <h3 style="font-size: 1rem; font-weight: 700; color: #292808; margin-bottom: 0.5rem;">Corporate Gifts</h3>
+                <p style="font-size: 0.875rem; color: #5a5930; line-height: 1.5;">Elegant presentation bags for events, promotions, and client gifts.</p>
+            </div>
+        </div>
+    </div>
+</section>
 
+<!-- Reviews Section -->
+<section class="reviews-section" id="reviews">
+    <div class="container">
+        <div class="reviews-header">
+            <h2 class="reviews-title">Customer Reviews</h2>
+            {% if product.review_count > 0 %}
+            <div class="reviews-overview">
+                <span class="rating-big">{{ product.average_rating }}</span>
+                <div class="rating-info">
+                    <div class="stars">
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= product.average_rating %}
+                                <span class="star">★</span>
+                            {% else %}
+                                <span class="star empty">★</span>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <span>Based on {{ product.review_count }} review{{ product.review_count|pluralize }}</span>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="reviews-grid">
+            {% for review in reviews %}
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="reviewer-info">
+                        <div class="reviewer-avatar">{{ review.name|slice:":1"|upper }}</div>
+                        <div>
+                            <div class="reviewer-name">{{ review.name }}</div>
+                            <div class="review-date">{{ review.created_at|date:"M d, Y" }}</div>
+                            {% if review.is_verified %}
+                            <span class="verified-badge">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                                Verified Purchase
+                            </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="review-rating">
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= review.rating %}
+                                <span class="star">★</span>
+                            {% else %}
+                                <span class="star empty">★</span>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% if review.title %}
+                <div class="review-title">{{ review.title }}</div>
+                {% endif %}
+                <p class="review-text">{{ review.review }}</p>
+                {% if review.image %}
+                <img src="{{ review.image.url }}" alt="Review image" class="review-image">
+                {% endif %}
+            </div>
+            {% empty %}
+            <div class="no-reviews">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+                <p style="margin-top: 1rem;">No reviews yet. Be the first to review this product!</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
 <!-- Related Products -->
 {% if related_products %}
 <section class="related-products-section">
@@ -265,7 +775,7 @@
         <h2 class="section-title">You may also like</h2>
         <div class="related-products-grid">
             {% for related in related_products %}
-            <a href="{% url 'core:product_detail' related.slug %}" class="related-product-card">
+            <a href="{% url 'core:product_detail' related.category.slug related.slug %}" class="related-product-card">
                 {% if related.image %}
                     <div class="related-product-image">
                         <img src="{{ related.image.url }}" alt="{{ related.title }}">
@@ -273,7 +783,9 @@
                 {% endif %}
                 <div class="related-product-info">
                     <h3>{{ related.title }}</h3>
-                    {% if related.price_range %}
+                    {% if related.price %}
+                        <p class="related-price">${{ related.price }}</p>
+                    {% elif related.price_range %}
                         <p class="related-price">{{ related.price_range }}</p>
                     {% endif %}
                 </div>
@@ -283,6 +795,7 @@
     </div>
 </section>
 {% endif %}
+</div><!-- End product-detail-page wrapper -->
 
 <script>
 // Image gallery switcher
@@ -294,10 +807,19 @@ function changeImage(imageUrl, thumbnail) {
     thumbnail.classList.add('active');
 }
 
-// Quantity controls
+// Tiered pricing data
+const tieredPrices = [
+    {% for tier in tiered_prices %}
+    { min: {{ tier.min_quantity }}, max: {{ tier.max_quantity|default:'999999' }}, price: {{ tier.price_per_unit }} }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+];
+const basePrice = {{ product.price|default:'0' }};
+
+// Quantity controls with auto-pricing
 function incrementQty() {
     const qtyInput = document.getElementById('quantity');
     qtyInput.value = parseInt(qtyInput.value) + 1;
+    updatePricing();
 }
 
 function decrementQty() {
@@ -305,8 +827,73 @@ function decrementQty() {
     const minQty = parseInt(qtyInput.min) || 1;
     if (parseInt(qtyInput.value) > minQty) {
         qtyInput.value = parseInt(qtyInput.value) - 1;
+        updatePricing();
     }
 }
+
+// Update pricing based on quantity
+function updatePricing() {
+    const qty = parseInt(document.getElementById('quantity').value) || 1;
+    const priceCalc = document.getElementById('priceCalculator');
+    const tierTable = document.getElementById('tierTable');
+    
+    if (!tieredPrices.length || !basePrice) return;
+    
+    // Find applicable tier
+    let unitPrice = basePrice;
+    let activeTier = null;
+    
+    tieredPrices.forEach((tier, index) => {
+        if (qty >= tier.min && qty <= tier.max) {
+            unitPrice = tier.price;
+            activeTier = index;
+        }
+    });
+    
+    // Highlight active tier
+    if (tierTable) {
+        tierTable.querySelectorAll('.tier-row').forEach((row, index) => {
+            row.classList.toggle('active', index === activeTier);
+        });
+    }
+    
+    // Show price calculator
+    if (priceCalc) {
+        priceCalc.style.display = 'block';
+        document.getElementById('displayUnitPrice').textContent = '$' + unitPrice.toFixed(2);
+        document.getElementById('displayQuantity').textContent = qty.toLocaleString();
+        document.getElementById('displayTotal').textContent = '$' + (unitPrice * qty).toFixed(2);
+        
+        // Show savings if applicable
+        const savings = (basePrice - unitPrice) * qty;
+        const savingsBanner = document.getElementById('savingsBanner');
+        if (savings > 0 && savingsBanner) {
+            savingsBanner.style.display = 'block';
+            document.getElementById('savingsAmount').textContent = '$' + savings.toFixed(2);
+        } else if (savingsBanner) {
+            savingsBanner.style.display = 'none';
+        }
+    }
+}
+
+// Apply tier by clicking on it
+function applyTier(tierRow) {
+    const minQty = parseInt(tierRow.dataset.min);
+    const qtyInput = document.getElementById('quantity');
+    qtyInput.value = minQty;
+    updatePricing();
+}
+
+// Listen for manual quantity input
+document.addEventListener('DOMContentLoaded', function() {
+    const qtyInput = document.getElementById('quantity');
+    if (qtyInput) {
+        qtyInput.addEventListener('input', updatePricing);
+        qtyInput.addEventListener('change', updatePricing);
+        // Initial calculation
+        setTimeout(updatePricing, 100);
+    }
+});
 
 // Tab switcher
 function switchTab(event, tabId) {
@@ -316,10 +903,37 @@ function switchTab(event, tabId) {
     document.getElementById(tabId).classList.add('active');
 }
 
+// Variant selection
+function selectVariant(btn, type) {
+    // Update button states - handle both regular buttons and color swatches
+    const container = btn.closest('.variant-options');
+    container.querySelectorAll('.variant-btn, .color-swatch').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    
+    // Update display text
+    const nameSpan = document.getElementById('selected' + type.charAt(0).toUpperCase() + type.slice(1));
+    if (nameSpan) nameSpan.textContent = btn.dataset.variantName;
+    
+    // Update hidden input
+    const input = document.getElementById(type + 'VariantInput');
+    if (input) input.value = btn.dataset.variantId;
+    
+    // Update image if variant has one
+    if (btn.dataset.image) {
+        document.getElementById('mainImage').src = btn.dataset.image;
+    }
+    
+    // Recalculate pricing if price adjustment exists
+    const priceAdjustment = parseFloat(btn.dataset.priceAdjustment) || 0;
+    if (priceAdjustment !== 0) {
+        updatePricing();
+    }
+}
+
 // AJAX Add to Cart
 document.addEventListener('DOMContentLoaded', function() {
-    const form = document.querySelector('.add-to-cart-form');
-    if (form) {
+    const form = document.getElementById('addToCartForm');
+    if (form && form.querySelector('button[type="submit"]')) {
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -379,8 +993,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     btn.style.background = '#28a745';
                     btn.style.opacity = '1';
                     
-                    // Show toast notification
-                    showToast('Added to cart successfully!', 'success');
+                    // Show warning if minimum order was enforced
+                    if (data.warning) {
+                        showToast(data.warning, 'warning');
+                    } else {
+                        // Show success toast notification
+                        showToast(data.message || 'Added to cart successfully!', 'success');
+                    }
                     
                     // Reset button after 2 seconds
                     setTimeout(() => {
@@ -411,14 +1030,17 @@ function showToast(message, type) {
     const existingToast = document.querySelector('.toast-notification');
     if (existingToast) existingToast.remove();
     
+    const icons = {
+        success: '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline>',
+        error: '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>',
+        warning: '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line>'
+    };
+    
     const toast = document.createElement('div');
     toast.className = `toast-notification ${type}`;
     toast.innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            ${type === 'success' 
-                ? '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline>'
-                : '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>'
-            }
+            ${icons[type] || icons.success}
         </svg>
         <span>${message}</span>
         <a href="{% url 'core:cart' %}" class="toast-action">View Cart</a>
@@ -436,6 +1058,43 @@ function showToast(message, type) {
 }
 </script>
 
+<!-- Schema.org Product Markup -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org/",
+    "@type": "{{ product.schema_type|default:'Product' }}",
+    "name": "{{ product.title }}",
+    "image": "{% if product.image %}{{ request.scheme }}://{{ request.get_host }}{{ product.image.url }}{% endif %}",
+    "description": "{{ product.description|truncatewords:50|escapejs }}",
+    "sku": "{{ product.sku|default:product.slug }}",
+    "brand": {
+        "@type": "Brand",
+        "name": "Packaxis Packaging Canada"
+    },
+    {% if product.price %}
+    "offers": {
+        "@type": "Offer",
+        "url": "{{ request.build_absolute_uri }}",
+        "priceCurrency": "CAD",
+        "price": "{{ product.price }}",
+        "availability": "{% if product.is_in_stock %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}",
+        "seller": {
+            "@type": "Organization",
+            "name": "Packaxis Packaging Canada"
+        }
+    },
+    {% endif %}
+    {% if product.review_count > 0 %}
+    "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "{{ product.average_rating }}",
+        "reviewCount": "{{ product.review_count }}"
+    },
+    {% endif %}
+    "category": "{{ product.category.title }}"
+}
+</script>
+
 <style>
 /* Toast Notification */
 .toast-notification {
@@ -450,13 +1109,13 @@ function showToast(message, type) {
     align-items: center;
     gap: 0.75rem;
     z-index: 9999;
-    transform: translateY(100px);
+    transform: translateY(100px) scale(0.9);
     opacity: 0;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .toast-notification.show {
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
     opacity: 1;
 }
 
@@ -466,6 +1125,14 @@ function showToast(message, type) {
 
 .toast-notification.error svg {
     color: #dc3545;
+}
+
+.toast-notification.warning svg {
+    color: #ffc107;
+}
+
+.toast-notification.warning {
+    border-left: 4px solid #ffc107;
 }
 
 .toast-notification span {
@@ -478,17 +1145,18 @@ function showToast(message, type) {
     margin-left: 0.5rem;
     padding: 0.375rem 0.75rem;
     background: var(--primary-color);
-    color: white;
+    color: #292808;
     text-decoration: none;
     border-radius: 50px;
     font-size: 0.8125rem;
     font-weight: 600;
-    transition: background 0.2s;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .toast-action:hover {
     background: var(--secondary-color);
-    color: white;
+    color: #d4ff9e;
+    transform: translateY(-2px);
 }
 
 /* Spinner animation */
