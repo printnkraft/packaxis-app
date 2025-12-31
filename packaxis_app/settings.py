@@ -126,39 +126,53 @@ WSGI_APPLICATION = 'packaxis_app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# Database configuration with production-ready MySQL/MariaDB defaults when used.
-DB_ENGINE = config('DB_ENGINE', default='django.db.backends.sqlite3')
-DB_NAME = config('DB_NAME', default=str(BASE_DIR / 'db.sqlite3'))
-DB_USER = config('DB_USER', default='')
-DB_PASSWORD = config('DB_PASSWORD', default='')
-DB_HOST = config('DB_HOST', default='')
-DB_PORT = config('DB_PORT', default='')
+# Railway provides DATABASE_URL, otherwise use individual config vars
+import dj_database_url
 
-# Connection tuning for production
-DB_CONN_MAX_AGE = config('DB_CONN_MAX_AGE', default=60, cast=int)
-DB_ATOMIC_REQUESTS = config('DB_ATOMIC_REQUESTS', default=True, cast=bool)
+DATABASE_URL = config('DATABASE_URL', default='')
 
-DB_OPTIONS = {}
-if DB_ENGINE == 'django.db.backends.mysql':
-    DB_OPTIONS = {
-        'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        'charset': 'utf8mb4',
-        'use_unicode': True,
+if DATABASE_URL:
+    # Railway/Heroku-style DATABASE_URL
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=config('DB_CONN_MAX_AGE', default=60, cast=int),
+            conn_health_checks=True,
+        )
+    }
+else:
+    # Fallback to individual environment variables
+    DB_ENGINE = config('DB_ENGINE', default='django.db.backends.sqlite3')
+    DB_NAME = config('DB_NAME', default=str(BASE_DIR / 'db.sqlite3'))
+    DB_USER = config('DB_USER', default='')
+    DB_PASSWORD = config('DB_PASSWORD', default='')
+    DB_HOST = config('DB_HOST', default='')
+    DB_PORT = config('DB_PORT', default='')
+    DB_CONN_MAX_AGE = config('DB_CONN_MAX_AGE', default=60, cast=int)
+    DB_ATOMIC_REQUESTS = config('DB_ATOMIC_REQUESTS', default=True, cast=bool)
+
+    DB_OPTIONS = {}
+    if DB_ENGINE == 'django.db.backends.mysql':
+        DB_OPTIONS = {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            'charset': 'utf8mb4',
+            'use_unicode': True,
+        }
+
+    DATABASES = {
+        'default': {
+            'ENGINE': DB_ENGINE,
+            'NAME': DB_NAME,
+            'USER': DB_USER,
+            'PASSWORD': DB_PASSWORD,
+            'HOST': DB_HOST,
+            'PORT': DB_PORT,
+            'OPTIONS': DB_OPTIONS,
+            'CONN_MAX_AGE': DB_CONN_MAX_AGE,
+            'ATOMIC_REQUESTS': DB_ATOMIC_REQUESTS,
+        }
     }
 
-DATABASES = {
-    'default': {
-        'ENGINE': DB_ENGINE,
-        'NAME': DB_NAME,
-        'USER': DB_USER,
-        'PASSWORD': DB_PASSWORD,
-        'HOST': DB_HOST,
-        'PORT': DB_PORT,
-        'OPTIONS': DB_OPTIONS,
-        'CONN_MAX_AGE': DB_CONN_MAX_AGE,
-        'ATOMIC_REQUESTS': DB_ATOMIC_REQUESTS,
-    }
-}
 
 
 # Password validation
