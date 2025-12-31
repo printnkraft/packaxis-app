@@ -199,6 +199,18 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+# =============================================================================
+# STORAGE CONFIGURATION (Backblaze B2 for Production, Local for Development)
+# =============================================================================
+# Backblaze B2 Settings (S3-compatible)
+USE_B2_STORAGE = config('USE_B2_STORAGE', default=False, cast=bool)
+B2_KEY_ID = config('B2_KEY_ID', default='')
+B2_APPLICATION_KEY = config('B2_APPLICATION_KEY', default='')
+B2_BUCKET = config('B2_BUCKET', default='')
+B2_ENDPOINT = config('B2_ENDPOINT', default='')
+B2_REGION = config('B2_REGION', default='us-east-005')
+B2_CUSTOM_DOMAIN = config('B2_CUSTOM_DOMAIN', default='')  # Optional: Cloudflare CDN domain
+
 # Whitenoise for production static file serving
 # Only use manifest storage in production to avoid issues during development/testing
 if DEBUG:
@@ -210,7 +222,37 @@ if DEBUG:
             "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
         },
     }
+elif USE_B2_STORAGE and B2_KEY_ID and B2_APPLICATION_KEY:
+    # Production with Backblaze B2 for media files
+    STORAGES = {
+        "default": {
+            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+            "OPTIONS": {
+                "access_key": B2_KEY_ID,
+                "secret_key": B2_APPLICATION_KEY,
+                "bucket_name": B2_BUCKET,
+                "endpoint_url": f"https://{B2_ENDPOINT}",
+                "region_name": B2_REGION,
+                "default_acl": "public-read",
+                "file_overwrite": False,
+                "object_parameters": {
+                    "CacheControl": "max-age=86400",  # 1 day cache
+                },
+                # Use custom domain (Cloudflare CDN) if configured
+                "custom_domain": B2_CUSTOM_DOMAIN if B2_CUSTOM_DOMAIN else None,
+            },
+        },
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        },
+    }
+    # Media URL for B2 (or Cloudflare CDN if configured)
+    if B2_CUSTOM_DOMAIN:
+        MEDIA_URL = f"https://{B2_CUSTOM_DOMAIN}/"
+    else:
+        MEDIA_URL = f"https://{B2_BUCKET}.{B2_ENDPOINT}/"
 else:
+    # Production without B2 (fallback to local storage)
     STORAGES = {
         "default": {
             "BACKEND": "django.core.files.storage.FileSystemStorage",
@@ -219,9 +261,14 @@ else:
             "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
         },
     }
+    MEDIA_URL = 'media/'
 
-MEDIA_URL = 'media/'
+# Local media root (used in development or as fallback)
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Set MEDIA_URL for development
+if DEBUG:
+    MEDIA_URL = 'media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
