@@ -1,45 +1,64 @@
 #!/usr/bin/env python
-"""Export database data with proper UTF-8 encoding"""
+"""Export database data with proper UTF-8 encoding in Django loaddata format"""
 import os
 import sys
 import json
+import io
 
 # Set UTF-8 encoding
 os.environ['PYTHONIOENCODING'] = 'utf-8'
-sys.stdout.reconfigure(encoding='utf-8')
-
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'packaxis_app.settings')
 
 import django
 django.setup()
 
-from django.core import serializers
-from django.apps import apps
+from django.core.management import call_command
 
 def export_data():
-    # Get all models
-    exclude_models = ['auth.permission', 'contenttypes.contenttype']
+    print("📦 Exporting data in Django fixture format...")
     
-    all_objects = []
+    # Use StringIO with UTF-8 to capture output
+    output = io.StringIO()
     
-    for app_config in apps.get_app_configs():
-        for model in app_config.get_models():
-            model_label = f"{model._meta.app_label}.{model._meta.model_name}"
-            if model_label.lower() not in [e.lower() for e in exclude_models]:
-                try:
-                    objects = model.objects.all()
-                    if objects.exists():
-                        data = serializers.serialize('python', objects)
-                        all_objects.extend(data)
-                        print(f"✓ Exported {model_label}: {objects.count()} objects")
-                except Exception as e:
-                    print(f"✗ Skipped {model_label}: {e}")
-    
-    # Write to file with UTF-8 encoding
-    with open('data_backup.json', 'w', encoding='utf-8') as f:
-        json.dump(all_objects, f, indent=2, ensure_ascii=False, default=str)
-    
-    print(f"\n✅ Exported {len(all_objects)} total objects to data_backup.json")
+    try:
+        call_command(
+            'dumpdata',
+            '--exclude', 'auth.permission',
+            '--exclude', 'contenttypes',
+            '--exclude', 'admin.logentry', 
+            '--exclude', 'sessions',
+            '--exclude', 'axes',
+            '--indent', '2',
+            stdout=output
+        )
+        
+        data = output.getvalue()
+        
+        # Write to file with UTF-8 encoding
+        with open('data_backup.json', 'w', encoding='utf-8') as f:
+            f.write(data)
+        
+        print(f"✅ Exported data to data_backup.json ({len(data)} bytes)")
+        
+    except Exception as e:
+        print(f"❌ Error during export: {e}")
+        # Fallback: export specific apps only
+        print("📦 Trying fallback export (core, blog, accounts apps only)...")
+        
+        output2 = io.StringIO()
+        call_command(
+            'dumpdata',
+            'core', 'blog', 'accounts', 'sites', 'auth.user',
+            '--indent', '2',
+            stdout=output2
+        )
+        
+        data = output2.getvalue()
+        with open('data_backup.json', 'w', encoding='utf-8') as f:
+            f.write(data)
+        
+        print(f"✅ Exported core data to data_backup.json ({len(data)} bytes)")
 
 if __name__ == '__main__':
     export_data()
+

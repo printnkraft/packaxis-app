@@ -9,36 +9,41 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'packaxis_app.settings')
 import django
 django.setup()
 
-from django.core import serializers
-from django.db import transaction
+from django.core.management import call_command
+from django.db import connection
+
+def check_data_exists():
+    """Check if data already exists in the database"""
+    from core.models import ProductCategory, MenuItem
+    return ProductCategory.objects.exists() or MenuItem.objects.exists()
 
 def load_data():
+    print("📦 Checking if data needs to be loaded...")
+    
+    if check_data_exists():
+        print("✅ Data already exists in database, skipping load")
+        return
+    
+    if not os.path.exists('data_backup.json'):
+        print("⚠ data_backup.json not found, skipping load")
+        return
+    
     print("📦 Loading data from data_backup.json...")
     
-    with open('data_backup.json', 'r', encoding='utf-8') as f:
-        data = json.load(f)
-    
-    # Convert back to Django format
-    objects_to_save = []
-    
-    for item in data:
+    try:
+        # Use Django's loaddata command which handles dependencies correctly
+        call_command('loaddata', 'data_backup.json', verbosity=2)
+        print("✅ Data loaded successfully!")
+    except Exception as e:
+        print(f"⚠ Error loading data: {e}")
+        # Try alternative approach - load without natural keys
         try:
-            # Recreate the serialized format Django expects
-            obj_data = json.dumps([item])
-            for obj in serializers.deserialize('json', obj_data):
-                objects_to_save.append(obj)
-        except Exception as e:
-            print(f"⚠ Skipped: {item.get('model', 'unknown')} - {e}")
-    
-    # Save all objects
-    with transaction.atomic():
-        for obj in objects_to_save:
-            try:
-                obj.save()
-            except Exception as e:
-                print(f"⚠ Error saving {obj.object}: {e}")
-    
-    print(f"✅ Loaded {len(objects_to_save)} objects into database")
+            print("📦 Trying alternative load method...")
+            call_command('loaddata', 'data_backup.json', '--ignorenonexistent', verbosity=2)
+            print("✅ Data loaded with alternative method!")
+        except Exception as e2:
+            print(f"❌ Failed to load data: {e2}")
 
 if __name__ == '__main__':
     load_data()
+
