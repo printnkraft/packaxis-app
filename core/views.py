@@ -14,8 +14,9 @@ import json
 import stripe
 import hashlib
 import time
-from .models import MenuItem, Product, ProductCategory, Service, Quote, FAQ, Industry, Cart, CartItem, Order, OrderItem, SiteSettings, PromoCode
+from .models import MenuItem, Product, ProductCategory, Service, Quote, FAQ, Industry, Cart, CartItem, Order, OrderItem, SiteSettings, PromoCode, ProductReview
 from .security import sanitize_text, sanitize_form_data, ratelimit_contact_form, ratelimit_quote_form, ratelimit_cart_api, handle_ratelimit
+from django.contrib.auth.decorators import login_required
 import logging
 
 logger = logging.getLogger(__name__)
@@ -1778,3 +1779,87 @@ def ratelimit_error(request, exception=None):
         'title': 'Too Many Requests',
         'message': 'You have made too many requests. Please wait a moment and try again.'
     }, status=429)
+
+
+@require_POST
+def submit_review(request, category_slug, product_slug):
+    """Submit a product review - only for customers who have purchased and received the product"""
+    try:
+        # Check authentication first for AJAX requests
+        if not request.user.is_authenticated:
+            return JsonResponse({
+                'error': 'Please log in to submit a review.'
+            }, status=401)
+        
+        product = get_object_or_404(Product, slug=product_slug, is_active=True)
+        
+        # Check if user has purchased and received this product
+        delivered_order = Order.objects.filter(
+            user=request.user,
+            items__product=product,
+            status='delivered'
+        ).first()
+        
+        if not delivered_order:
+            return JsonResponse({
+                'error': 'You can only review products you have purchased and received.'
+            }, status=403)
+        
+        # Check if user already reviewed this product (by email from order)
+        existing_review = ProductReview.objects.filter(
+            product=product,
+            email=delivered_order.email
+        ).first()
+        
+        if existing_review:
+            return JsonResponse({
+                'error': 'You have already reviewed this product.'
+            }, status=400)
+        
+        # Get form data
+        rating = int(request.POST.get('rating', 0))
+        title = sanitize_text(request.POST.get('title', ''))
+        review_text = sanitize_text(request.POST.get('review', ''))
+        
+        # Get user's name safely
+        user_name = ''
+        if hasattr(request.user, 'get_full_name'):
+            user_name = request.user.get_full_name()
+        if not user_name and hasattr(request.user, 'username'):
+            user_name = request.user.username
+        if not user_name:
+            user_name = 'Anonymous'
+            
+        name = sanitize_text(request.POST.get('name', user_name))
+        
+        # Validate
+        if not (1 <= rating <= 5):
+            return JsonResponse({'error': 'Invalid rating. Please select 1-5 stars.'}, status=400)
+        
+        if not review_text or len(review_text) < 10:
+            return JsonResponse({'error': 'Please write at least 10 characters for your review.'}, status=400)
+        
+        # Create review
+        review = ProductReview.objects.create(
+            product=product,
+            order=delivered_order,
+            email=delivered_order.email,
+            name=name,
+            rating=rating,
+            title=title,
+            review=review_text,
+            is_verified=True,  # Verified because linked to order
+            is_approved=True   # Auto-approve verified purchases
+        )
+        
+        return JsonResponse({
+            'success': True,
+            'message': 'Thank you for your review! It will appear shortly.'
+        })
+        
+    except Exception as e:
+        logger.error(f'Review submission error: {str(e)}')
+        import traceback
+        logger.error(traceback.format_exc())
+        return JsonResponse({'error': f'Failed to submit review: {str(e)}'}, status=500)
+

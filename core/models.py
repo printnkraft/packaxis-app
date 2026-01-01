@@ -257,6 +257,13 @@ class Product(models.Model):
                 'is_main': False
             })
         return images
+    
+    def get_enabled_use_cases(self):
+        """Get all enabled use cases for this product"""
+        return [puc.use_case for puc in self.product_use_cases.filter(
+            is_enabled=True, 
+            use_case__is_active=True
+        ).select_related('use_case').order_by('order', 'use_case__order')]
 
 
 class ProductImage(models.Model):
@@ -676,6 +683,20 @@ class Order(models.Model):
             date_str = datetime.now().strftime('%Y%m%d')
             random_str = ''.join([str(random.randint(0, 9)) for _ in range(4)])
             self.order_number = f"PA-{date_str}-{random_str}"
+        
+        # Auto-sync tracking_step with order status
+        status_to_tracking = {
+            'pending': 1,      # Order Placed
+            'confirmed': 1,    # Order Placed
+            'processing': 2,   # Processing
+            'shipped': 3,      # Shipped
+            'delivered': 4,    # Delivered
+            'cancelled': 1,    # Keep at Order Placed
+            'refunded': 1,     # Keep at Order Placed
+        }
+        if self.status in status_to_tracking:
+            self.tracking_step = status_to_tracking[self.status]
+        
         super().save(*args, **kwargs)
     
     @property
@@ -831,8 +852,10 @@ class DiscountRule(models.Model):
 # ============================================
 
 class ProductReview(models.Model):
-    """Customer reviews for products"""
+    """Customer reviews for products - can only be created after order delivery"""
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reviews')
+    order = models.ForeignKey('Order', on_delete=models.SET_NULL, null=True, blank=True, 
+                               help_text="Order this review is linked to (for verification)")
     name = models.CharField(max_length=100)
     email = models.EmailField()
     rating = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)], default=5)
@@ -840,7 +863,7 @@ class ProductReview(models.Model):
     review = models.TextField()
     image = models.ImageField(upload_to='review-images/', blank=True, null=True, 
                               help_text="Optional review image")
-    is_verified = models.BooleanField(default=False, help_text="Verified purchase")
+    is_verified = models.BooleanField(default=False, help_text="Verified purchase (auto-set if linked to order)")
     is_approved = models.BooleanField(default=False, help_text="Approved to display")
     helpful_count = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -852,6 +875,67 @@ class ProductReview(models.Model):
     
     def __str__(self):
         return f"{self.name} - {self.product.title} ({self.rating}★)"
+    
+    def save(self, *args, **kwargs):
+        # Auto-verify if linked to a delivered order
+        if self.order and self.order.status == 'delivered':
+            self.is_verified = True
+        super().save(*args, **kwargs)
+
+
+# ============================================
+# USE CASES (GLOBAL)
+# ============================================
+
+class UseCase(models.Model):
+    """Global use cases that can be assigned to products"""
+    title = models.CharField(max_length=100, unique=True, help_text="e.g., Restaurants & Cafes")
+    description = models.TextField(help_text="e.g., Perfect for takeout orders, delivery bags, and branded customer packaging.")
+    icon_name = models.CharField(max_length=50, default='users', 
+                                  choices=[
+                                      ('users', 'Users/People'),
+                                      ('home', 'Home/Retail'),
+                                      ('box', 'E-commerce/Shipping'),
+                                      ('gift', 'Corporate Gifts'),
+                                      ('shopping-bag', 'Shopping Bag'),
+                                      ('coffee', 'Cafe/Restaurant'),
+                                      ('store', 'Store/Shop'),
+                                      ('truck', 'Delivery/Logistics'),
+                                  ],
+                                  help_text="Icon for this use case")
+    order = models.IntegerField(default=0, help_text="Display order in the global list")
+    is_active = models.BooleanField(default=True, help_text="Make this use case available for products")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['order', 'title']
+        verbose_name = "Use Case"
+        verbose_name_plural = "Use Cases"
+    
+    def __str__(self):
+        return self.title
+
+
+# ============================================
+# PRODUCT USE CASES (RELATIONSHIP)
+# ============================================
+
+class ProductUseCase(models.Model):
+    """Many-to-many relationship between products and use cases with enable/disable per product"""
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_use_cases')
+    use_case = models.ForeignKey(UseCase, on_delete=models.CASCADE, related_name='use_case_products')
+    is_enabled = models.BooleanField(default=True, help_text="Enable this use case for this product")
+    order = models.IntegerField(default=0, help_text="Display order for this product (overrides global order)")
+    
+    class Meta:
+        ordering = ['order', 'use_case__order']
+        unique_together = ['product', 'use_case']
+        verbose_name = "Product Use Case"
+        verbose_name_plural = "Product Use Cases"
+    
+    def __str__(self):
+        return f"{self.product.title} - {self.use_case.title}"
 
 
 # ============================================

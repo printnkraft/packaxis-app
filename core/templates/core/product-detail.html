@@ -130,6 +130,9 @@ border: none;
 .reviews-section { margin-top: 4rem; padding-top: 3rem; border-top: 1px solid #eee; }
 .reviews-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
 .reviews-title { font-size: 1.5rem; font-weight: 700; }
+.btn-write-review { padding: 0.75rem 1.5rem; background: #292808; color: #d4ff9e; border: none; border-radius: 50px; font-weight: 600; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 0.5rem; }
+.btn-write-review:hover { background: #1a1605; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(41, 40, 8, 0.4); }
+.btn-write-review:disabled { background: #ccc; cursor: not-allowed; opacity: 0.6; color: #666; }
 .reviews-overview { display: flex; align-items: center; gap: 1rem; }
 .rating-big { font-size: 3rem; font-weight: 800; color: var(--text-dark); }
 .rating-info .stars { font-size: 1.25rem; }
@@ -138,7 +141,7 @@ border: none;
 .review-card { padding: 1.5rem; background: var(--bg-light); border-radius: 12px; }
 .review-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
 .reviewer-info { display: flex; align-items: center; gap: 0.75rem; }
-.reviewer-avatar { width: 48px; height: 48px; background: var(--primary-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 1.125rem; }
+.reviewer-avatar { width: 48px; height: 48px; background: #292808; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #d4ff9e; font-weight: 700; font-size: 1.125rem; }
 .reviewer-name { font-weight: 600; color: var(--text-dark); }
 .review-date { font-size: 0.8125rem; color: var(--text-light); }
 .verified-badge { display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.75rem; color: #2e7d32; background: #e8f5e9; padding: 0.25rem 0.5rem; border-radius: 4px; margin-top: 0.25rem; }
@@ -147,6 +150,25 @@ border: none;
 .review-text { color: var(--text-dark); line-height: 1.6; margin-bottom: 1rem; }
 .review-image { max-width: 200px; border-radius: 8px; margin-top: 1rem; }
 .no-reviews { text-align: center; padding: 3rem; background: var(--bg-light); border-radius: 12px; color: var(--text-light); }
+
+/* Review Modal */
+.review-modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
+.review-modal.show { display: flex; align-items: center; justify-content: center; }
+.review-modal-content { background: white; border-radius: 16px; padding: 2rem; max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto; }
+.review-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+.review-modal-title { font-size: 1.25rem; font-weight: 700; }
+.review-modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-light); }
+.review-form-group { margin-bottom: 1.25rem; }
+.review-form-label { display: block; font-weight: 600; margin-bottom: 0.5rem; }
+.review-form-input, .review-form-textarea { width: 100%; padding: 0.75rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 0.9375rem; }
+.review-form-input:focus, .review-form-textarea:focus { outline: none; border-color: var(--primary-color); }
+.review-form-textarea { resize: vertical; min-height: 120px; }
+.star-rating { display: flex; gap: 0.5rem; font-size: 2rem; }
+.star-rating .star-btn { background: none; border: none; cursor: pointer; color: #ddd; transition: color 0.2s; }
+.star-rating .star-btn.active, .star-rating .star-btn:hover { color: #ffc107; }
+.review-submit-btn { width: 100%; padding: 1rem; background: #292808; color: #d4ff9e; border: none; border-radius: 50px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: all 0.3s; }
+.review-submit-btn:hover { background: #1a1605; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(41, 40, 8, 0.3); }
+.review-submit-btn:disabled { background: #ccc; cursor: not-allowed; color: #666; }
 </style>
 {% endblock %}
 
@@ -428,29 +450,6 @@ border: none;
                     </div>
                 </form>
 
-                <!-- Custom Quote CTA for B2B -->
-                <div class="custom-quote-cta" style="background: linear-gradient(135deg, #f5f5f0 0%, #fafaf2 100%); border: 2px solid #d4ff9e; border-radius: 16px; padding: 1.25rem; margin-top: 1rem; margin-bottom: 1rem;">
-                    <div style="display: flex; align-items: flex-start; gap: 1rem;">
-                        <div style="background: #d4ff9e; border-radius: 12px; padding: 0.75rem; flex-shrink: 0;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#292808" stroke-width="2">
-                                <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-                                <path d="M2 17l10 5 10-5"></path>
-                                <path d="M2 12l10 5 10-5"></path>
-                            </svg>
-                        </div>
-                        <div style="flex: 1;">
-                            <h4 style="font-size: 1rem; font-weight: 700; color: #292808; margin-bottom: 0.25rem;">Need Custom Branded Bags?</h4>
-                            <p style="font-size: 0.875rem; color: #5a5930; margin-bottom: 0.75rem; line-height: 1.4;">Get your logo printed on these bags. Perfect for restaurants, retail stores, and corporate gifts. <strong>MOQ: 1,000 pcs.</strong></p>
-                            <a href="{% url 'core:quote_request' %}?product={{ product.slug }}&custom=true" style="display: inline-flex; align-items: center; gap: 0.5rem; background: #292808; color: #d4ff9e; padding: 0.625rem 1.25rem; border-radius: 50px; font-size: 0.875rem; font-weight: 600; text-decoration: none; transition: all 0.2s;">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
-                                </svg>
-                                Request Custom Quote
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- B2B Wholesale Benefits -->
                 <div class="wholesale-benefits" style="background: #292808; border-radius: 16px; padding: 1.25rem; margin-bottom: 1rem;">
                     <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
@@ -526,7 +525,7 @@ border: none;
                 </div>
                 
                 <!-- Custom Branding Workflow Section -->
-                <div class="custom-branding-section" style="background: linear-gradient(135deg, #f5f5f0 0%, #fafaf2 100%); border: 2px dashed rgba(47, 46, 12, 0.15); border-radius: 16px; padding: 1.5rem; margin-top: 1rem;">
+                <div class="custom-branding-section" style="background: linear-gradient(135deg, #f5f5f0 0%, #fafaf2 100%); border: 2px dashed rgba(47, 46, 12, 0.15); border-radius: 16px; padding: 1.5rem; margin: 1rem 1rem;">
                     <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
                         <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #d4ff9e 0%, #a8e65c 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#292808" stroke-width="2">
@@ -589,8 +588,9 @@ border: none;
         </div>
         
         <!-- Product Details Tabs (Full Width Below) -->
-        <div class="product-tabs-section">
-            <div class="tabs-nav">
+        <div class="container">
+            <div class="product-tabs-section">
+                <div class="tabs-nav">
                 <button class="tab-btn active" onclick="switchTab(event, 'description')">Description</button>
                 <button class="tab-btn" onclick="switchTab(event, 'specifications')">Specifications</button>
                 {% if features %}
@@ -635,10 +635,13 @@ border: none;
                 {% endif %}
             </div>
         </div>
+        </div>
     </div>
 </section>
 
 <!-- Use Cases Section -->
+{% with enabled_use_cases=product.get_enabled_use_cases %}
+{% if enabled_use_cases %}
 <section class="use-cases-section" style="padding: 4rem 0; background: linear-gradient(135deg, #f5f5f0 0%, #fafaf2 100%);">
     <div class="container">
         <div style="text-align: center; margin-bottom: 2.5rem;">
@@ -646,61 +649,100 @@ border: none;
             <h2 style="font-size: 2rem; font-weight: 800; color: #292808; margin-bottom: 0.75rem;">Popular Use Cases</h2>
             <p style="font-size: 1rem; color: #5a5930; max-width: 600px; margin: 0 auto;">Discover how businesses across Canada use {{ product.title }} to elevate their brand.</p>
         </div>
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+            {% for use_case in enabled_use_cases %}
             <div style="background: white; border-radius: 16px; padding: 1.5rem; text-align: center; border: 1px solid rgba(47, 46, 12, 0.06); box-shadow: 0 2px 12px rgba(47, 46, 12, 0.04); transition: all 0.3s;">
                 <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #d4ff9e 0%, #a8e65c 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                    {% if use_case.icon_name == 'users' %}
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#292808" stroke-width="2">
                         <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
                         <circle cx="9" cy="7" r="4"></circle>
                         <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                         <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                     </svg>
-                </div>
-                <h3 style="font-size: 1rem; font-weight: 700; color: #292808; margin-bottom: 0.5rem;">Restaurants & Cafes</h3>
-                <p style="font-size: 0.875rem; color: #5a5930; line-height: 1.5;">Perfect for takeout orders, delivery bags, and branded customer packaging.</p>
-            </div>
-            <div style="background: white; border-radius: 16px; padding: 1.5rem; text-align: center; border: 1px solid rgba(47, 46, 12, 0.06); box-shadow: 0 2px 12px rgba(47, 46, 12, 0.04); transition: all 0.3s;">
-                <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #d4ff9e 0%, #a8e65c 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                    {% elif use_case.icon_name == 'home' %}
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#292808" stroke-width="2">
                         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                         <polyline points="9 22 9 12 15 12 15 22"></polyline>
                     </svg>
-                </div>
-                <h3 style="font-size: 1rem; font-weight: 700; color: #292808; margin-bottom: 0.5rem;">Retail Stores</h3>
-                <p style="font-size: 0.875rem; color: #5a5930; line-height: 1.5;">Enhance customer experience with premium branded shopping bags.</p>
-            </div>
-            <div style="background: white; border-radius: 16px; padding: 1.5rem; text-align: center; border: 1px solid rgba(47, 46, 12, 0.06); box-shadow: 0 2px 12px rgba(47, 46, 12, 0.04); transition: all 0.3s;">
-                <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #d4ff9e 0%, #a8e65c 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                    {% elif use_case.icon_name == 'box' %}
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#292808" stroke-width="2">
                         <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                         <line x1="16" y1="8" x2="8" y2="8"></line>
                         <line x1="16" y1="12" x2="8" y2="12"></line>
                         <line x1="10" y1="16" x2="8" y2="16"></line>
                     </svg>
-                </div>
-                <h3 style="font-size: 1rem; font-weight: 700; color: #292808; margin-bottom: 0.5rem;">E-commerce</h3>
-                <p style="font-size: 0.875rem; color: #5a5930; line-height: 1.5;">Sustainable shipping and product packaging for online orders.</p>
-            </div>
-            <div style="background: white; border-radius: 16px; padding: 1.5rem; text-align: center; border: 1px solid rgba(47, 46, 12, 0.06); box-shadow: 0 2px 12px rgba(47, 46, 12, 0.04); transition: all 0.3s;">
-                <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #d4ff9e 0%, #a8e65c 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                    {% elif use_case.icon_name == 'gift' %}
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#292808" stroke-width="2">
                         <path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"></path>
                         <path d="M4 6v12c0 1.1.9 2 2 2h14v-4"></path>
                         <path d="M18 12a2 2 0 0 0-2-2c-1.1 0-2 .9-2 2v4a2 2 0 0 0 2 2c1.1 0 2-.9 2-2v-4z"></path>
                     </svg>
+                    {% elif use_case.icon_name == 'shopping-bag' %}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#292808" stroke-width="2">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <path d="M16 10a4 4 0 0 1-8 0"></path>
+                    </svg>
+                    {% elif use_case.icon_name == 'coffee' %}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#292808" stroke-width="2">
+                        <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+                        <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+                        <line x1="6" y1="1" x2="6" y2="4"></line>
+                        <line x1="10" y1="1" x2="10" y2="4"></line>
+                        <line x1="14" y1="1" x2="14" y2="4"></line>
+                    </svg>
+                    {% elif use_case.icon_name == 'store' %}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#292808" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    {% elif use_case.icon_name == 'truck' %}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#292808" stroke-width="2">
+                        <rect x="1" y="3" width="15" height="13" rx="2" ry="2"></rect>
+                        <path d="M16 8h2a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-8"></path>
+                        <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                        <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                    </svg>
+                    {% else %}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#292808" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    {% endif %}
                 </div>
-                <h3 style="font-size: 1rem; font-weight: 700; color: #292808; margin-bottom: 0.5rem;">Corporate Gifts</h3>
-                <p style="font-size: 0.875rem; color: #5a5930; line-height: 1.5;">Elegant presentation bags for events, promotions, and client gifts.</p>
+                <h3 style="font-size: 1rem; font-weight: 700; color: #292808; margin-bottom: 0.5rem;">{{ use_case.title }}</h3>
+                <p style="font-size: 0.875rem; color: #5a5930; line-height: 1.5;">{{ use_case.description }}</p>
             </div>
+            {% endfor %}
         </div>
     </div>
 </section>
+{% endif %}
+{% endwith %}
 
 <!-- Reviews Section -->
 <section class="reviews-section" id="reviews">
     <div class="container">
         <div class="reviews-header">
             <h2 class="reviews-title">Customer Reviews</h2>
+            {% if user.is_authenticated %}
+                <button type="button" class="btn-write-review" onclick="openReviewModal()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                    Write a Review
+                </button>
+            {% else %}
+                <a href="{% url 'accounts:login' %}?next={{ request.path }}" class="btn-write-review">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                    Write a Review
+                </a>
+            {% endif %}
             {% if product.review_count > 0 %}
             <div class="reviews-overview">
                 <span class="rating-big">{{ product.average_rating }}</span>
@@ -1177,4 +1219,126 @@ function showToast(message, type) {
     }
 }
 </style>
+
+<!-- Review Modal -->
+{% if user.is_authenticated %}
+<div id="reviewModal" class="review-modal">
+    <div class="review-modal-content">
+        <div class="review-modal-header">
+            <h3 class="review-modal-title">Write a Review</h3>
+            <button class="review-modal-close" onclick="closeReviewModal()">&times;</button>
+        </div>
+        <form id="reviewForm" onsubmit="submitReview(event)">
+            {% csrf_token %}
+            <div class="review-form-group">
+                <label class="review-form-label">Rating *</label>
+                <div class="star-rating" id="starRating">
+                    <button type="button" class="star-btn" data-rating="1" onclick="setRating(1)">★</button>
+                    <button type="button" class="star-btn" data-rating="2" onclick="setRating(2)">★</button>
+                    <button type="button" class="star-btn" data-rating="3" onclick="setRating(3)">★</button>
+                    <button type="button" class="star-btn" data-rating="4" onclick="setRating(4)">★</button>
+                    <button type="button" class="star-btn" data-rating="5" onclick="setRating(5)">★</button>
+                </div>
+                <input type="hidden" name="rating" id="ratingInput" required>
+            </div>
+            <div class="review-form-group">
+                <label class="review-form-label" for="reviewName">Name *</label>
+                <input type="text" class="review-form-input" id="reviewName" name="name" value="{{ user.get_full_name|default:user.username }}" required>
+            </div>
+            <div class="review-form-group">
+                <label class="review-form-label" for="reviewTitle">Title (Optional)</label>
+                <input type="text" class="review-form-input" id="reviewTitle" name="title" placeholder="Summarize your experience">
+            </div>
+            <div class="review-form-group">
+                <label class="review-form-label" for="reviewText">Review *</label>
+                <textarea class="review-form-textarea" id="reviewText" name="review" required minlength="10" placeholder="Share your experience with this product (minimum 10 characters)"></textarea>
+            </div>
+            <button type="submit" class="review-submit-btn" id="reviewSubmitBtn">Submit Review</button>
+        </form>
+    </div>
+</div>
+
+<script>
+let selectedRating = 0;
+
+function openReviewModal() {
+    document.getElementById('reviewModal').classList.add('show');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeReviewModal() {
+    document.getElementById('reviewModal').classList.remove('show');
+    document.body.style.overflow = 'auto';
+    // Reset form
+    document.getElementById('reviewForm').reset();
+    selectedRating = 0;
+    document.querySelectorAll('.star-btn').forEach(btn => btn.classList.remove('active'));
+}
+
+function setRating(rating) {
+    selectedRating = rating;
+    document.getElementById('ratingInput').value = rating;
+    
+    document.querySelectorAll('.star-btn').forEach((btn, index) => {
+        if (index < rating) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+}
+
+async function submitReview(event) {
+    event.preventDefault();
+    
+    if (selectedRating === 0) {
+        showToast('Please select a rating', 'warning');
+        return;
+    }
+    
+    const form = event.target;
+    const submitBtn = document.getElementById('reviewSubmitBtn');
+    const formData = new FormData(form);
+    
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+    
+    try {
+        const response = await fetch('{% url "core:submit_review" product.category.slug product.slug %}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            showToast(data.message || 'Review submitted successfully!', 'success');
+            closeReviewModal();
+            // Reload page after 2 seconds to show new review
+            setTimeout(() => location.reload(), 2000);
+        } else {
+            showToast(data.error || 'Failed to submit review', 'error');
+        }
+    } catch (error) {
+        console.error('Review submission error:', error);
+        showToast('Failed to submit review. Please try again.', 'error');
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Review';
+    }
+}
+
+// Close modal when clicking outside
+document.addEventListener('click', function(event) {
+    const modal = document.getElementById('reviewModal');
+    if (event.target === modal) {
+        closeReviewModal();
+    }
+});
+</script>
+{% endif %}
+
 {% endblock %}

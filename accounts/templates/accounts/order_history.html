@@ -363,6 +363,14 @@
         
         .tracking-step {
             max-width: 65px;
+        }
+    }
+    
+    /* Order Actions */
+    .order-actions {
+        display: flex;
+        justify-content: flex-start;
+        gap: 0.75rem;
         padding: 1rem 1.25rem;
         background: #fafafa;
         border-top: 1px solid #eee;
@@ -412,13 +420,17 @@
     /* Order Details Expandable */
     .order-details {
         display: none;
-        padding: 1.25rem;
+        padding: 0 1.25rem;
         background: #f8f9fa;
         border-top: 1px solid #eee;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease, padding 0.3s ease;
     }
     
     .order-details.show {
         display: block;
+        padding: 1.25rem;
     }
     
     .order-details-grid {
@@ -673,12 +685,52 @@
 
 {% block extra_js %}
 <script>
+// Smooth progress bar animation
+document.addEventListener('DOMContentLoaded', function() {
+    // Animate progress bars on page load
+    const progressLines = document.querySelectorAll('.progress-line');
+    
+    progressLines.forEach((line, index) => {
+        const targetWidth = line.style.width;
+        line.style.width = '0';
+        
+        // Stagger animation for multiple orders
+        setTimeout(() => {
+            line.style.width = targetWidth;
+        }, 100 + (index * 100));
+    });
+    
+    // Add smooth pulse animation to active steps
+    const activeSteps = document.querySelectorAll('.tracking-step.active .step-icon');
+    activeSteps.forEach(step => {
+        step.style.animation = 'pulse 2s infinite';
+    });
+});
+
 function toggleDetails(orderNumber, btn) {
     const details = document.getElementById('details-' + orderNumber);
     const isOpen = details.classList.contains('show');
     
-    // Toggle visibility
-    details.classList.toggle('show');
+    // Toggle visibility with smooth transition
+    if (isOpen) {
+        details.style.maxHeight = details.scrollHeight + 'px';
+        setTimeout(() => {
+            details.style.maxHeight = '0';
+        }, 10);
+        setTimeout(() => {
+            details.classList.remove('show');
+        }, 300);
+    } else {
+        details.classList.add('show');
+        details.style.maxHeight = '0';
+        setTimeout(() => {
+            details.style.maxHeight = details.scrollHeight + 'px';
+        }, 10);
+        setTimeout(() => {
+            details.style.maxHeight = 'none';
+        }, 300);
+    }
+    
     btn.classList.toggle('open');
     
     // Update button text

@@ -14,6 +14,7 @@ urlpatterns = [
     path('quote/', views.quote_request, name='quote_request'),
     path('product/<slug:slug>/', views.category_detail, name='category_detail'),
     path('product/<slug:category_slug>/<slug:product_slug>/', views.product_detail, name='product_detail'),
+    path('product/<slug:category_slug>/<slug:product_slug>/review/', views.submit_review, name='submit_review'),
     path('privacy-policy/', views.privacy_policy, name='privacy_policy'),
     path('terms-of-service/', views.terms_of_service, name='terms_of_service'),
     

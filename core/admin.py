@@ -3,7 +3,7 @@ from django.utils.html import format_html
 from .models import (
     MenuItem, Product, ProductImage, ProductCategory, Service, Quote, FAQ, Industry, 
     Cart, CartItem, Order, OrderItem, ProductVariant, TieredPricing, DiscountRule, 
-    ProductReview, ProductIndustry, SiteSettings, PromoCode
+    ProductReview, UseCase, ProductUseCase, ProductIndustry, SiteSettings, PromoCode
 )
 
 @admin.register(MenuItem)
@@ -110,6 +110,32 @@ class ProductIndustryInline(admin.TabularInline):
     autocomplete_fields = ['industry']
 
 
+class ProductUseCaseInline(admin.TabularInline):
+    model = ProductUseCase
+    extra = 1
+    fields = ['use_case', 'is_enabled', 'order']
+    autocomplete_fields = ['use_case']
+    verbose_name = "Use Case"
+    verbose_name_plural = "Use Cases (Enable/Disable for this Product)"
+    
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "use_case":
+            kwargs["queryset"] = UseCase.objects.filter(is_active=True).order_by('order', 'title')
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+    
+    def get_formset(self, request, obj=None, **kwargs):
+        """
+        Provide help text to guide users in adding use cases
+        """
+        formset = super().get_formset(request, obj, **kwargs)
+        if obj:
+            # Count existing use cases for this product
+            existing_count = obj.product_use_cases.count()
+            total_available = UseCase.objects.filter(is_active=True).count()
+            formset.help_text = f"Currently {existing_count} of {total_available} available use cases are configured for this product. Click 'Add another Use Case' to enable more."
+        return formset
+
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['image_preview', 'title', 'category', 'display_price_admin', 'stock_status', 'review_stats', 'order', 'is_active', 'is_featured']
@@ -119,7 +145,7 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     list_per_page = 20
     autocomplete_fields = ['category']
-    inlines = [ProductImageInline, ProductVariantInline, TieredPricingInline, ProductIndustryInline]
+    inlines = [ProductImageInline, ProductVariantInline, TieredPricingInline, ProductIndustryInline, ProductUseCaseInline]
     
     fieldsets = (
         ('Basic Information', {
@@ -202,18 +228,20 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(ProductReview)
 class ProductReviewAdmin(admin.ModelAdmin):
-    list_display = ['product', 'name', 'rating_display', 'is_verified', 'is_approved', 'created_at']
+    list_display = ['product', 'name', 'rating_display', 'is_verified', 'is_approved', 'order', 'created_at']
     list_filter = ['is_approved', 'is_verified', 'rating', 'created_at']
     list_editable = ['is_approved']
-    search_fields = ['product__title', 'name', 'email', 'review']
+    search_fields = ['product__title', 'name', 'email', 'review', 'order__order_number']
+    autocomplete_fields = ['product', 'order']
     list_per_page = 25
     
     fieldsets = (
         ('Review Details', {
-            'fields': ('product', 'name', 'email', 'rating', 'title', 'review', 'image')
+            'fields': ('product', 'order', 'name', 'email', 'rating', 'title', 'review', 'image')
         }),
         ('Verification', {
-            'fields': ('is_verified', 'is_approved')
+            'fields': ('is_verified', 'is_approved'),
+            'description': 'Reviews linked to delivered orders are automatically verified'
         }),
     )
     
@@ -221,6 +249,33 @@ class ProductReviewAdmin(admin.ModelAdmin):
         stars = '★' * obj.rating + '☆' * (5 - obj.rating)
         return format_html('<span style="color: #ffc107;">{}</span>', stars)
     rating_display.short_description = 'Rating'
+
+
+@admin.register(UseCase)
+class UseCaseAdmin(admin.ModelAdmin):
+    list_display = ['title', 'icon_name', 'order', 'is_active', 'product_count', 'created_at']
+    list_filter = ['is_active', 'icon_name', 'created_at']
+    list_editable = ['order', 'is_active']
+    search_fields = ['title', 'description']
+    list_per_page = 25
+    
+    fieldsets = (
+        ('Use Case Information', {
+            'fields': ('title', 'description', 'icon_name'),
+            'description': 'Create global use cases that can be assigned to products'
+        }),
+        ('Display Settings', {
+            'fields': ('order', 'is_active'),
+            'description': 'Control visibility and display order'
+        }),
+    )
+    
+    def product_count(self, obj):
+        count = obj.use_case_products.filter(is_enabled=True).count()
+        if count > 0:
+            return format_html('<span style="color: green; font-weight: bold;">{}</span>', count)
+        return format_html('<span style="color: gray;">0</span>')
+    product_count.short_description = 'Enabled in Products'
 
 
 @admin.register(DiscountRule)
@@ -426,14 +481,14 @@ class OrderItemInline(admin.TabularInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['order_number', 'full_name', 'email', 'total', 'status_badge', 'payment_badge', 'tracking_step_display', 'created_at']
-    list_filter = ['status', 'payment_status', 'tracking_step', 'created_at']
+    list_display = ['order_number', 'full_name', 'email', 'total', 'status_badge', 'payment_badge', 'created_at']
+    list_filter = ['status', 'payment_status', 'created_at']
     search_fields = ['order_number', 'email', 'first_name', 'last_name', 'phone', 'company_name']
     readonly_fields = ['order_number', 'created_at', 'updated_at', 'order_summary']
     date_hierarchy = 'created_at'
     list_per_page = 25
     inlines = [OrderItemInline]
-    actions = ['mark_as_processing', 'mark_as_shipped', 'mark_as_delivered', 'set_tracking_step_1', 'set_tracking_step_2', 'set_tracking_step_3', 'set_tracking_step_4']
+    actions = ['mark_as_processing', 'mark_as_shipped', 'mark_as_delivered']
     
     fieldsets = (
         ('Order Summary', {
@@ -451,10 +506,6 @@ class OrderAdmin(admin.ModelAdmin):
         ('Order Totals', {
             'fields': ('subtotal', 'shipping_cost', 'tax', 'discount', 'promo_code', 'total'),
         }),
-        ('Order Tracking (Customer View)', {
-            'fields': ('tracking_step',),
-            'description': 'Set the tracking step shown to customers: 1=Order Placed, 2=Processing, 3=Shipped, 4=Delivered'
-        }),
         ('Shipping & Tracking', {
             'fields': ('tracking_number', 'tracking_url', 'shipped_at', 'delivered_at'),
             'classes': ('collapse',)
@@ -469,17 +520,6 @@ class OrderAdmin(admin.ModelAdmin):
         }),
     )
     
-    def tracking_step_display(self, obj):
-        step_labels = {1: '1️⃣ Placed', 2: '2️⃣ Processing', 3: '3️⃣ Shipped', 4: '4️⃣ Delivered'}
-        colors = {1: '#6c757d', 2: '#6f42c1', 3: '#0dcaf0', 4: '#28a745'}
-        label = step_labels.get(obj.tracking_step, '1️⃣ Placed')
-        color = colors.get(obj.tracking_step, '#6c757d')
-        return format_html(
-            '<span style="background: {}; color: #fff; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600;">{}</span>',
-            color, label
-        )
-    tracking_step_display.short_description = 'Tracking'
-    tracking_step_display.admin_order_field = 'tracking_step'
     
     def status_badge(self, obj):
         colors = {
@@ -542,43 +582,21 @@ class OrderAdmin(admin.ModelAdmin):
     order_summary.short_description = 'Order Summary'
     
     def mark_as_processing(self, request, queryset):
-        updated = queryset.update(status='processing')
+        updated = queryset.update(status='processing', tracking_step=2)
         self.message_user(request, f'{updated} order(s) marked as processing.')
     mark_as_processing.short_description = "Mark as Processing"
     
     def mark_as_shipped(self, request, queryset):
         from django.utils import timezone
-        updated = queryset.update(status='shipped', shipped_at=timezone.now())
+        updated = queryset.update(status='shipped', tracking_step=3, shipped_at=timezone.now())
         self.message_user(request, f'{updated} order(s) marked as shipped.')
     mark_as_shipped.short_description = "Mark as Shipped"
     
     def mark_as_delivered(self, request, queryset):
         from django.utils import timezone
-        updated = queryset.update(status='delivered', delivered_at=timezone.now())
+        updated = queryset.update(status='delivered', tracking_step=4, delivered_at=timezone.now())
         self.message_user(request, f'{updated} order(s) marked as delivered.')
     mark_as_delivered.short_description = "Mark as Delivered"
-    
-    # Tracking Step Actions
-    def set_tracking_step_1(self, request, queryset):
-        updated = queryset.update(tracking_step=1)
-        self.message_user(request, f'{updated} order(s) set to Step 1: Order Placed.')
-    set_tracking_step_1.short_description = "📦 Set Tracking: Step 1 (Order Placed)"
-    
-    def set_tracking_step_2(self, request, queryset):
-        updated = queryset.update(tracking_step=2)
-        self.message_user(request, f'{updated} order(s) set to Step 2: Processing.')
-    set_tracking_step_2.short_description = "⚙️ Set Tracking: Step 2 (Processing)"
-    
-    def set_tracking_step_3(self, request, queryset):
-        updated = queryset.update(tracking_step=3)
-        self.message_user(request, f'{updated} order(s) set to Step 3: Shipped.')
-    set_tracking_step_3.short_description = "🚚 Set Tracking: Step 3 (Shipped)"
-    
-    def set_tracking_step_4(self, request, queryset):
-        from django.utils import timezone
-        updated = queryset.update(tracking_step=4, delivered_at=timezone.now())
-        self.message_user(request, f'{updated} order(s) set to Step 4: Delivered.')
-    set_tracking_step_4.short_description = "✅ Set Tracking: Step 4 (Delivered)"
 
 
 # ============================================
