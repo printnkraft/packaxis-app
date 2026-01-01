@@ -5,4 +5,4 @@ nixPkgs = ["python311"]
 cmds = ["pip install -r requirements.txt"]
 
 [start]
-cmd = "python manage.py reset_schema && python manage.py migrate --run-syncdb && python load_data.py && python manage.py collectstatic --noinput && gunicorn packaxis_app.wsgi:application"
+cmd = "python manage.py reset_schema && python load_data.py && python manage.py collectstatic --noinput && gunicorn packaxis_app.wsgi:application"

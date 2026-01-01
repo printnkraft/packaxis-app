@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
 from django.db import connection
+from django.core.management import call_command
 
 class Command(BaseCommand):
     help = 'Drops and recreates the public schema to fix orphaned indexes'
@@ -7,23 +8,17 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         with connection.cursor() as cursor:
             try:
-                self.stdout.write("Checking for orphaned indexes...")
-                cursor.execute("""
-                    SELECT indexname 
-                    FROM pg_indexes 
-                    WHERE indexname = 'core_product_slug_8cf0d080_like'
-                """)
-                result = cursor.fetchone()
+                self.stdout.write("Dropping and recreating schema...")
+                cursor.execute("DROP SCHEMA IF EXISTS public CASCADE;")
+                cursor.execute("CREATE SCHEMA public;")
+                cursor.execute("GRANT ALL ON SCHEMA public TO public;")
+                cursor.execute("GRANT ALL ON SCHEMA public TO postgres;")
+                self.stdout.write(self.style.SUCCESS("Schema recreated successfully"))
                 
-                if result:
-                    self.stdout.write(self.style.WARNING("Found orphaned index, dropping schema..."))
-                    cursor.execute("DROP SCHEMA public CASCADE;")
-                    cursor.execute("CREATE SCHEMA public;")
-                    cursor.execute("GRANT ALL ON SCHEMA public TO public;")
-                    cursor.execute("GRANT ALL ON SCHEMA public TO postgres;")
-                    self.stdout.write(self.style.SUCCESS("Schema recreated successfully"))
-                else:
-                    self.stdout.write(self.style.SUCCESS("No orphaned indexes found, schema is clean"))
-                    
+                # Create all tables from models
+                self.stdout.write("Creating tables from models...")
+                call_command('migrate', '--run-syncdb', verbosity=0)
+                self.stdout.write(self.style.SUCCESS("Tables created successfully"))
+                
             except Exception as e:
                 self.stdout.write(self.style.ERROR(f"Error: {e}"))
