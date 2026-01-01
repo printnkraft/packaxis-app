@@ -5,4 +5,4 @@ nixPkgs = ["python311"]
 cmds = ["pip install -r requirements.txt"]
 
 [start]
-cmd = "python -c \"import os; os.environ.setdefault('DJANGO_SETTINGS_MODULE','packaxis_app.settings'); import django; django.setup(); from django.db import connection; cursor=connection.cursor(); cursor.execute('DROP SCHEMA public CASCADE; CREATE SCHEMA public; GRANT ALL ON SCHEMA public TO public;'); print('Schema reset!')\" && python manage.py migrate && python load_data.py && python manage.py collectstatic --noinput && gunicorn packaxis_app.wsgi:application"
+cmd = "python reset_db.py && python manage.py migrate && python load_data.py && python manage.py collectstatic --noinput && gunicorn packaxis_app.wsgi:application"
