@@ -11,13 +11,11 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        # Drop the old ProductOld table and all its indexes
-        migrations.DeleteModel(
-            name='ProductOld',
-        ),
+        # NOTE: Don't delete ProductOld - other models may reference it
+        # It will be cleaned up in a separate migration if needed
         
-        # Create new Product model with base fields
-        # (inventory and pricing fields will be added in migration 0013)
+        # Create new Product model with base fields ONLY
+        # Inventory/pricing fields added in 0013, SEO fields added in 0014
         migrations.CreateModel(
             name='Product',
             fields=[
@@ -37,20 +35,11 @@ class Migration(migrations.Migration):
                 ('price_range', models.CharField(max_length=100, blank=True, help_text='e.g., $0.50 - $1.00 per piece')),
                 ('minimum_order', models.IntegerField(null=True, blank=True, help_text='Minimum order quantity')),
                 
-                # Features
+                # Features (1-4 only, 5-6 added in 0014)
                 ('feature_1', models.CharField(max_length=200, blank=True, help_text='Product feature')),
                 ('feature_2', models.CharField(max_length=200, blank=True, help_text='Product feature')),
                 ('feature_3', models.CharField(max_length=200, blank=True, help_text='Product feature')),
                 ('feature_4', models.CharField(max_length=200, blank=True, help_text='Product feature')),
-                ('feature_5', models.CharField(max_length=200, blank=True, help_text='Product feature')),
-                ('feature_6', models.CharField(max_length=200, blank=True, help_text='Product feature')),
-                
-                # SEO & Metadata
-                ('meta_title', models.CharField(max_length=70, blank=True, help_text='SEO title (max 70 chars)')),
-                ('meta_description', models.CharField(max_length=160, blank=True, help_text='SEO description (max 160 chars)')),
-                ('canonical_url', models.URLField(blank=True, help_text='Canonical URL if different from default')),
-                ('search_keywords', models.TextField(blank=True, help_text='Internal search keywords (comma-separated)')),
-                ('schema_type', models.CharField(max_length=50, default='Product', help_text='Schema.org type')),
                 
                 # Display settings
                 ('order', models.IntegerField(default=0, help_text='Display order within category (lower numbers appear first)')),
