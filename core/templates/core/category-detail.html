@@ -488,7 +488,7 @@
                     </div>
                     {% endif %}
                     
-                    <a href="{% url 'core:product_detail' category.slug product.slug %}" class="product-image-link">
+                    <a href="{% url 'core:product_detail' product.category.slug product.slug %}" class="product-image-link">
                         {% if product.image %}
                         <img src="{{ product.image.url }}" alt="{{ product.title }}" loading="lazy">
                         {% else %}
@@ -500,7 +500,7 @@
                     
                     <div class="product-content">
                         <h3>
-                            <a href="{% url 'core:product_detail' category.slug product.slug %}">{{ product.title }}</a>
+                            <a href="{% url 'core:product_detail' product.category.slug product.slug %}">{{ product.title }}</a>
                         </h3>
                         
                         {% if product.short_description %}
@@ -531,7 +531,7 @@
                             Sold Out
                         </button>
                         {% else %}
-                        <a href="{% url 'core:product_detail' category.slug product.slug %}" class="quick-add-btn view-btn">
+                        <a href="{% url 'core:product_detail' product.category.slug product.slug %}" class="quick-add-btn view-btn">
                             View Details
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                         </a>
