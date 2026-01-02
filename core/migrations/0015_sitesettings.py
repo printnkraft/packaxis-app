@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0014_product_canonical_url_product_feature_5_and_more'),
+        ('core', '0009_fake'),
     ]
 
     operations = [
