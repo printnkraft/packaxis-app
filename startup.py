@@ -31,8 +31,8 @@ def main():
     print("🚀 PackAxis Deployment Starting...")
     print("="*50)
     
-    # Fix any partial migration state first
-    run_command("python fix_migrations.py", "Fix migration state")
+    # Reset database completely on first run
+    run_command("python reset_database.py", "Reset database")
     
     # Run migrations
     run_command("python manage.py migrate --noinput", "Database migrations")
