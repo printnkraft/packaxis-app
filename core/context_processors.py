@@ -1,37 +1,58 @@
+from django.core.cache import cache
+from django.conf import settings
 from .models import MenuItem, Product, ProductCategory, Cart
 from allauth.socialaccount.models import SocialApp
 
 
 def google_oauth_enabled(request):
-    """Check if Google OAuth is configured and available"""
-    try:
-        google_app = SocialApp.objects.get(provider='google')
-        return {
-            'google_oauth_enabled': True,
-            'google_oauth_app': google_app
-        }
-    except SocialApp.DoesNotExist:
-        return {
-            'google_oauth_enabled': False,
-            'google_oauth_app': None
-        }
+    """Check if Google OAuth is configured and available (with caching)"""
+    # Check cache first (1 hour TTL)
+    enabled = cache.get('google_oauth_enabled')
+    
+    if enabled is None:
+        try:
+            google_app = SocialApp.objects.get(provider='google')
+            enabled = True
+        except SocialApp.DoesNotExist:
+            enabled = False
+        
+        # Cache the result for 1 hour
+        cache.set('google_oauth_enabled', enabled, 3600)
+    
+    return {
+        'google_oauth_enabled': enabled,
+    }
 
 
 def menu_items(request):
-    """Make menu items available to all templates"""
-    top_level_items = MenuItem.objects.filter(is_active=True, parent=None)
+    """Make menu items available to all templates (with caching)"""
+    # Check cache first (1 hour TTL)
+    top_level_items = cache.get('top_level_menu_items')
+    
+    if top_level_items is None:
+        top_level_items = MenuItem.objects.filter(is_active=True, parent=None)
+        # Cache the result for 1 hour
+        cache.set('top_level_menu_items', list(top_level_items), 3600)
+    
     return {
         'menu_items': top_level_items
     }
 
 def active_products(request):
-    """Make active product categories available to all templates"""
-    product_categories = ProductCategory.objects.filter(is_active=True)
+    """Make active product categories available to all templates (with caching)"""
+    # Check cache first (1 hour TTL)
+    product_categories = cache.get('active_product_categories')
+    
+    if product_categories is None:
+        product_categories = ProductCategory.objects.filter(is_active=True)
+        # Cache the result for 1 hour
+        cache.set('active_product_categories', list(product_categories), 3600)
+    
     # Keep 'products' for backward compatibility, but use product_categories
     return {
         'products': product_categories,  # Backward compatibility
         'product_categories': product_categories,
-        'active_products_count': product_categories.count()
+        'active_products_count': len(product_categories)
     }
 
 

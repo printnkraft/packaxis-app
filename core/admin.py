@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
+from django.core.cache import cache
 from .models import (
     MenuItem, Product, ProductImage, ProductCategory, Service, Quote, FAQ, Industry, 
     Cart, CartItem, Order, OrderItem, ProductVariant, TieredPricing, DiscountRule, 
@@ -27,6 +28,16 @@ class MenuItemAdmin(admin.ModelAdmin):
         return obj.has_children()
     has_children.boolean = True
     has_children.short_description = 'Has Dropdown'
+    
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+        # Invalidate menu cache when menu items change
+        cache.delete('top_level_menu_items')
+    
+    def delete_model(self, request, obj):
+        super().delete_model(request, obj)
+        # Invalidate menu cache when menu items are deleted
+        cache.delete('top_level_menu_items')
 
 
 @admin.register(ProductCategory)
@@ -84,6 +95,16 @@ class ProductCategoryAdmin(admin.ModelAdmin):
         except Exception:
             return format_html('<span style="color: gray;">-</span>')
     product_count.short_description = 'Products'
+    
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+        # Invalidate product categories cache when categories change
+        cache.delete('active_product_categories')
+    
+    def delete_model(self, request, obj):
+        super().delete_model(request, obj)
+        # Invalidate product categories cache when categories are deleted
+        cache.delete('active_product_categories')
 
 
 class ProductImageInline(admin.TabularInline):
