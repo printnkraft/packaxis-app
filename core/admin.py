@@ -3,7 +3,7 @@ from django.utils.html import format_html
 from .models import (
     MenuItem, Product, ProductImage, ProductCategory, Service, Quote, FAQ, Industry, 
     Cart, CartItem, Order, OrderItem, ProductVariant, TieredPricing, DiscountRule, 
-    ProductReview, UseCase, ProductUseCase, ProductIndustry, SiteSettings, PromoCode
+    ProductReview, UseCase, ProductUseCase, ProductIndustry, SiteSettings, PromoCode, Tag
 )
 
 @admin.register(MenuItem)
@@ -31,17 +31,18 @@ class MenuItemAdmin(admin.ModelAdmin):
 
 @admin.register(ProductCategory)
 class ProductCategoryAdmin(admin.ModelAdmin):
-    list_display = ['image_preview', 'title', 'description', 'product_count', 'order', 'is_active', 'created_at']
-    list_filter = ['is_active', 'created_at']
+    list_display = ['image_preview', 'title_with_level', 'parent', 'description', 'product_count', 'order', 'is_active', 'created_at']
+    list_filter = ['is_active', 'parent', 'created_at']
     list_editable = ['order', 'is_active']
-    search_fields = ['title', 'description']
+    search_fields = ['title', 'description', 'slug']
     prepopulated_fields = {'slug': ('title',)}
     list_per_page = 20
+    autocomplete_fields = ['parent']
     
     fieldsets = (
         ('Basic Information', {
-            'fields': ('title', 'slug', 'description', 'image'),
-            'description': 'Core category information displayed on the website'
+            'fields': ('title', 'slug', 'description', 'image', 'parent'),
+            'description': 'Core category information displayed on the website. Set parent for nested sub-categories.'
         }),
         ('Category Specifications', {
             'fields': ('material', 'gsm_range', 'handle_type', 'customization'),
@@ -57,6 +58,13 @@ class ProductCategoryAdmin(admin.ModelAdmin):
             'fields': ('order', 'is_active')
         }),
     )
+    
+    def title_with_level(self, obj):
+        """Show category with indentation based on hierarchy level"""
+        indent = '&nbsp;&nbsp;&nbsp;&nbsp;' * obj.level
+        return format_html('{}<strong>{}</strong>', format_html(indent), obj.title)
+    title_with_level.short_description = 'Category'
+    title_with_level.admin_order_field = 'title'
     
     def image_preview(self, obj):
         try:
@@ -138,19 +146,20 @@ class ProductUseCaseInline(admin.TabularInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['image_preview', 'title', 'category', 'display_price_admin', 'stock_status', 'review_stats', 'order', 'is_active', 'is_featured']
-    list_filter = ['is_active', 'is_featured', 'category', 'track_inventory', 'created_at']
+    list_display = ['image_preview', 'title', 'category', 'display_tags', 'display_price_admin', 'stock_status', 'review_stats', 'order', 'is_active', 'is_featured']
+    list_filter = ['is_active', 'is_featured', 'category', 'tags', 'track_inventory', 'created_at']
     list_editable = ['order', 'is_active', 'is_featured']
-    search_fields = ['title', 'description', 'category__title', 'sku']
+    search_fields = ['title', 'description', 'category__title', 'sku', 'tags__name']
     prepopulated_fields = {'slug': ('title',)}
     list_per_page = 20
     autocomplete_fields = ['category']
+    filter_horizontal = ['tags']
     inlines = [ProductImageInline, ProductVariantInline, TieredPricingInline, ProductIndustryInline, ProductUseCaseInline]
     
     fieldsets = (
         ('Basic Information', {
-            'fields': ('category', 'title', 'slug', 'description', 'image'),
-            'description': 'Core product information'
+            'fields': ('category', 'title', 'slug', 'description', 'image', 'tags'),
+            'description': 'Core product information. Use tags for flexible filtering and organization.'
         }),
         ('E-Commerce Pricing', {
             'fields': ('price', 'compare_at_price', 'price_per', 'sku'),
@@ -224,6 +233,26 @@ class ProductAdmin(admin.ModelAdmin):
         except Exception:
             return format_html('<span style="color: #999;">—</span>')
     review_stats.short_description = 'Reviews'
+    
+    def display_tags(self, obj):
+        """Display product tags with colors"""
+        tags = obj.tags.filter(is_active=True)[:5]  # Show first 5 tags
+        if not tags:
+            return format_html('<span style="color: #999;">No tags</span>')
+        
+        tag_html = ''.join([
+            format_html(
+                '<span style="background: {}; color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-right: 4px; display: inline-block;">{}</span>',
+                tag.color, tag.name
+            ) for tag in tags
+        ])
+        
+        total_tags = obj.tags.filter(is_active=True).count()
+        if total_tags > 5:
+            tag_html += format_html('<span style="color: #999; font-size: 10px;">+{} more</span>', total_tags - 5)
+        
+        return format_html(tag_html)
+    display_tags.short_description = 'Tags'
 
 
 @admin.register(ProductReview)
@@ -320,15 +349,17 @@ class ServiceAdmin(admin.ModelAdmin):
 
 @admin.register(Industry)
 class IndustryAdmin(admin.ModelAdmin):
-    list_display = ['image_preview', 'title', 'url', 'order', 'is_active', 'created_at']
-    list_filter = ['is_active', 'created_at']
+    list_display = ['image_preview', 'title_with_level', 'parent', 'url', 'order', 'is_active', 'created_at']
+    list_filter = ['is_active', 'parent', 'created_at']
     list_editable = ['order', 'is_active']
     search_fields = ['title', 'url']
     list_per_page = 20
+    autocomplete_fields = ['parent']
     
     fieldsets = (
         ('Basic Information', {
-            'fields': ('title', 'image', 'url')
+            'fields': ('title', 'image', 'url', 'parent'),
+            'description': 'Set parent for nested sub-industries (e.g., Food Service > Restaurants > Fast Food)'
         }),
         ('Display Settings', {
             'fields': ('order', 'is_active')
@@ -342,6 +373,13 @@ class IndustryAdmin(admin.ModelAdmin):
             return format_html('<img src="{}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px;" />', obj.image.url)
         return "No Image"
     image_preview.short_description = 'Preview'
+    
+    def title_with_level(self, obj):
+        """Show industry with indentation based on hierarchy level"""
+        indent = '&nbsp;&nbsp;&nbsp;&nbsp;' * obj.level
+        return format_html('{}<strong>{}</strong>', format_html(indent), obj.title)
+    title_with_level.short_description = 'Industry'
+    title_with_level.admin_order_field = 'title'
 
 
 @admin.register(Quote)
@@ -428,6 +466,45 @@ class QuoteAdmin(admin.ModelAdmin):
         updated = queryset.update(is_processed=False)
         self.message_user(request, f'{updated} quote(s) marked as unprocessed.')
     mark_as_unprocessed.short_description = "Mark selected quotes as unprocessed"
+
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    list_display = ['color_preview', 'name', 'slug', 'product_count_display', 'order', 'is_active', 'created_at']
+    list_filter = ['is_active', 'created_at']
+    list_editable = ['order', 'is_active']
+    search_fields = ['name', 'slug', 'description']
+    prepopulated_fields = {'slug': ('name',)}
+    list_per_page = 50
+    
+    fieldsets = (
+        ('Basic Information', {
+            'fields': ('name', 'slug', 'description', 'color'),
+            'description': 'Create tags for product filtering and organization (similar to Shopify tags)'
+        }),
+        ('Display Settings', {
+            'fields': ('order', 'is_active')
+        }),
+    )
+    
+    readonly_fields = ['created_at', 'updated_at']
+    
+    def color_preview(self, obj):
+        """Show tag with its color"""
+        return format_html(
+            '<span style="background: {}; color: white; padding: 4px 10px; border-radius: 4px; font-weight: bold;">{}</span>',
+            obj.color, obj.name
+        )
+    color_preview.short_description = 'Tag'
+    color_preview.admin_order_field = 'name'
+    
+    def product_count_display(self, obj):
+        """Show number of products with this tag"""
+        count = obj.get_product_count()
+        if count > 0:
+            return format_html('<span style="color: green; font-weight: bold;">{} products</span>', count)
+        return format_html('<span style="color: gray;">0 products</span>')
+    product_count_display.short_description = 'Usage'
 
 
 @admin.register(FAQ)

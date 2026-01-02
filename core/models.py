@@ -31,7 +31,8 @@ class ProductCategory(models.Model):
     title = models.CharField(max_length=200, help_text="Category name (e.g., Brown Kraft Bags)")
     description = models.TextField(blank=True, help_text="Category description (e.g., Grocery & Food Packaging)")
     image = models.ImageField(upload_to='product-categories/', blank=True, null=True, help_text="Category image (optional)")
-    slug = models.SlugField(unique=True, help_text="URL-friendly version of title (auto-generated)")
+    slug = models.SlugField(help_text="URL-friendly version of title (auto-generated)")
+    parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='children', help_text="Parent category for nested sub-categories")
     order = models.IntegerField(default=0, help_text="Display order (lower numbers appear first)")
     is_active = models.BooleanField(default=True, help_text="Show/hide this category")
     
@@ -55,13 +56,44 @@ class ProductCategory(models.Model):
         ordering = ['order', 'title']
         verbose_name = "Product Category"
         verbose_name_plural = "Product Categories"
+        unique_together = [['slug', 'parent']]  # Slug unique per parent level
         indexes = [
             models.Index(fields=['slug']),
             models.Index(fields=['is_active', 'order']),
+            models.Index(fields=['parent']),
         ]
     
     def __str__(self):
+        if self.parent:
+            return f"{self.parent.title} > {self.title}"
         return self.title
+    
+    def get_ancestors(self):
+        """Get all parent categories up to root"""
+        ancestors = []
+        current = self.parent
+        while current:
+            ancestors.insert(0, current)
+            current = current.parent
+        return ancestors
+    
+    def get_descendants(self, include_self=False):
+        """Get all child categories recursively"""
+        descendants = [self] if include_self else []
+        for child in self.children.all():
+            descendants.extend(child.get_descendants(include_self=True))
+        return descendants
+    
+    def get_full_path(self):
+        """Get full category path (e.g., 'Packaging > Paper Bags > Brown Kraft')"""
+        ancestors = self.get_ancestors()
+        path_parts = [a.title for a in ancestors] + [self.title]
+        return ' > '.join(path_parts)
+    
+    @property
+    def level(self):
+        """Get nesting level (0 for root, 1 for first child, etc.)"""
+        return len(self.get_ancestors())
     
     def get_specifications(self):
         """Return list of specifications for template"""
@@ -135,6 +167,9 @@ class Product(models.Model):
     # Industries (many-to-many through ProductIndustry)
     industries = models.ManyToManyField('Industry', through='ProductIndustry', blank=True, 
                                          related_name='products_direct', help_text="Industries this product serves")
+    
+    # Tags (many-to-many for flexible filtering)
+    tags = models.ManyToManyField('Tag', blank=True, related_name='products', help_text="Product tags for filtering and organization")
     
     # Display settings
     order = models.IntegerField(default=0, help_text="Display order within category (lower numbers appear first)")
@@ -266,6 +301,34 @@ class Product(models.Model):
         ).select_related('use_case').order_by('order', 'use_case__order')]
 
 
+class Tag(models.Model):
+    """Product tags for filtering and organization (similar to Shopify tags)"""
+    name = models.CharField(max_length=100, unique=True, help_text="Tag name (e.g., Eco-Friendly, Bulk Discount, Custom Print)")
+    slug = models.SlugField(unique=True, help_text="URL-friendly version of name")
+    color = models.CharField(max_length=7, default='#3B82F6', help_text="Tag color in hex format (e.g., #3B82F6)")
+    description = models.TextField(blank=True, help_text="Optional description for this tag")
+    order = models.IntegerField(default=0, help_text="Display order for tag lists")
+    is_active = models.BooleanField(default=True, help_text="Show/hide this tag")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['order', 'name']
+        verbose_name = "Product Tag"
+        verbose_name_plural = "Product Tags"
+        indexes = [
+            models.Index(fields=['slug']),
+            models.Index(fields=['is_active', 'order']),
+        ]
+    
+    def __str__(self):
+        return self.name
+    
+    def get_product_count(self):
+        """Get number of active products with this tag"""
+        return self.products.filter(is_active=True).count()
+
+
 class ProductImage(models.Model):
     """Additional images for products"""
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='additional_images', help_text="Product this image belongs to")
@@ -308,6 +371,7 @@ class Industry(models.Model):
     title = models.CharField(max_length=200, help_text="Industry name (e.g., Restaurant & Takeout)")
     image = models.ImageField(upload_to='industries/', help_text="Industry icon/image")
     url = models.CharField(max_length=200, help_text="URL path (e.g., /restaurant-paper-bags/)")
+    parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='children', help_text="Parent industry for nested sub-industries")
     order = models.IntegerField(default=0, help_text="Display order (lower numbers appear first)")
     is_active = models.BooleanField(default=True, help_text="Show/hide this industry")
     created_at = models.DateTimeField(auto_now_add=True)
@@ -317,9 +381,42 @@ class Industry(models.Model):
         ordering = ['order', 'title']
         verbose_name = "Industry"
         verbose_name_plural = "Industries"
+        indexes = [
+            models.Index(fields=['is_active', 'order']),
+            models.Index(fields=['parent']),
+        ]
     
     def __str__(self):
+        if self.parent:
+            return f"{self.parent.title} > {self.title}"
         return self.title
+    
+    def get_ancestors(self):
+        """Get all parent industries up to root"""
+        ancestors = []
+        current = self.parent
+        while current:
+            ancestors.insert(0, current)
+            current = current.parent
+        return ancestors
+    
+    def get_descendants(self, include_self=False):
+        """Get all child industries recursively"""
+        descendants = [self] if include_self else []
+        for child in self.children.all():
+            descendants.extend(child.get_descendants(include_self=True))
+        return descendants
+    
+    def get_full_path(self):
+        """Get full industry path (e.g., 'Food Service > Restaurants > Fast Food')"""
+        ancestors = self.get_ancestors()
+        path_parts = [a.title for a in ancestors] + [self.title]
+        return ' > '.join(path_parts)
+    
+    @property
+    def level(self):
+        """Get nesting level (0 for root, 1 for first child, etc.)"""
+        return len(self.get_ancestors())
     
     @property
     def slug(self):
