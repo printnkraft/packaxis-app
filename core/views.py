@@ -2,10 +2,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
-from django.db import transaction
+from django.db import transaction, models
 from django.db.models import F
 from django.core.cache import cache
 from django.utils import timezone
@@ -556,7 +556,44 @@ Submitted: {quote.created_at.strftime('%Y-%m-%d %H:%M:%S')}
     }
     return render(request, 'core/quote.html', context)
 
-# Industry-Specific Landing Pages
+
+# Dynamic Industry-Specific Landing Pages
+def industry_detail(request, slug):
+    """
+    Dynamic industry detail page that shows products for that industry.
+    Slug matches the URL path (e.g., restaurant-paper-bags).
+    """
+    # Convert slug to match industry URL field or title
+    # E.g., 'restaurant-paper-bags' -> look for industry with url containing 'restaurant'
+    slug_keyword = slug.split('-')[0]  # Get first word (e.g., 'restaurant' from 'restaurant-paper-bags')
+    
+    try:
+        industry = Industry.objects.filter(is_active=True).get(
+            models.Q(url__icontains=slug) | models.Q(title__icontains=slug_keyword)
+        )
+    except Industry.DoesNotExist:
+        raise Http404(f"Industry '{slug}' not found")
+    
+    # Get products linked to this industry
+    industry_products = Product.objects.filter(
+        is_active=True,
+        industries__title__icontains=slug_keyword
+    ).select_related('category').prefetch_related('additional_images', 'tiered_prices').distinct()
+    
+    # If no products are linked, show all products
+    if not industry_products.exists():
+        industry_products = Product.objects.filter(is_active=True).select_related('category').prefetch_related('additional_images', 'tiered_prices').order_by('order')
+    
+    context = {
+        'products': industry_products,
+        'industry': industry,
+        'industry_slug': slug,
+        'title': industry.title,
+    }
+    return render(request, 'core/industry-detail.html', context)
+
+
+# Legacy Industry-Specific Landing Pages (kept for backward compatibility)
 def restaurant_paper_bags(request):
     # Get products linked to restaurant industry, or all products if none are linked
     industry_products = Product.objects.filter(
