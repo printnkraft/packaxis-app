@@ -367,7 +367,6 @@ class ServiceAdmin(admin.ModelAdmin):
 
 
 @admin.register(Industry)
-@admin.register(Industry)
 class IndustryAdmin(HierarchyDisplayMixin, ImagePreviewMixin, admin.ModelAdmin):
     list_display = ['image_preview', 'title_with_level', 'parent', 'url', 'order', 'is_active', 'created_at']
     list_filter = ['is_active', 'parent', 'created_at']
