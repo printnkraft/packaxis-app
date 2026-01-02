@@ -154,4 +154,20 @@ class Migration(migrations.Migration):
             name='order',
             field=models.ForeignKey(blank=True, help_text='Order this review is linked to (for verification)', null=True, on_delete=django.db.models.deletion.SET_NULL, to='core.order'),
         ),
+        migrations.CreateModel(
+            name='TieredPricing',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('min_quantity', models.IntegerField(help_text='Minimum quantity for this tier')),
+                ('max_quantity', models.IntegerField(blank=True, help_text='Maximum quantity (leave blank for unlimited)', null=True)),
+                ('price_per_unit', models.DecimalField(decimal_places=2, max_digits=10)),
+                ('label', models.CharField(blank=True, help_text="e.g., 'Bulk', 'Wholesale'", max_length=50)),
+                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='tiered_prices', to='core.product')),
+            ],
+            options={
+                'verbose_name': 'Tiered Pricing',
+                'verbose_name_plural': 'Tiered Pricing',
+                'ordering': ['product', 'min_quantity'],
+            },
+        ),
     ]
