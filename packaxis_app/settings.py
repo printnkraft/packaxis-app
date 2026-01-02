@@ -113,7 +113,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'core.context_processors.menu_items',
-                'core.context_processors.active_products',
+                'core.context_processors.product_categories_context',
                 'core.context_processors.cart_context',
                 'core.context_processors.google_oauth_enabled',
             ],

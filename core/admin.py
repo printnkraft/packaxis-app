@@ -6,6 +6,7 @@ from .models import (
     Cart, CartItem, Order, OrderItem, ProductVariant, TieredPricing, DiscountRule, 
     ProductReview, UseCase, ProductUseCase, ProductIndustry, SiteSettings, PromoCode, Tag
 )
+from .admin_mixins import HierarchyDisplayMixin, ImagePreviewMixin, CountDisplayMixin
 
 @admin.register(MenuItem)
 class MenuItemAdmin(admin.ModelAdmin):
@@ -41,7 +42,7 @@ class MenuItemAdmin(admin.ModelAdmin):
 
 
 @admin.register(ProductCategory)
-class ProductCategoryAdmin(admin.ModelAdmin):
+class ProductCategoryAdmin(HierarchyDisplayMixin, ImagePreviewMixin, CountDisplayMixin, admin.ModelAdmin):
     list_display = ['image_preview', 'title_with_level', 'parent', 'description', 'product_count', 'order', 'is_active', 'created_at']
     list_filter = ['is_active', 'parent', 'created_at']
     list_editable = ['order', 'is_active']
@@ -70,30 +71,10 @@ class ProductCategoryAdmin(admin.ModelAdmin):
         }),
     )
     
-    def title_with_level(self, obj):
-        """Show category with indentation based on hierarchy level"""
-        indent = '&nbsp;&nbsp;&nbsp;&nbsp;' * obj.level
-        return format_html('{}<strong>{}</strong>', format_html(indent), obj.title)
-    title_with_level.short_description = 'Category'
-    title_with_level.admin_order_field = 'title'
-    
-    def image_preview(self, obj):
-        try:
-            if obj.image:
-                return format_html('<img src="{}" style="max-height: 50px; max-width: 50px; object-fit: cover; border-radius: 8px;" />', obj.image.url)
-        except Exception:
-            pass
-        return "No image"
-    image_preview.short_description = 'Preview'
-    
     def product_count(self, obj):
-        try:
-            count = obj.products.count()
-            if count > 0:
-                return format_html('<span style="color: green; font-weight: bold;">{}</span>', count)
-            return format_html('<span style="color: gray;">0</span>')
-        except Exception:
-            return format_html('<span style="color: gray;">-</span>')
+        """Display product count with color coding"""
+        count = obj.products.count()
+        return self.colored_count(count, 'products')
     product_count.short_description = 'Products'
     
     def save_model(self, request, obj, form, change):
@@ -386,7 +367,8 @@ class ServiceAdmin(admin.ModelAdmin):
 
 
 @admin.register(Industry)
-class IndustryAdmin(admin.ModelAdmin):
+@admin.register(Industry)
+class IndustryAdmin(HierarchyDisplayMixin, ImagePreviewMixin, admin.ModelAdmin):
     list_display = ['image_preview', 'title_with_level', 'parent', 'url', 'order', 'is_active', 'created_at']
     list_filter = ['is_active', 'parent', 'created_at']
     list_editable = ['order', 'is_active']
@@ -405,19 +387,6 @@ class IndustryAdmin(admin.ModelAdmin):
     )
     
     readonly_fields = ['created_at', 'updated_at']
-    
-    def image_preview(self, obj):
-        if obj.image:
-            return format_html('<img src="{}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px;" />', obj.image.url)
-        return "No Image"
-    image_preview.short_description = 'Preview'
-    
-    def title_with_level(self, obj):
-        """Show industry with indentation based on hierarchy level"""
-        indent = '&nbsp;&nbsp;&nbsp;&nbsp;' * obj.level
-        return format_html('{}<strong>{}</strong>', format_html(indent), obj.title)
-    title_with_level.short_description = 'Industry'
-    title_with_level.admin_order_field = 'title'
 
 
 @admin.register(Quote)

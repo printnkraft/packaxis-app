@@ -38,7 +38,7 @@ def menu_items(request):
         'menu_items': top_level_items
     }
 
-def active_products(request):
+def product_categories_context(request):
     """Make active product categories available to all templates (with caching)"""
     # Check cache first (1 hour TTL)
     product_categories = cache.get('active_product_categories')
@@ -48,10 +48,10 @@ def active_products(request):
         # Cache the result for 1 hour
         cache.set('active_product_categories', list(product_categories), 3600)
     
-    # Keep 'products' for backward compatibility, but use product_categories
+    # Keep 'products' for backward compatibility, but prefer 'product_categories'
     return {
-        'products': product_categories,  # Backward compatibility
-        'product_categories': product_categories,
+        'product_categories': product_categories,  # Preferred variable name
+        'products': product_categories,  # Deprecated - use product_categories instead
         'active_products_count': len(product_categories)
     }
 
