@@ -30,7 +30,7 @@ class ProductCategory(models.Model):
     """Product categories displayed on the homepage and products page"""
     title = models.CharField(max_length=200, help_text="Category name (e.g., Brown Kraft Bags)")
     description = models.TextField(blank=True, help_text="Category description (e.g., Grocery & Food Packaging)")
-    image = models.ImageField(upload_to='product-categories/', help_text="Category image")
+    image = models.ImageField(upload_to='product-categories/', blank=True, null=True, help_text="Category image (optional)")
     slug = models.SlugField(unique=True, help_text="URL-friendly version of title (auto-generated)")
     order = models.IntegerField(default=0, help_text="Display order (lower numbers appear first)")
     is_active = models.BooleanField(default=True, help_text="Show/hide this category")
