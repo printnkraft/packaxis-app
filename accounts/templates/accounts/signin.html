@@ -470,6 +470,7 @@
                 </button>
             </form>
             
+            {% if google_oauth_enabled %}
             <div class="social-divider">
                 <span>or continue with</span>
             </div>
@@ -483,6 +484,7 @@
                 </svg>
                 Continue with Google
             </a>
+            {% endif %}
             
             <div class="benefits-list">
                 <h4>Account Benefits</h4>

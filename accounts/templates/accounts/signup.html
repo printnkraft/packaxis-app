@@ -520,6 +520,7 @@
                 </button>
             </form>
             
+            {% if google_oauth_enabled %}
             <div class="social-divider">
                 <span>or sign up with</span>
             </div>
@@ -533,6 +534,7 @@
                 </svg>
                 Continue with Google
             </a>
+            {% endif %}
             
             <div class="auth-footer">
                 <p>Already have an account? <a href="{% url 'accounts:signin' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">Sign In</a></p>

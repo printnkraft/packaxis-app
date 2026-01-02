@@ -1,4 +1,21 @@
 from .models import MenuItem, Product, ProductCategory, Cart
+from allauth.socialaccount.models import SocialApp
+
+
+def google_oauth_enabled(request):
+    """Check if Google OAuth is configured and available"""
+    try:
+        google_app = SocialApp.objects.get(provider='google')
+        return {
+            'google_oauth_enabled': True,
+            'google_oauth_app': google_app
+        }
+    except SocialApp.DoesNotExist:
+        return {
+            'google_oauth_enabled': False,
+            'google_oauth_app': None
+        }
+
 
 def menu_items(request):
     """Make menu items available to all templates"""

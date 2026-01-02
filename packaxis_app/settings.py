@@ -115,6 +115,7 @@ TEMPLATES = [
                 'core.context_processors.menu_items',
                 'core.context_processors.active_products',
                 'core.context_processors.cart_context',
+                'core.context_processors.google_oauth_enabled',
             ],
         },
     },
