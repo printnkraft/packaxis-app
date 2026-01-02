@@ -15,12 +15,27 @@ django.setup()
 from django.db import connection
 
 def reset_database():
-    """Drop all tables and reset to empty database"""
+    """Drop all tables, indexes, and reset to empty database"""
     print("=" * 60)
     print("🗑️  RESETTING DATABASE - All data will be lost!")
     print("=" * 60)
     
     with connection.cursor() as cursor:
+        # Drop all indexes first (they can be orphaned)
+        print("\n🗂️  Dropping all indexes...")
+        cursor.execute("""
+            SELECT indexname FROM pg_indexes 
+            WHERE schemaname = 'public' 
+            AND indexname NOT LIKE 'pg_%';
+        """)
+        indexes = cursor.fetchall()
+        for index in indexes:
+            try:
+                cursor.execute(f'DROP INDEX IF EXISTS "{index[0]}" CASCADE;')
+                print(f"   ✓ Dropped index {index[0]}")
+            except Exception as e:
+                print(f"   ⚠️  Could not drop {index[0]}: {e}")
+        
         # Get all table names
         cursor.execute("""
             SELECT tablename FROM pg_tables 
@@ -28,7 +43,7 @@ def reset_database():
         """)
         tables = cursor.fetchall()
         
-        if not tables:
+        if not tables and not indexes:
             print("✅ Database is already empty")
             return
         
