@@ -320,6 +320,17 @@ class Industry(models.Model):
     
     def __str__(self):
         return self.title
+    
+    @property
+    def slug(self):
+        """Extract slug from URL path for template compatibility"""
+        # Convert '/restaurant-paper-bags/' to 'restaurant-paper-bags'
+        return self.url.strip('/').lower()
+    
+    @property
+    def description(self):
+        """Provide empty description for template compatibility"""
+        return ""
 
 
 class Quote(models.Model):

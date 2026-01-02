@@ -561,7 +561,7 @@ Submitted: {quote.created_at.strftime('%Y-%m-%d %H:%M:%S')}
 def industry_detail(request, slug):
     """
     Dynamic industry detail page that shows products for that industry.
-    Slug matches the URL path (e.g., restaurant-paper-bags).
+    Uses the same template as category-detail.html for consistent layout.
     """
     # Convert slug to match industry URL field or title
     # E.g., 'restaurant-paper-bags' -> look for industry with url containing 'restaurant'
@@ -575,22 +575,21 @@ def industry_detail(request, slug):
         raise Http404(f"Industry '{slug}' not found")
     
     # Get products linked to this industry
-    industry_products = Product.objects.filter(
+    products = Product.objects.filter(
         is_active=True,
         industries__title__icontains=slug_keyword
     ).select_related('category').prefetch_related('additional_images', 'tiered_prices').distinct()
     
     # If no products are linked, show all products
-    if not industry_products.exists():
-        industry_products = Product.objects.filter(is_active=True).select_related('category').prefetch_related('additional_images', 'tiered_prices').order_by('order')
+    if not products.exists():
+        products = Product.objects.filter(is_active=True).select_related('category').prefetch_related('additional_images', 'tiered_prices').order_by('order')
     
+    # Use same context variable name as category-detail for template compatibility
     context = {
-        'products': industry_products,
-        'industry': industry,
-        'industry_slug': slug,
-        'title': industry.title,
+        'category': industry,  # Renamed to 'category' to reuse category-detail.html template
+        'products': products,
     }
-    return render(request, 'core/industry-detail.html', context)
+    return render(request, 'core/category-detail.html', context)
 
 
 # Legacy Industry-Specific Landing Pages (kept for backward compatibility)
