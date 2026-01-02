@@ -67,4 +67,26 @@ class Migration(migrations.Migration):
                 'verbose_name_plural': 'Products',
             },
         ),
+        migrations.CreateModel(
+            name='ProductReview',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=100)),
+                ('email', models.EmailField(max_length=254)),
+                ('rating', models.IntegerField(choices=[(1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5')], default=5)),
+                ('title', models.CharField(blank=True, max_length=200)),
+                ('review', models.TextField()),
+                ('image', models.ImageField(blank=True, help_text='Optional review image', null=True, upload_to='review-images/')),
+                ('is_verified', models.BooleanField(default=False, help_text='Verified purchase (auto-set if linked to order)')),
+                ('is_approved', models.BooleanField(default=False, help_text='Approved to display')),
+                ('helpful_count', models.IntegerField(default=0)),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
+                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='reviews', to='core.product')),
+            ],
+            options={
+                'verbose_name': 'Product Review',
+                'verbose_name_plural': 'Product Reviews',
+                'ordering': ['-created_at'],
+            },
+        ),
     ]

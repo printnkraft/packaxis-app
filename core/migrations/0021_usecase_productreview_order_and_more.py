@@ -29,16 +29,6 @@ class Migration(migrations.Migration):
                 'ordering': ['order', 'title'],
             },
         ),
-        migrations.AddField(
-            model_name='productreview',
-            name='order',
-            field=models.ForeignKey(blank=True, help_text='Order this review is linked to (for verification)', null=True, on_delete=django.db.models.deletion.SET_NULL, to='core.order'),
-        ),
-        migrations.AlterField(
-            model_name='productreview',
-            name='is_verified',
-            field=models.BooleanField(default=False, help_text='Verified purchase (auto-set if linked to order)'),
-        ),
         migrations.CreateModel(
             name='ProductUseCase',
             fields=[

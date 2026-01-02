@@ -149,4 +149,9 @@ class Migration(migrations.Migration):
                 'unique_together': {('cart', 'product')},
             },
         ),
+        migrations.AddField(
+            model_name='productreview',
+            name='order',
+            field=models.ForeignKey(blank=True, help_text='Order this review is linked to (for verification)', null=True, on_delete=django.db.models.deletion.SET_NULL, to='core.order'),
+        ),
     ]

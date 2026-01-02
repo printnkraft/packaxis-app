@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0009_fake'),
+        ('core', '0013_cart_order_product_allow_backorder_and_more'),
     ]
 
     operations = [
