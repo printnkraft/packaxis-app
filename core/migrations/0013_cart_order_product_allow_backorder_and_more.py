@@ -170,4 +170,21 @@ class Migration(migrations.Migration):
                 'ordering': ['product', 'min_quantity'],
             },
         ),
+        migrations.CreateModel(
+            name='ProductImage',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('image', models.ImageField(help_text='Product image', upload_to='product-images/')),
+                ('alt_text', models.CharField(blank=True, help_text='Alternative text for image (optional)', max_length=200)),
+                ('order', models.IntegerField(default=0, help_text='Display order (lower numbers appear first)')),
+                ('is_active', models.BooleanField(default=True, help_text='Show/hide this image')),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
+                ('product', models.ForeignKey(help_text='Product this image belongs to', on_delete=django.db.models.deletion.CASCADE, related_name='additional_images', to='core.product')),
+            ],
+            options={
+                'verbose_name': 'Product Image',
+                'verbose_name_plural': 'Product Images',
+                'ordering': ['product', 'order', 'id'],
+            },
+        ),
     ]

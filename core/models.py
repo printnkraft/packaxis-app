@@ -91,7 +91,7 @@ class Product(models.Model):
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE, related_name='products', help_text="Product category")
     title = models.CharField(max_length=200, help_text="Product name (e.g., 10x12x5 Brown Kraft Bag)")
     description = models.TextField(blank=True, help_text="Product description (optional)")
-    image = models.ImageField(upload_to='products/', help_text="Product image")
+    image = models.ImageField(upload_to='products/', blank=True, null=True, help_text="Product image (optional)")
     slug = models.SlugField(unique=True, help_text="URL-friendly version of title (auto-generated)")
     
     # E-commerce pricing fields
