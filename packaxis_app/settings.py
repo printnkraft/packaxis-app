@@ -142,12 +142,13 @@ if DATABASE_URL:
     }
 else:
     # Fallback to individual environment variables
-    DB_ENGINE = config('DB_ENGINE', default='django.db.backends.sqlite3')
-    DB_NAME = config('DB_NAME', default=str(BASE_DIR / 'db.sqlite3'))
-    DB_USER = config('DB_USER', default='')
-    DB_PASSWORD = config('DB_PASSWORD', default='')
-    DB_HOST = config('DB_HOST', default='')
-    DB_PORT = config('DB_PORT', default='')
+    # Default to PostgreSQL locally (postgres://localhost/packaxis_local)
+    DB_ENGINE = config('DB_ENGINE', default='django.db.backends.postgresql')
+    DB_NAME = config('DB_NAME', default='packaxis_local')
+    DB_USER = config('DB_USER', default='postgres')
+    DB_PASSWORD = config('DB_PASSWORD', default='postgres123')
+    DB_HOST = config('DB_HOST', default='localhost')
+    DB_PORT = config('DB_PORT', default='5432')
     DB_CONN_MAX_AGE = config('DB_CONN_MAX_AGE', default=60, cast=int)
     DB_ATOMIC_REQUESTS = config('DB_ATOMIC_REQUESTS', default=True, cast=bool)
 

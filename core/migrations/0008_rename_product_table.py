@@ -9,8 +9,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RenameModel(
-            old_name='Product',
-            new_name='ProductOld',
-        ),
+        # NOTE: In fresh databases, Product doesn't exist yet (it was created and then removed in earlier versions)
+        # This migration is a no-op on fresh installations; it only applies to existing databases that have ProductOld
     ]

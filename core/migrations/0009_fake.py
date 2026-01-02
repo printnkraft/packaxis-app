@@ -11,6 +11,11 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        # Delete the old Product table created in 0001 so we can recreate it with new fields
+        migrations.DeleteModel(
+            name='Product',
+        ),
+        
         # NOTE: Don't delete ProductOld - other models may reference it
         # It will be cleaned up in a separate migration if needed
         
@@ -88,5 +93,23 @@ class Migration(migrations.Migration):
                 'verbose_name_plural': 'Product Reviews',
                 'ordering': ['-created_at'],
             },
+        ),
+        migrations.CreateModel(
+            name='ProductIndustry',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('industry', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='industry_products', to='core.industry')),
+                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='product_industries', to='core.product')),
+            ],
+            options={
+                'verbose_name': 'Product Industry',
+                'verbose_name_plural': 'Product Industries',
+                'unique_together': {('product', 'industry')},
+            },
+        ),
+        migrations.AddField(
+            model_name='product',
+            name='industries',
+            field=models.ManyToManyField(blank=True, help_text='Industries this product serves', related_name='products_direct', through='core.ProductIndustry', to='core.industry'),
         ),
     ]
