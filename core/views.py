@@ -588,6 +588,7 @@ def industry_detail(request, slug):
     context = {
         'category': industry,  # Renamed to 'category' to reuse category-detail.html template
         'products': products,
+        'is_industry': True,  # Flag to show different breadcrumbs in template
     }
     return render(request, 'core/category-detail.html', context)
 
