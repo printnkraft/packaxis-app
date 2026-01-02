@@ -119,8 +119,8 @@ class ProductCategory(models.Model):
 
 
 class Product(models.Model):
-    """Individual products that belong to a ProductCategory"""
-    category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE, related_name='products', help_text="Product category")
+    """Individual products that can belong to multiple ProductCategories"""
+    categories = models.ManyToManyField(ProductCategory, related_name='products', help_text="Product categories (can select multiple)")
     title = models.CharField(max_length=200, help_text="Product name (e.g., 10x12x5 Brown Kraft Bag)")
     description = models.TextField(blank=True, help_text="Product description (optional)")
     image = models.ImageField(upload_to='products/', blank=True, null=True, help_text="Product image (optional)")
@@ -180,12 +180,11 @@ class Product(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     
     class Meta:
-        ordering = ['category__order', 'order', 'title']
+        ordering = ['order', 'title']
         verbose_name = "Product"
         verbose_name_plural = "Products"
         indexes = [
             models.Index(fields=['slug']),
-            models.Index(fields=['category', 'is_active']),
             models.Index(fields=['is_active', 'is_featured']),
             models.Index(fields=['is_active', 'order']),
             models.Index(fields=['sku']),
@@ -193,7 +192,16 @@ class Product(models.Model):
         ]
     
     def __str__(self):
-        return f"{self.category.title} - {self.title}"
+        return self.title
+    
+    @property
+    def primary_category(self):
+        """Get the first category for backward compatibility"""
+        return self.categories.first()
+    
+    def get_category_list(self):
+        """Get comma-separated list of category names"""
+        return ', '.join([cat.title for cat in self.categories.all()])
     
     @property
     def is_in_stock(self):

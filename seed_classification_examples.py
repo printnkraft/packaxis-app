@@ -262,11 +262,17 @@ def apply_tags_to_products():
     bestseller = Tag.objects.filter(name='Bestseller').first()
     recyclable = Tag.objects.filter(name='Recyclable').first()
     
-    # Apply tags to products
+    # Get categories
+    shopping_bags = ProductCategory.objects.filter(slug='shopping', parent__isnull=False).first()
+    brown_kraft = ProductCategory.objects.filter(slug='brown-kraft', parent__isnull=False).first()
+    bags = ProductCategory.objects.filter(slug='bags', parent__isnull=False).first()
+    
+    # Apply tags and multiple categories to products
     products = Product.objects.filter(is_active=True)
     
     for product in products:
         tags_to_add = []
+        categories_to_add = []
         
         # Add Eco-Friendly and Recyclable to kraft products
         if 'kraft' in product.title.lower() or 'brown' in product.title.lower():
@@ -274,6 +280,8 @@ def apply_tags_to_products():
                 tags_to_add.append(eco)
             if recyclable:
                 tags_to_add.append(recyclable)
+            if brown_kraft:
+                categories_to_add.append(brown_kraft)
         
         # Add Food Safe to grocery bags
         if 'grocery' in product.title.lower() or 'food' in product.title.lower():
@@ -289,6 +297,10 @@ def apply_tags_to_products():
         if 'shopping' in product.title.lower():
             if bulk:
                 tags_to_add.append(bulk)
+            if shopping_bags:
+                categories_to_add.append(shopping_bags)
+            if bags:
+                categories_to_add.append(bags)
         
         # Add Bestseller to first product
         if product.id == 1 and bestseller:
@@ -297,7 +309,12 @@ def apply_tags_to_products():
         if tags_to_add:
             product.tags.add(*tags_to_add)
             tag_names = ', '.join([t.name for t in tags_to_add])
-            print(f"  ✅ {product.title}: {tag_names}")
+            print(f"  ✅ {product.title}: Tags: {tag_names}")
+        
+        if categories_to_add:
+            product.categories.add(*categories_to_add)
+            cat_names = ', '.join([c.title for c in categories_to_add])
+            print(f"     ➕ Multiple Categories: {cat_names}")
 
 
 def main():

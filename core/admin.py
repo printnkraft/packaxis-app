@@ -146,20 +146,19 @@ class ProductUseCaseInline(admin.TabularInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['image_preview', 'title', 'category', 'display_tags', 'display_price_admin', 'stock_status', 'review_stats', 'order', 'is_active', 'is_featured']
-    list_filter = ['is_active', 'is_featured', 'category', 'tags', 'track_inventory', 'created_at']
+    list_display = ['image_preview', 'title', 'display_categories', 'display_tags', 'display_price_admin', 'stock_status', 'review_stats', 'order', 'is_active', 'is_featured']
+    list_filter = ['is_active', 'is_featured', 'categories', 'tags', 'track_inventory', 'created_at']
     list_editable = ['order', 'is_active', 'is_featured']
-    search_fields = ['title', 'description', 'category__title', 'sku', 'tags__name']
+    search_fields = ['title', 'description', 'categories__title', 'sku', 'tags__name']
     prepopulated_fields = {'slug': ('title',)}
     list_per_page = 20
-    autocomplete_fields = ['category']
-    filter_horizontal = ['tags']
+    filter_horizontal = ['categories', 'tags']
     inlines = [ProductImageInline, ProductVariantInline, TieredPricingInline, ProductIndustryInline, ProductUseCaseInline]
     
     fieldsets = (
         ('Basic Information', {
-            'fields': ('category', 'title', 'slug', 'description', 'image', 'tags'),
-            'description': 'Core product information. Use tags for flexible filtering and organization.'
+            'fields': ('categories', 'title', 'slug', 'description', 'image', 'tags'),
+            'description': 'Core product information. Select multiple categories if product fits in more than one. Use tags for flexible filtering and organization.'
         }),
         ('E-Commerce Pricing', {
             'fields': ('price', 'compare_at_price', 'price_per', 'sku'),
@@ -253,6 +252,24 @@ class ProductAdmin(admin.ModelAdmin):
         
         return format_html(tag_html)
     display_tags.short_description = 'Tags'
+    
+    def display_categories(self, obj):
+        """Display product categories"""
+        categories = obj.categories.all()[:3]  # Show first 3 categories
+        if not categories:
+            return format_html('<span style="color: #999;">No categories</span>')
+        
+        cat_html = ', '.join([
+            format_html('<span style="font-weight: 500;">{}</span>', cat.title) 
+            for cat in categories
+        ])
+        
+        total_cats = obj.categories.count()
+        if total_cats > 3:
+            cat_html += format_html(' <span style="color: #999; font-size: 10px;">+{} more</span>', total_cats - 3)
+        
+        return format_html(cat_html)
+    display_categories.short_description = 'Categories'
 
 
 @admin.register(ProductReview)
