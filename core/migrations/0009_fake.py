@@ -11,6 +11,11 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        # Drop the old ProductOld table and all its indexes
+        migrations.DeleteModel(
+            name='ProductOld',
+        ),
+        
         # Create new Product model with base fields
         # (inventory and pricing fields will be added in migration 0013)
         migrations.CreateModel(
@@ -63,27 +68,5 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Product',
                 'verbose_name_plural': 'Products',
             },
-        ),
-        
-        # Add indexes
-        migrations.AddIndex(
-            model_name='product',
-            index=models.Index(fields=['slug'], name='core_product_slug_idx'),
-        ),
-        migrations.AddIndex(
-            model_name='product',
-            index=models.Index(fields=['category', 'is_active'], name='core_product_cat_active_idx'),
-        ),
-        migrations.AddIndex(
-            model_name='product',
-            index=models.Index(fields=['is_active', 'is_featured'], name='core_product_active_feat_idx'),
-        ),
-        migrations.AddIndex(
-            model_name='product',
-            index=models.Index(fields=['is_active', 'order'], name='core_product_active_ord_idx'),
-        ),
-        migrations.AddIndex(
-            model_name='product',
-            index=models.Index(fields=['created_at'], name='core_product_created_idx'),
         ),
     ]
