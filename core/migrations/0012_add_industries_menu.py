@@ -56,7 +56,7 @@ def reverse_industries_menu(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0011_remove_productold'),
+        ('core', '0009_fake'),
     ]
 
     operations = [
