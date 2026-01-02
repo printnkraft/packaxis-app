@@ -31,6 +31,11 @@ def main():
     print("🚀 PackAxis Deployment Starting...")
     print("="*50)
     
+    # Optional: Reset database if RESET_DB environment variable is set
+    if os.environ.get("RESET_DB", "").lower() == "true":
+        print("\n⚠️  RESET_DB=true detected - Resetting database!")
+        run_command("python reset_railway_db.py", "Database reset")
+    
     # Run migrations
     run_command("python manage.py migrate --noinput", "Database migrations")
     
